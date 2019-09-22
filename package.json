@@ -16,7 +16,7 @@
   "my_email": "tangtao2099@outlook.com",
   "license": "TangTao",
   "devDependencies": {
-    "umi": "^2.8.15",
+    "umi": "^2.9.6",
     "umi-plugin-react": "^1.9.13"
   },
   "dependencies": {
