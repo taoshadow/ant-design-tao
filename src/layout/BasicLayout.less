@@ -1,0 +1,51 @@
+// 导入公共 less
+@import "./Common.less";
+@my_opacity: 0.8;
+.trigger {
+  font-size: 20px;
+  // line-height: 20px;
+  padding: 0px 5px 0px 10px;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.trigger:hover {
+  color: @primary-color;
+}
+
+.myfont {
+  cursor: pointer;
+  font-size: 22px;
+  // color: rgba(0, 0, 0, 0.45);
+  color: @common_dark_color;
+}
+
+.myfont:hover {
+  color: @primary-color;
+}
+
+// 用户下拉框 点击用户时显示
+.user_info_body {
+  background: @primary-color;
+  color: @common_light_color;
+  // 这里通过设置 opacity 来改变主题色
+  opacity: @my_opacity;
+}
+
+// 设置箭头的颜色 和主题色保存一样
+.user_info_body_arrow {
+  border-bottom-color: @primary-color !important;
+  // 这里通过设置 opacity 来改变主题色
+  opacity: @my_opacity;
+}
+
+// 退出登录 字体
+.my_logout {
+  color: @primary-color;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.my_logout :hover {
+  font-weight: 800;
+}
