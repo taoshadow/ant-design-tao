@@ -7,6 +7,7 @@
 
 ```shell
 tyarn install
+
 npm  run dev
 ```
 
