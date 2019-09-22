@@ -14,7 +14,7 @@
  * @Copyright           西湖大学 propro Tangtao
  * @GitHub              https://github.com/tangtaoshadow
  * @CreateTime          2019-7-12 19:18:52
- * @UpdateTime          2019-9-6 16:06:13
+ * @UpdateTime          2019-9-22 17:11:21
  * @Archive             国际化 中文 Chinese
  *
  */
@@ -537,6 +537,37 @@ let language_ch = {
   "propro.analysis_detail_feature_scores_weights_weights": "特征分数权重",
   "propro.analysis_detail_search": "搜索",
   "propro.analysis_detail_reset": "重置",
+
+  // analysis xic
+  "propro.analysis_xic_title": "XIC 数据",
+  "propro.analysis_xic_id": "ID",
+  "propro.analysis_xic_experiment_name": "实验ID",
+  "propro.analysis_xic_analyse_code": "分析代号",
+  "propro.analysis_xic_association_library_name": "关联标准库",
+  "propro.analysis_xic_rz_mz": "mz/RT XIC窗口",
+  "propro.analysis_xic_slope_intercept": "斜率/截距",
+  "propro.analysis_xic_sigma_spacing": "Sigma/Spacing",
+  "propro.analysis_xic_peptide_recognized_ratio": "肽段识别比例",
+  "propro.analysis_xic_creator": "创建者",
+  "propro.analysis_xic_create_time": "创建时间",
+  "propro.analysis_xic_update_time": "更新时间",
+  "propro.analysis_xic_peakgroup_count": "PeakGroup数目",
+  "propro.analysis_xic_fdr": "FDR",
+  "propro.analysis_xic_proteins_count": "蛋白质数目",
+  "propro.analysis_xic_list_load_time": "查询时间",
+  "propro.analysis_xic_list_load_numbers": "已加载",
+  "propro.analysis_xic_list_total_numbers": "总记录",
+  "propro.analysis_xic_list_load_percentage": "加载进度",
+  "propro.analysis_xic_list_search": "查找",
+  "propro.analysis_xic_search": "搜索",
+  "propro.analysis_xic_reset": "重置",
+  "propro.analysis_xic_list_search": "查找",
+  "propro.analysis_xic_list_index": "No",
+  "propro.analysis_xic_list_protein_name": "蛋白质名称",
+  "propro.analysis_xic_list_peptide_name": "肽段全称",
+  "propro.analysis_xic_list_is_decoy": "是否伪肽段",
+  "propro.analysis_xic_ion_fragment": "离子片段",
+  "propro.analysis_xic_list_operation": "操作",
 
   "propro.end": "end"
 };
