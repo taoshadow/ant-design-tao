@@ -567,6 +567,8 @@ let language_ch = {
   "propro.analysis_xic_list_peptide_name": "肽段全称",
   "propro.analysis_xic_list_is_decoy": "是否伪肽段",
   "propro.analysis_xic_ion_fragment": "离子片段",
+  "propro.analysis_xic_ion_fracture_mark": "断裂标记",
+  "propro.analysis_xic_ion_fragment_charge_ratio": "碎片荷质比",
   "propro.analysis_xic_list_operation": "操作",
 
   "propro.end": "end"

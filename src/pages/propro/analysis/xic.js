@@ -168,11 +168,9 @@ class Xic extends React.Component {
   get_current_analysis_xic_id = () => {
     // /analysis/xic/5d36ed2d9063e34625b75fad
     let url = this.props.history.location.pathname;
-    console.log(url);
     // 提取 id
     let index = url.lastIndexOf("xic/");
     let id = url.substring(index + 4);
-    console.log("id" + id);
     this.props.get_analysis_xic({ id: id });
     setTimeout(() => {
       // 写入 id
@@ -231,8 +229,6 @@ class Xic extends React.Component {
   };
 
   change_analysis_xic_data = () => {
-    console.log(this.props.analysis_xic_data);
-
     /*
       currentPage: 1
       datas: (1000) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, …]
@@ -253,6 +249,7 @@ class Xic extends React.Component {
     } = this.props.analysis_xic_data;
 
     let [len0, load_percentage_value, xic_data_arr] = [0, 0, null];
+
     if (null != datas) {
       len0 = datas.length;
     }
@@ -276,6 +273,32 @@ class Xic extends React.Component {
       let obj_temp = {};
       xic_data_arr = new Array(len0);
       for (let i = 0; i < len0; i++) {
+        // 先解析提取离子片段
+        let ion_data = datas[i].mzMap;
+        let obj_temp1 = null;
+        let ion_data_arr = null;
+        let { length: len1 = -1 } = Object.keys(ion_data);
+        if (0 < len1) {
+          ion_data_arr = new Array(len1);
+          /*
+          b6	598.33075
+          b7	711.4148
+          b8	768.4363
+          y4	456.2929
+          y5	513.31433
+          y7	683.41986
+          */
+          let m = 0;
+          obj_temp1 = {};
+          for (let j in ion_data) {
+            (obj_temp1.key = "ion_data_arr_" + i + "_" + m),
+              (obj_temp1.name = j),
+              (obj_temp1.value = ion_data[j]),
+              (ion_data_arr[m++] = obj_temp1),
+              (obj_temp1 = {});
+          }
+        }
+
         (obj_temp.key = "xic_data_arr_" + i),
           (obj_temp.index = i + 1),
           (obj_temp.data_ref = datas[i].dataRef),
@@ -284,6 +307,8 @@ class Xic extends React.Component {
           (obj_temp.mz = datas[i].mz),
           // 离子断裂标记
           (obj_temp.mz_map = datas[i].mzMap),
+          // 离子断裂 table 数据
+          (obj_temp.mz_map_table_data = ion_data_arr),
           (obj_temp.peptide_ref = datas[i].peptideRef),
           (obj_temp.protein_name = datas[i].proteinName),
           (obj_temp.rt = datas[i].rt),
@@ -415,6 +440,72 @@ class Xic extends React.Component {
   };
 
   render() {
+    // ion_fragment table
+    const ion_fragment_list_table_columns = [
+      {
+        // 1  key
+        title: (
+          <span
+            style={{
+              fontSize: "8px",
+              fontWeight: "600",
+              letterSpacing: "1px"
+            }}
+          >
+            <FormattedHTMLMessage id="propro.analysis_xic_ion_fracture_mark" />
+          </span>
+        ),
+        dataIndex: "name",
+        key: "name",
+        render: text => {
+          return (
+            <div
+              style={{
+                fontSize: "8px",
+                wordWrap: "break-word",
+                wordBreak: "break-all",
+                minWidth: "40px",
+                maxWidth: "40px"
+              }}
+            >
+              {text}
+            </div>
+          );
+        }
+      },
+      {
+        // 2  value
+        title: (
+          <span
+            style={{
+              fontSize: "8px",
+              fontWeight: "600",
+              letterSpacing: "1px"
+            }}
+          >
+            <FormattedHTMLMessage id="propro.analysis_xic_ion_fragment_charge_ratio" />
+          </span>
+        ),
+        dataIndex: "value",
+        key: "value",
+        render: text => {
+          return (
+            <div
+              style={{
+                fontSize: "8px",
+                wordWrap: "break-word",
+                wordBreak: "break-all",
+                minWidth: "60px",
+                maxWidth: "60px"
+              }}
+            >
+              {text}
+            </div>
+          );
+        }
+      }
+    ];
+
     // 定义 解析 配置 表格
     const analysis_xic_list_table_columns = [
       {
@@ -462,7 +553,7 @@ class Xic extends React.Component {
         ),
         dataIndex: "protein_name",
         key: "protein_name",
-        width: 200,
+        width: 100,
         ...this.get_column_search_props("protein_name"),
         render: text => {
           return (
@@ -471,8 +562,8 @@ class Xic extends React.Component {
                 fontSize: "8px",
                 wordWrap: "break-word",
                 wordBreak: "break-all",
-                minWidth: "200px",
-                maxWidth: "200px"
+                minWidth: "100px",
+                maxWidth: "100px"
               }}
             >
               {text}
@@ -503,12 +594,134 @@ class Xic extends React.Component {
                 fontSize: "8px",
                 wordWrap: "break-word",
                 wordBreak: "break-all",
-                minWidth: "400px",
-                maxWidth: "400px"
+                minWidth: "100px",
+                maxWidth: "100px"
               }}
               className={styles.font_primary_color}
             >
               {text}
+            </div>
+          );
+        }
+      },
+      {
+        // 4 是否是伪肽段
+        title: (
+          <span
+            style={{
+              fontSize: "8px",
+              fontWeight: "600",
+              letterSpacing: "1px"
+            }}
+          >
+            <FormattedHTMLMessage id="propro.analysis_xic_list_is_decoy" />
+          </span>
+        ),
+        dataIndex: "is_decoy",
+        key: "is_decoy",
+        ...this.get_column_search_props("is_decoy"),
+        render: text => {
+          let status = "";
+
+          if (true == text) {
+            status = "True";
+          } else {
+            status = "False";
+          }
+
+          return (
+            <div
+              style={{
+                fontSize: "8px"
+              }}
+              className={
+                true == text ? styles.font_primary_color : styles.font_red_color
+              }
+            >
+              {status}
+            </div>
+          );
+        }
+      },
+      {
+        // 5 RT
+        title: (
+          <span
+            style={{
+              fontSize: "8px",
+              fontWeight: "600",
+              letterSpacing: "1px"
+            }}
+          >
+            <FormattedHTMLMessage id="propro.analysis_xic_list_is_decoy" />
+          </span>
+        ),
+        dataIndex: "rt",
+        key: "rt",
+        ...this.get_column_search_props("rt"),
+        render: text => {
+          return (
+            <div
+              style={{
+                fontSize: "8px",
+                wordWrap: "break-word",
+                wordBreak: "break-all",
+                minWidth: "50px",
+                maxWidth: "50px"
+              }}
+              className={styles.font_primary_color}
+            >
+              {text}
+            </div>
+          );
+        }
+      },
+      {
+        // 6 离子片段
+        title: (
+          <span
+            style={{
+              fontSize: "8px",
+              fontWeight: "600",
+              letterSpacing: "1px"
+            }}
+          >
+            <FormattedHTMLMessage id="propro.analysis_xic_ion_fragment" />
+          </span>
+        ),
+        key: "ion_fragment",
+        render: list => {
+          /*
+          b6	598.33075
+          b7	711.4148
+          b8	768.4363
+          y4	456.2929
+          y5	513.31433
+          y7	683.41986
+          */
+          let data = list.mz_map_table_data;
+          return (
+            <div
+              style={{
+                fontSize: "8px",
+                wordWrap: "break-word",
+                wordBreak: "break-all",
+                minWidth: "200px",
+                maxWidth: "200px"
+              }}
+              className={styles.font_primary_color}
+            >
+              <Table
+                size={"small"}
+                columns={ion_fragment_list_table_columns}
+                bordered
+                pagination={{
+                  position: "bottom",
+                  hideOnSinglePage: true,
+                  defaultPageSize: 100
+                }}
+                dataSource={data}
+              />
             </div>
           );
         }
