@@ -7,7 +7,7 @@
  * @Copyright           西湖大学 propro Tangtao
  * @GitHub              https://github.com/tangtaoshadow
  * @CreateTime          2019-9-20 15:49:44
- * @UpdateTime          2019-9-22 16:45:24
+ * @UpdateTime          2019-9-25 10:21:50
  * @Archive             xic 数据
  */
 
@@ -94,13 +94,22 @@ const analysis_xic_state_to_props = state => {
   let {
     analysis_xic_status = -1,
     analysis_xic_time = 0,
-    analysis_xic_data = {}
+    analysis_xic_data = {},
+    analysis_xic_delete_status = -1,
+    // 删除数据的时间戳
+    analysis_xic_delete_time = 0,
+    // 返回的数据
+    analysis_xic_delete_data = 0
   } = state["analysis_xic"];
 
-  (obj.analysis_xic_status = analysis_xic_status),
+  (obj.analysis_xic_delete_status = analysis_xic_delete_status),
+    (obj.analysis_xic_delete_time = analysis_xic_delete_time),
+    (obj.analysis_xic_delete_data = analysis_xic_delete_data),
+    (obj.analysis_xic_status = analysis_xic_status),
     (obj.analysis_xic_time = analysis_xic_time),
     (obj.analysis_xic_data = analysis_xic_data);
 
+  console.log(obj);
   return obj;
 };
 
@@ -110,6 +119,20 @@ const analysis_xic_dispatch_to_props = dispatch => {
     get_analysis_xic: data => {
       const action = {
         type: "analysis_xic/get_analysis_xic",
+        payload: data
+      };
+      dispatch(action);
+    },
+    delete_analysis_xic: data => {
+      const action = {
+        type: "analysis_xic/delete_analysis_xic",
+        payload: data
+      };
+      dispatch(action);
+    },
+    query_analysis_xic: data => {
+      const action = {
+        type: "analysis_xic/query_analysis_xic",
         payload: data
       };
       dispatch(action);
@@ -147,7 +170,10 @@ class Xic extends React.Component {
       total_numbers: null,
       load_percentage_value: 0,
       analysis_xic_list_query_time: null,
-      search_text: ""
+      search_text: "",
+      // modal 配置
+      modal_visible: false
+
       //   language: this.props.language
     };
 
@@ -301,6 +327,7 @@ class Xic extends React.Component {
 
         (obj_temp.key = "xic_data_arr_" + i),
           (obj_temp.index = i + 1),
+          (obj_temp.library_id = overview.libraryId),
           (obj_temp.data_ref = datas[i].dataRef),
           (obj_temp.is_decoy = datas[i].isDecoy),
           (obj_temp.is_unique = datas[i].isUnique),
@@ -439,6 +466,94 @@ class Xic extends React.Component {
     });
   };
 
+  // 取消删除
+  delete_xic_by_id_cancel = () => {
+    this.setState({
+      modal_visible: false
+    });
+  };
+
+  // 确认删除
+  delete_xic_by_id_confirm = () => {
+    this.setState({
+      modal_visible: false
+    });
+    let { language } = this.props;
+    message.loading(
+      Languages[language]["propro.analysis_xic_list_operation_delete"] +
+        " : " +
+        Languages[language]["propro.prompt_running"],
+      2
+    );
+    setTimeout(() => {
+      // 获取id
+      let { analysis_xic_id } = this.state;
+      this.props.delete_analysis_xic({ id: analysis_xic_id });
+    }, 1500);
+  };
+
+  delete_analysis_xic_list_by_id = () => {
+    this.setState({
+      modal_visible: true
+    });
+  };
+
+  // 处理删除数据
+  handle_delete_analysis_xic = () => {
+    // 时间戳设置为 0
+    this.props.set_state_newvalue({
+      target: "analysis_xic_delete_time",
+      value: 0
+    });
+
+    let { analysis_xic_delete_status, language } = this.props;
+    if (0 == analysis_xic_delete_status) {
+      // 删除成功
+      setTimeout(() => {
+        message.success(
+          Languages[language]["propro.analysis_xic_list_operation_delete"] +
+            " : " +
+            Languages[language]["propro.prompt_success"],
+          4
+        );
+      }, 200);
+    } else {
+      // 删除失败 可能出在网络
+      setTimeout(() => {
+        message.error(
+          Languages[language]["propro.analysis_xic_list_operation_delete"] +
+            " : " +
+            Languages[language]["propro.prompt_failed"],
+          4
+        );
+      }, 200);
+
+      return -1;
+    }
+    // 执行跳转到分析列表
+    setTimeout(() => {
+      //
+      this.props.history.push("/analysis/list");
+    }, 1000);
+  };
+
+  handle_query_analysis_xic_list = () => {
+    // 查询 xic 数据
+    // 获取百分比
+    let { load_percentage_value, total_numbers, analysis_xic_id } = this.state;
+    //
+    let page_size = Math.ceil((load_percentage_value * total_numbers) / 100);
+    page_size = page_size < 1000 ? 1000 : page_size;
+    this.props.query_analysis_xic({
+      id: analysis_xic_id,
+      page_size: page_size
+    });
+    this.setState({
+      // 设为默认值
+      analysis_xic_status: -1
+    });
+  };
+
   render() {
     // ion_fragment table
     const ion_fragment_list_table_columns = [
@@ -465,6 +580,7 @@ class Xic extends React.Component {
                 wordWrap: "break-word",
                 wordBreak: "break-all",
                 minWidth: "40px",
+                fontWeight: "600",
                 maxWidth: "40px"
               }}
             >
@@ -498,6 +614,7 @@ class Xic extends React.Component {
                 minWidth: "60px",
                 maxWidth: "60px"
               }}
+              className={styles.font_primary_color}
             >
               {text}
             </div>
@@ -587,7 +704,7 @@ class Xic extends React.Component {
         dataIndex: "peptide_ref",
         key: "peptide_ref",
         ...this.get_column_search_props("peptide_ref"),
-        render: text => {
+        render: (text, list) => {
           return (
             <div
               style={{
@@ -599,7 +716,11 @@ class Xic extends React.Component {
               }}
               className={styles.font_primary_color}
             >
-              {text}
+              <Link
+                to={"/peptide/list_ref/" + list.library_id + "/ref/" + text}
+              >
+                {text}
+              </Link>
             </div>
           );
         }
@@ -725,6 +846,50 @@ class Xic extends React.Component {
             </div>
           );
         }
+      },
+      {
+        // 7 操作
+        title: (
+          <span
+            style={{
+              fontSize: "8px",
+              fontWeight: "600",
+              letterSpacing: "1px"
+            }}
+          >
+            <FormattedHTMLMessage id="propro.analysis_xic_list_is_decoy" />
+          </span>
+        ),
+        key: "operation 2019-9-25 15:00:57",
+        render: list => {
+          return (
+            <div
+              style={{
+                fontSize: "8px"
+              }}
+            >
+              <button
+                type="button"
+                className="btn btn-outline-success"
+                style={{
+                  fontWeight: 400,
+                  fontSize: "8px",
+                  height: "22px",
+                  lineHeight: "10px",
+                  padding: "6px 8px",
+                  letterSpacing: "1px"
+                }}
+                // 暂时还未实现
+                // onClick={this.delete_analysis_xic_list_by_id}
+              >
+                <span>
+                  &nbsp;
+                  <FormattedHTMLMessage id="propro.analysis_xic_list_peptide_clinic" />
+                </span>
+              </button>
+            </div>
+          );
+        }
       }
     ];
 
@@ -750,6 +915,11 @@ class Xic extends React.Component {
           </Row>
         </Fragment>
       );
+    }
+
+    if (10000 < this.props.analysis_xic_delete_time) {
+      // 删除数据
+      this.handle_delete_analysis_xic();
     }
 
     let { overview, datas } = this.props.analysis_xic_data;
@@ -787,6 +957,25 @@ class Xic extends React.Component {
           </Tooltip>
           <FormattedHTMLMessage id="propro.analysis_xic_title" />
         </div>
+        {/* 提示用户 删除 警告信息 */}
+        <Modal
+          title={
+            <b>
+              <FormattedHTMLMessage id="propro.modal_title" />
+            </b>
+          }
+          visible={this.state.modal_visible}
+          onOk={this.delete_xic_by_id_confirm}
+          onCancel={this.delete_xic_by_id_cancel}
+          maskClosable={true}
+          okText={<FormattedHTMLMessage id="propro.modal_confirm" />}
+          cancelText={<FormattedHTMLMessage id="propro.modal_cancel" />}
+        >
+          <div className={styles.font_red_color}>
+            <FormattedHTMLMessage id="propro.irt_standard_library_detail_delete_warning" />
+          </div>
+        </Modal>
+
         <div
           style={{
             background: "#FFFFFF",
@@ -1066,6 +1255,31 @@ class Xic extends React.Component {
                     {total_numbers}
                   </span>
                 </Descriptions.Item>
+
+                {/* 操作 */}
+                <Descriptions.Item
+                  span={4}
+                  label={
+                    <FormattedHTMLMessage id="propro.analysis_xic_list_operation_buutons" />
+                  }
+                >
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    style={{
+                      fontWeight: 400,
+                      fontSize: "14px",
+                      height: "32px",
+                      letterSpacing: "1px"
+                    }}
+                    onClick={this.delete_analysis_xic_list_by_id}
+                  >
+                    <span>
+                      &nbsp;
+                      <FormattedHTMLMessage id="propro.analysis_xic_list_delete" />
+                    </span>
+                  </button>
+                </Descriptions.Item>
               </Descriptions>
             </Col>
 
@@ -1118,8 +1332,7 @@ class Xic extends React.Component {
                     height: "32px",
                     lineHeight: "32px"
                   }}
-                  name="password"
-                  onClick={this.handle_query_analysis_xic_list_by_id}
+                  onClick={this.handle_query_analysis_xic_list}
                 >
                   <span>
                     &nbsp;
@@ -1150,9 +1363,10 @@ class Xic extends React.Component {
                 size={"middle"}
                 columns={analysis_xic_list_table_columns}
                 pagination={{
-                  position: "bottom",
+                  position: "top",
                   hideOnSinglePage: true,
-                  defaultPageSize: 100
+                  showQuickJumper: false,
+                  defaultPageSize: 50
                 }}
                 dataSource={this.state.analysis_xic_list_data}
               />

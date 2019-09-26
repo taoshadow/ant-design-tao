@@ -538,7 +538,7 @@ let language_ch = {
   "propro.analysis_detail_search": "搜索",
   "propro.analysis_detail_reset": "重置",
 
-  // analysis xic
+  // analysis xic 2019-9-24 19:55:58
   "propro.analysis_xic_title": "XIC 数据",
   "propro.analysis_xic_id": "ID",
   "propro.analysis_xic_experiment_name": "实验ID",
@@ -558,6 +558,8 @@ let language_ch = {
   "propro.analysis_xic_list_load_numbers": "已加载",
   "propro.analysis_xic_list_total_numbers": "总记录",
   "propro.analysis_xic_list_load_percentage": "加载进度",
+  "propro.analysis_xic_list_operation_buutons": "操作",
+  "propro.analysis_xic_list_delete": "删除",
   "propro.analysis_xic_list_search": "查找",
   "propro.analysis_xic_search": "搜索",
   "propro.analysis_xic_reset": "重置",
@@ -570,6 +572,8 @@ let language_ch = {
   "propro.analysis_xic_ion_fracture_mark": "断裂标记",
   "propro.analysis_xic_ion_fragment_charge_ratio": "碎片荷质比",
   "propro.analysis_xic_list_operation": "操作",
+  "propro.analysis_xic_list_peptide_clinic": "肽段诊所",
+  "propro.analysis_xic_list_operation_delete": "删除数据",
 
   "propro.end": "end"
 };

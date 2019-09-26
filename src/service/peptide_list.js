@@ -16,7 +16,8 @@ import tao from "../utils/common";
 export function query_peptide_list(data = "") {
   // 读取最新的 token
   let token = tao.get_token();
-  let { id = "", page_size = 0 } = data;
+  let { id = "", page_size = 0, peptide_ref = "" } = data;
+  peptide_ref += "";
   if (-1 == token || "" == data || "" == id) {
     // 不存在 token
     return "error";
@@ -24,11 +25,15 @@ export function query_peptide_list(data = "") {
 
   let body_data = "";
   body_data += "libraryId" + "=" + id + "&";
-
+  // 检验 肽段 ref 是否存在
+  if (1 < peptide_ref.length) {
+    // 存在ref 写入
+    body_data += "peptideRef" + "=" + peptide_ref + "&";
+  }
+  // 检查 page_size 是否存在
   if (0 < page_size) {
     body_data += "pageSize" + "=" + page_size + "&";
   }
-
 
   return request("/propro_server/peptide/list", {
     headers: {

@@ -103,6 +103,11 @@ export default {
           component: "propro/peptide/list"
         },
         {
+          // 肽段列表 指定id和 peptideRef * id * ref
+          path: "/peptide/list_ref/*/ref/*",
+          component: "propro/peptide/list"
+        },
+        {
           // 肽段列表详情 id 第一个* 肽段列表的id 第二个* 肽段列表里面的详情的id
           path: "/peptide/detail/*/*",
           component: "propro/peptide/detail"

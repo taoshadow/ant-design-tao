@@ -173,10 +173,24 @@ class Peptide_list extends React.Component {
   get_current_peptide_list_id = () => {
     // /library/peptide/list/5d0848fee0073c6ffc69752d
     let url = this.props.history.location.pathname;
-    // 提取 id
-    let index = url.lastIndexOf("/");
-    let id = url.substring(index + 1, url.length);
-    this.props.query_peptide_list({ id: id });
+    let id = "";
+    let obj = {};
+    // 可能存在 peptideRef
+    if (url.includes("peptide/list/")) {
+      let index = url.lastIndexOf("/");
+      // 提取 id
+      obj.id = url.substring(index + 1, url.length);
+    } else if (url.includes("peptide/list_ref/")) {
+      // /peptide/list_ref/*/ref/*
+      // 提取ref
+      let index0 = url.lastIndexOf("/ref/");
+      obj.peptide_ref = url.substring(index0 + 5, url.length);
+      let index1 = url.lastIndexOf("/list_ref/");
+      obj.id = url.substring(index1 + 10, index0);
+    }
+    id = obj.id;
+
+    this.props.query_peptide_list(obj);
     setTimeout(() => {
       // 写入 id
       this.setState({
