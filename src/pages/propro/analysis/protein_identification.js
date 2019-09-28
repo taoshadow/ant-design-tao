@@ -1,4 +1,4 @@
-// src/pages/propro/analysis/score.js
+// src/pages/propro/analysis/protein_identification.js
 // 打分数据页面
 
 /***
@@ -6,9 +6,9 @@
  * @Email               tangtao2099@outlook.com
  * @Copyright           西湖大学 propro Tangtao
  * @GitHub              https://github.com/tangtaoshadow
- * @CreateTime          2019-9-26 23:37:19
+ * @CreateTime          2019-9-29 00:38:00
  * @UpdateTime          2019-9-28 21:22:30
- * @Archive             score 数据 [关键实现]支持侧边栏 json数据完成格式化 依赖式加载 利用React缓存DOM节点
+ * @Archive             protein_identification 蛋白鉴定
  */
 
 /****************  导入组件 ***************************/
@@ -78,7 +78,7 @@ import preloader_svg from "../style/static/dashboard/preloader.svg";
 /***********  analysis View 初始化   ***************/
 /***********  analysis View 初始化   ***************/
 
-const analysis_score_state_to_props = state => {
+const analysis_protein_identification_state_to_props = state => {
   // 发送的对象
   let obj = {};
 
@@ -89,45 +89,48 @@ const analysis_score_state_to_props = state => {
   }
 
   let {
-    analysis_score_status = -1,
-    analysis_score_time = 0,
-    analysis_score_data = {}
-  } = state["analysis_score"];
+    analysis_protein_identification_status = -1,
+    analysis_protein_identification_time = 0,
+    analysis_protein_identification_data = {}
+  } = state["analysis_protein_identification"];
 
-  (obj.analysis_score_status = analysis_score_status),
-    (obj.analysis_score_time = analysis_score_time),
-    (obj.analysis_score_data = analysis_score_data);
+  (obj.analysis_protein_identification_status = analysis_protein_identification_status),
+    (obj.analysis_protein_identification_time = analysis_protein_identification_time),
+    (obj.analysis_protein_identification_data = analysis_protein_identification_data);
 
   return obj;
 };
 
-const analysis_score_dispatch_to_props = dispatch => {
+const analysis_protein_identification_dispatch_to_props = dispatch => {
   return {
     // 更新触发器
-    get_analysis_score: data => {
+    get_analysis_protein_identification: data => {
       const action = {
-        type: "analysis_score/get_analysis_score",
+        type:
+          "analysis_protein_identification/get_analysis_protein_identification",
         payload: data
       };
       dispatch(action);
     },
-    delete_analysis_score: data => {
+    delete_analysis_protein_identification: data => {
       const action = {
-        type: "analysis_score/delete_analysis_score",
+        type:
+          "analysis_protein_identification/delete_analysis_protein_identification",
         payload: data
       };
       dispatch(action);
     },
-    query_analysis_score: data => {
+    query_analysis_protein_identification: data => {
       const action = {
-        type: "analysis_score/query_analysis_score",
+        type:
+          "analysis_protein_identification/query_analysis_protein_identification",
         payload: data
       };
       dispatch(action);
     },
     set_state_newvalue: data => {
       const action = {
-        type: "analysis_score/set_state_newvalue",
+        type: "analysis_protein_identification/set_state_newvalue",
         payload: data
       };
       dispatch(action);
@@ -138,26 +141,26 @@ const analysis_score_dispatch_to_props = dispatch => {
 /***********  analysis View 初始化 end  ***************/
 
 @connect(
-  analysis_score_state_to_props,
-  analysis_score_dispatch_to_props
+  analysis_protein_identification_state_to_props,
+  analysis_protein_identification_dispatch_to_props
 )
-class Analysis_score extends React.Component {
+class Analysis_protein_identification extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       //   查询到的标准库数据
-      analysis_score_id: null,
-      analysis_score_data: [],
+      analysis_protein_identification_id: null,
+      analysis_protein_identification_data: [],
       // 默认没有数据 状态为 -1 这个变量 暂时用不着 但是后续扩展会用到
-      analysis_score_status: -1,
+      analysis_protein_identification_status: -1,
       // 请求失败再次发起请求的尝试次数
-      analysis_score_false_time: 5,
-      analysis_score_list_data: null,
+      analysis_protein_identification_false_time: 5,
+      analysis_protein_identification_list_data: null,
       // 页面大小 通过调整它来设置
       page_size: null,
       total_numbers: null,
       load_percentage_value: 0,
-      analysis_score_list_query_time: null,
+      analysis_protein_identification_list_query_time: null,
       search_text: "",
       // modal 配置
       modal_visible: false,
@@ -170,7 +173,7 @@ class Analysis_score extends React.Component {
     };
 
     setTimeout(() => {
-      this.get_current_analysis_score_id();
+      this.get_current_analysis_protein_identification_id();
     }, 100);
 
     // 配置 message
@@ -183,36 +186,36 @@ class Analysis_score extends React.Component {
   }
 
   // 解析url 获取到id 发起查询
-  get_current_analysis_score_id = () => {
-    // /analysis/score/5d36ed2d9063e34625b75fad
+  get_current_analysis_protein_identification_id = () => {
+    // /analysis/protein_identification/5d36ed2d9063e34625b75fad
     let url = this.props.history.location.pathname;
     // 提取 id
-    let str = "score/";
+    let str = "protein_identification/";
     let index = url.lastIndexOf(str);
     let id = url.substring(index + str.length);
-    this.props.get_analysis_score({ id: id });
+    this.props.get_analysis_protein_identification({ id: id });
     setTimeout(() => {
       // 写入 id
       this.setState({
-        analysis_score_id: id
+        analysis_protein_identification_id: id
       });
     }, 40);
   };
 
-  handle_analysis_score = () => {
+  handle_analysis_protein_identification = () => {
     // 时间戳设置为 0
     this.props.set_state_newvalue({
-      target: "analysis_score_time",
+      target: "analysis_protein_identification_time",
       value: 0
     });
 
     // 检查状态
-    if (0 == this.props.analysis_score_status) {
+    if (0 == this.props.analysis_protein_identification_status) {
       // 数据获取成功
 
       setTimeout(() => {
         // 调用 添加更新数据函数
-        this.change_analysis_score_data();
+        this.change_analysis_protein_identification_data();
       }, 200);
     } else {
       // 数据获取失败
@@ -223,9 +226,9 @@ class Analysis_score extends React.Component {
         okText: Languages[this.props.language]["propro.user_modal_know"]
       });
       // 过一段时间 尝试再次连接服务器 这个时间要稍微长一点 用户体验会比较好
-      let { analysis_score_false_time } = this.state;
+      let { analysis_protein_identification_false_time } = this.state;
       // 2-判断是否需要再次发起请求
-      if (0 >= analysis_score_false_time) {
+      if (0 >= analysis_protein_identification_false_time) {
         console.error(
           "@Author:tangtao; 系统已终止运行,请重新刷新页面; ",
           "初步诊断:未能成功连接到 propro-server 的服务器或者未能成功解析返回的数据"
@@ -237,7 +240,7 @@ class Analysis_score extends React.Component {
       // 写入新的请求失败参数
       setTimeout(() => {
         this.setState({
-          analysis_score_false_time: analysis_score_false_time--
+          analysis_protein_identification_false_time: analysis_protein_identification_false_time--
         });
       }, 120);
 
@@ -247,15 +250,15 @@ class Analysis_score extends React.Component {
     return 0;
   };
 
-  change_analysis_score_data = () => {
+  change_analysis_protein_identification_data = () => {
     /*
     
     currentPage: 1
     overview: {classifier: "lda", createDate: 1563880749512,…}
     overviewId: "5d36ed2d9063e34625b75fad"
     pageSize: 500
-    scoreTypes: ["MainScore", "WeightedTotalScore", "BseriesScore", "IntensityScore", "IsotopeCorrelationScore",…]
-    scores: [{dataRef: "5d36ed2d9063e34625b75fad-LRAEAGLGALPR_3-false", isDecoy: false, isUnique: true,…},…]
+    protein_identificationTypes: ["MainScore", "WeightedTotalScore", "BseriesScore", "IntensityScore", "IsotopeCorrelationScore",…]
+    protein_identifications: [{dataRef: "5d36ed2d9063e34625b75fad-LRAEAGLGALPR_3-false", isDecoy: false, isUnique: true,…},…]
     totalNum: 100000
     totalPage: 200
 
@@ -265,25 +268,29 @@ class Analysis_score extends React.Component {
       overview,
       overviewId: overview_id,
       pageSize: page_size,
-      scoreTypes: score_types,
+      protein_identificationTypes: protein_identification_types,
       // 分数列表
-      scores = null,
+      protein_identifications = null,
       totalNum: total_numbers,
       totalPage: total_page
-    } = this.props.analysis_score_data;
+    } = this.props.analysis_protein_identification_data;
 
-    let [len0, load_percentage_value, score_data_arr] = [0, 0, null];
+    let [len0, load_percentage_value, protein_identification_data_arr] = [
+      0,
+      0,
+      null
+    ];
 
-    if (null != scores) {
+    if (null != protein_identifications) {
       //
-      len0 = scores.length;
+      len0 = protein_identifications.length;
     }
 
     if (0 < len0) {
       // 计算出加载的百分比
       load_percentage_value = Math.ceil((len0 / total_numbers) * 100);
       let obj_temp = {};
-      score_data_arr = new Array(len0);
+      protein_identification_data_arr = new Array(len0);
       for (let i = 0; i < len0; i++) {
         /*
           bestRt: 1813.7325774549008
@@ -307,7 +314,7 @@ class Analysis_score extends React.Component {
         */
         let {
           dataRef,
-          featureScoresList: feature_scores_list,
+          featureScoresList: feature_protein_identifications_list,
           identifiedStatus,
           isDecoy,
           isUnique,
@@ -317,60 +324,63 @@ class Analysis_score extends React.Component {
           proteinName,
           rt,
           fdr
-        } = scores[i];
+        } = protein_identifications[i];
 
-        let feature_scores_list_arr = null;
-        let { length: len1 } = feature_scores_list;
+        let feature_protein_identifications_list_arr = null;
+        let { length: len1 } = feature_protein_identifications_list;
         if (0 < len1) {
-          feature_scores_list_arr = new Array(len1);
+          feature_protein_identifications_list_arr = new Array(len1);
           let obj_temp1 = {};
           for (let j = 0; j < len1; j++) {
             // es8 语法 对浏览器有要求 如不符合 需改写 唐涛 2019-9-28 21:25:31
-            Object.keys(feature_scores_list[j]).forEach((key, index) => {
-              /**
+            Object.keys(feature_protein_identifications_list[j]).forEach(
+              (key, index) => {
+                /**
                 fragIntFeature: ";b6:146293.9054;b7:75823.79999999999;b8:0.0;y4:2214.6;y5:96903.1;y7:168516.299;"
                 intensitySum: 489751.7044
                 rt: 1813.7325774549008
                 rtRangeFeature: "1807.2407;1817.3777"
-                scores
+                protein_identifications
               **/
-              // 暂时留着 便于后续可视化完善 唐涛 2019-9-28 21:25:20
-              if ("fragIntFeature" == key) {
-                //
-              } else if ("intensitySum" == key) {
-                //
-              } else if ("rt" == key) {
-                //
-              } else if ("rtRangeFeature" == key) {
-                //
-              } else if ("scores" == key) {
-                //
-                let arr = feature_scores_list[j][key];
-                if (0 < arr.length) {
-                  obj_temp1.scores = feature_scores_list[j][key];
+                // 暂时留着 便于后续可视化完善 唐涛 2019-9-28 21:25:20
+                if ("fragIntFeature" == key) {
+                  //
+                } else if ("intensitySum" == key) {
+                  //
+                } else if ("rt" == key) {
+                  //
+                } else if ("rtRangeFeature" == key) {
+                  //
+                } else if ("protein_identifications" == key) {
+                  //
+                  let arr = feature_protein_identifications_list[j][key];
+                  if (0 < arr.length) {
+                    obj_temp1.protein_identifications =
+                      feature_protein_identifications_list[j][key];
+                  }
+                } else {
+                  // null
+                  obj_temp1.protein_identifications = null;
                 }
-              } else {
-                // null
-                obj_temp1.scores = null;
               }
-            });
+            );
 
-            // for (let key0 in feature_scores_list[j]) {
-            //   // console.log("key0=" + key0, feature_scores_list[j][key0]);
+            // for (let key0 in feature_protein_identifications_list[j]) {
+            //   // console.log("key0=" + key0, feature_protein_identifications_list[j][key0]);
             //   // (obj_temp1.name = key0),
-            //   //   (obj_temp1.value = feature_scores_list[i].key0);
+            //   //   (obj_temp1.value = feature_protein_identifications_list[i].key0);
             // }
-            (obj_temp1.key = "feature_scores_list_arr_" + j),
+            (obj_temp1.key = "feature_protein_identifications_list_arr_" + j),
               (obj_temp1.index = j + 1),
-              (feature_scores_list_arr[j] = obj_temp1),
+              (feature_protein_identifications_list_arr[j] = obj_temp1),
               (obj_temp1 = {});
           }
-          // console.log(feature_scores_list_arr);
+          // console.log(feature_protein_identifications_list_arr);
         }
 
         (obj_temp.index = i + 1),
-          (obj_temp.key = "score_data_arr" + i),
-          (obj_temp.feature_scores_list = feature_scores_list_arr),
+          (obj_temp.key = "protein_identification_data_arr" + i),
+          (obj_temp.feature_protein_identifications_list = feature_protein_identifications_list_arr),
           (obj_temp.data_ref = dataRef),
           (obj_temp.identified_status = identifiedStatus),
           (obj_temp.is_decoy = isDecoy),
@@ -381,20 +391,20 @@ class Analysis_score extends React.Component {
           (obj_temp.protein_name = proteinName),
           (obj_temp.rt = rt),
           (obj_temp.fdr = fdr),
-          (score_data_arr[i] = obj_temp),
+          (protein_identification_data_arr[i] = obj_temp),
           (obj_temp = {});
       }
     }
 
     this.setState({
       // 标记 成功
-      analysis_score_false_time: 5,
+      analysis_protein_identification_false_time: 5,
       load_percentage_value: load_percentage_value,
       total_numbers: total_numbers,
-      analysis_score_list_query_time: tao.current_format_time(),
-      analysis_score_list_data: score_data_arr,
+      analysis_protein_identification_list_query_time: tao.current_format_time(),
+      analysis_protein_identification_list_data: protein_identification_data_arr,
       // 标记数据为可用的状态
-      analysis_score_status: 0
+      analysis_protein_identification_status: 0
     });
 
     return 0;
@@ -427,14 +437,14 @@ class Analysis_score extends React.Component {
           size="small"
           style={{ width: 90, marginRight: 8 }}
         >
-          <FormattedHTMLMessage id="propro.analysis_score_search" />
+          <FormattedHTMLMessage id="propro.analysis_protein_identification_search" />
         </Button>
         <Button
           onClick={() => this.handle_table_reset(clearFilters)}
           size="small"
           style={{ width: 90 }}
         >
-          <FormattedHTMLMessage id="propro.analysis_score_reset" />
+          <FormattedHTMLMessage id="propro.analysis_protein_identification_reset" />
         </Button>
       </div>
     ),
@@ -483,24 +493,24 @@ class Analysis_score extends React.Component {
     });
   };
 
-  handle_query_analysis_score_list = () => {
-    // 查询 score 数据
+  handle_query_analysis_protein_identification_list = () => {
+    // 查询 protein_identification 数据
     // 获取百分比
     let {
       load_percentage_value,
       total_numbers,
-      analysis_score_id
+      analysis_protein_identification_id
     } = this.state;
     //
     let page_size = Math.ceil((load_percentage_value * total_numbers) / 100);
     page_size = page_size < 1000 ? 1000 : page_size;
-    this.props.query_analysis_score({
-      id: analysis_score_id,
+    this.props.query_analysis_protein_identification({
+      id: analysis_protein_identification_id,
       page_size: page_size
     });
     this.setState({
       // 设为默认值
-      analysis_score_status: -1
+      analysis_protein_identification_status: -1
     });
   };
 
@@ -511,7 +521,7 @@ class Analysis_score extends React.Component {
     });
   };
 
-  score_list_view_data = data => {
+  protein_identification_list_view_data = data => {
     //
     let obj_list_name = [
       "RT",
@@ -541,15 +551,15 @@ class Analysis_score extends React.Component {
     // 性能问题在这可以忽略 便于阅读 分三步完成
     // 1 转换为 object
     if (0 < len0) {
-      // 遍历 scores
+      // 遍历 protein_identifications
       arr = new Array(len0);
       let obj_temp = {};
       for (let i = 0; i < len0; i++) {
         //
-        let score = data[i]["scores"];
-        let { length: len1 = -1 } = score;
+        let protein_identification = data[i]["protein_identifications"];
+        let { length: len1 = -1 } = protein_identification;
         for (let j = 0; j < len1 && j < 21; j++) {
-          obj_temp[obj_list_name[j]] = score[j];
+          obj_temp[obj_list_name[j]] = protein_identification[j];
         }
         arr[i] = obj_temp;
         obj_temp = {};
@@ -617,13 +627,13 @@ class Analysis_score extends React.Component {
   };
 
   render() {
-    // 监控 analysis_score 数据变化
-    if (10000 < this.props.analysis_score_time) {
+    // 监控 analysis_protein_identification 数据变化
+    if (10000 < this.props.analysis_protein_identification_time) {
       // 资源有更新
-      this.handle_analysis_score();
+      this.handle_analysis_protein_identification();
     }
 
-    if (0 != this.state.analysis_score_status) {
+    if (0 != this.state.analysis_protein_identification_status) {
       return (
         <Fragment>
           <Row>
@@ -641,19 +651,22 @@ class Analysis_score extends React.Component {
       );
     }
 
-    let { overview, scores } = this.props.analysis_score_data;
+    let {
+      overview,
+      protein_identifications
+    } = this.props.analysis_protein_identification_data;
 
-    let { length: load_page_numbers } = scores;
+    let { length: load_page_numbers } = protein_identifications;
     let {
       load_percentage_value,
       total_numbers,
-      analysis_score_id,
-      analysis_score_list_query_time,
+      analysis_protein_identification_id,
+      analysis_protein_identification_list_query_time,
       drawer_data,
       drawer_visible
     } = this.state;
-    // 配置 analysis_score_list_table_columns
-    let analysis_score_list_table_columns = [
+    // 配置 analysis_protein_identification_list_table_columns
+    let analysis_protein_identification_list_table_columns = [
       {
         // 1  排序
         title: (
@@ -664,7 +677,7 @@ class Analysis_score extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.analysis_score_list_index" />
+            <FormattedHTMLMessage id="propro.analysis_protein_identification_list_index" />
           </div>
         ),
         dataIndex: "index",
@@ -694,7 +707,7 @@ class Analysis_score extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.analysis_score_list_predict_result" />
+            <FormattedHTMLMessage id="propro.analysis_protein_identification_list_predict_result" />
           </span>
         ),
 
@@ -742,7 +755,7 @@ class Analysis_score extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.analysis_score_list_predict_rt" />
+            <FormattedHTMLMessage id="propro.analysis_protein_identification_list_predict_rt" />
           </span>
         ),
         dataIndex: "rt",
@@ -776,7 +789,7 @@ class Analysis_score extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.analysis_score_list_fdr" />
+            <FormattedHTMLMessage id="propro.analysis_protein_identification_list_fdr" />
           </span>
         ),
         dataIndex: "fdr",
@@ -809,7 +822,7 @@ class Analysis_score extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.analysis_score_list_decoy_target" />
+            <FormattedHTMLMessage id="propro.analysis_protein_identification_list_decoy_target" />
           </span>
         ),
         dataIndex: "peptide_ref",
@@ -827,7 +840,7 @@ class Analysis_score extends React.Component {
                     padding: "5px 5px"
                   }}
                 >
-                  <FormattedHTMLMessage id="propro.analysis_score_list_is_decoy" />
+                  <FormattedHTMLMessage id="propro.analysis_protein_identification_list_is_decoy" />
                 </span>
                 &nbsp;{text}
               </span>
@@ -841,7 +854,7 @@ class Analysis_score extends React.Component {
                     padding: "5px 5px"
                   }}
                 >
-                  <FormattedHTMLMessage id="propro.analysis_score_list_is_target" />
+                  <FormattedHTMLMessage id="propro.analysis_protein_identification_list_is_target" />
                 </span>
                 &nbsp;{text}
               </span>
@@ -874,13 +887,13 @@ class Analysis_score extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.analysis_score_list_operation" />
+            <FormattedHTMLMessage id="propro.analysis_protein_identification_list_operation" />
           </span>
         ),
         // dataIndex: "rt",
         key: "operation",
         render: list => {
-          let { length: len0 = -1 } = list.feature_scores_list;
+          let { length: len0 = -1 } = list.feature_protein_identifications_list;
           let numbers = null;
 
           numbers =
@@ -911,11 +924,13 @@ class Analysis_score extends React.Component {
                 // 提取到当前触发的数据
 
                 onClick={() => {
-                  this.score_list_view_data(list.feature_scores_list);
+                  this.protein_identification_list_view_data(
+                    list.feature_protein_identifications_list
+                  );
                 }}
               >
                 <span>
-                  <FormattedHTMLMessage id="propro.analysis_score_list_view_data" />
+                  <FormattedHTMLMessage id="propro.analysis_protein_identification_list_view_data" />
                   &nbsp;
                   {numbers}
                 </span>
@@ -950,7 +965,7 @@ class Analysis_score extends React.Component {
               />
             </Link>
           </Tooltip>
-          <FormattedHTMLMessage id="propro.analysis_score_title" />
+          <FormattedHTMLMessage id="propro.analysis_protein_identification_title" />
         </div>
         {/* 提示用户 删除 警告信息 */}
         <Modal
@@ -960,8 +975,8 @@ class Analysis_score extends React.Component {
             </b>
           }
           visible={this.state.modal_visible}
-          onOk={this.delete_score_by_id_confirm}
-          onCancel={this.delete_score_by_id_cancel}
+          onOk={this.delete_protein_identification_by_id_confirm}
+          onCancel={this.delete_protein_identification_by_id_cancel}
           maskClosable={true}
           okText={<FormattedHTMLMessage id="propro.modal_confirm" />}
           cancelText={<FormattedHTMLMessage id="propro.modal_cancel" />}
@@ -976,7 +991,7 @@ class Analysis_score extends React.Component {
         {true == drawer_visible && (
           <Drawer
             title={
-              <FormattedHTMLMessage id="propro.analysis_score_list_data_detail" />
+              <FormattedHTMLMessage id="propro.analysis_protein_identification_list_data_detail" />
             }
             placement="left"
             closable={true}
@@ -1016,16 +1031,18 @@ class Analysis_score extends React.Component {
               >
                 {/* id */}
                 <Descriptions.Item
-                  label={<FormattedHTMLMessage id="propro.analysis_score_id" />}
+                  label={
+                    <FormattedHTMLMessage id="propro.analysis_protein_identification_id" />
+                  }
                   span={2}
                 >
-                  {analysis_score_id}
+                  {analysis_protein_identification_id}
                 </Descriptions.Item>
 
                 {/* 关联标准库 */}
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_score_association_library_name" />
+                    <FormattedHTMLMessage id="propro.analysis_protein_identification_association_library_name" />
                   }
                   span={2}
                 >
@@ -1056,7 +1073,7 @@ class Analysis_score extends React.Component {
                 {/* 分析代号 */}
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_score_analyse_code" />
+                    <FormattedHTMLMessage id="propro.analysis_protein_identification_analyse_code" />
                   }
                   span={4}
                 >
@@ -1066,7 +1083,7 @@ class Analysis_score extends React.Component {
                 {/* 负责人 */}
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_score_creator" />
+                    <FormattedHTMLMessage id="propro.analysis_protein_identification_creator" />
                   }
                   span={2}
                 >
@@ -1088,7 +1105,7 @@ class Analysis_score extends React.Component {
                 {/* FDR */}
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_score_fdr" />
+                    <FormattedHTMLMessage id="propro.analysis_protein_identification_fdr" />
                   }
                   span={2}
                 >
@@ -1106,7 +1123,7 @@ class Analysis_score extends React.Component {
                 {/* 创建时间 */}
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_score_create_time" />
+                    <FormattedHTMLMessage id="propro.analysis_protein_identification_create_time" />
                   }
                   span={2}
                 >
@@ -1118,7 +1135,7 @@ class Analysis_score extends React.Component {
                 {/* 更新时间 */}
                 <Descriptions.Item
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_score_update_time" />
+                    <FormattedHTMLMessage id="propro.analysis_protein_identification_update_time" />
                   }
                   span={2}
                 >
@@ -1131,11 +1148,11 @@ class Analysis_score extends React.Component {
                 <Descriptions.Item
                   span={4}
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_score_list_load_time" />
+                    <FormattedHTMLMessage id="propro.analysis_protein_identification_list_load_time" />
                   }
                 >
                   <span className={styles.font_primary_color}>
-                    {analysis_score_list_query_time}
+                    {analysis_protein_identification_list_query_time}
                   </span>
                 </Descriptions.Item>
 
@@ -1143,7 +1160,7 @@ class Analysis_score extends React.Component {
                 <Descriptions.Item
                   span={2}
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_score_list_load_numbers" />
+                    <FormattedHTMLMessage id="propro.analysis_protein_identification_list_load_numbers" />
                   }
                 >
                   <span
@@ -1161,7 +1178,7 @@ class Analysis_score extends React.Component {
                 <Descriptions.Item
                   span={2}
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_score_list_total_numbers" />
+                    <FormattedHTMLMessage id="propro.analysis_protein_identification_list_total_numbers" />
                   }
                 >
                   <span
@@ -1192,7 +1209,7 @@ class Analysis_score extends React.Component {
                     lineHeight: "30px"
                   }}
                 >
-                  <FormattedHTMLMessage id="propro.analysis_score_list_load_percentage" />
+                  <FormattedHTMLMessage id="propro.analysis_protein_identification_list_load_percentage" />
                   &nbsp;:
                 </div>
                 <div
@@ -1226,11 +1243,13 @@ class Analysis_score extends React.Component {
                     height: "32px",
                     lineHeight: "32px"
                   }}
-                  onClick={this.handle_query_analysis_score_list}
+                  onClick={
+                    this.handle_query_analysis_protein_identification_list
+                  }
                 >
                   <span>
                     &nbsp;
-                    <FormattedHTMLMessage id="propro.analysis_score_list_search" />
+                    <FormattedHTMLMessage id="propro.analysis_protein_identification_list_search" />
                   </span>
                 </Button>
               </div>
@@ -1255,14 +1274,16 @@ class Analysis_score extends React.Component {
             >
               <Table
                 size={"middle"}
-                columns={analysis_score_list_table_columns}
+                columns={analysis_protein_identification_list_table_columns}
                 pagination={{
                   position: "top",
                   hideOnSinglePage: true,
                   showQuickJumper: false,
                   defaultPageSize: 50
                 }}
-                dataSource={this.state.analysis_score_list_data}
+                dataSource={
+                  this.state.analysis_protein_identification_list_data
+                }
               />
             </div>
           </Col>
@@ -1272,4 +1293,4 @@ class Analysis_score extends React.Component {
   }
 }
 
-export default Analysis_score;
+export default Analysis_protein_identification;
