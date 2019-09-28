@@ -1274,7 +1274,6 @@ class Xic extends React.Component {
                     onClick={this.delete_analysis_xic_list_by_id}
                   >
                     <span>
-                      &nbsp;
                       <FormattedHTMLMessage id="propro.analysis_xic_list_delete" />
                     </span>
                   </button>
