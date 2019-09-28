@@ -163,6 +163,11 @@ export default {
           component: "propro/analysis/xic"
         },
         {
+          // 打分数据
+          path: "/analysis/score/*",
+          component: "propro/analysis/score"
+        },
+        {
           path: "/test",
           component: "propro/test"
         },

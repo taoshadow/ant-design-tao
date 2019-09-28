@@ -957,7 +957,7 @@ class Analysis_list extends React.Component {
                   <FormattedHTMLMessage id="propro.analysis_list_score_tip" />
                 }
               >
-                <Link to={"/analysis/detail/" + list.id}>
+                <Link to={"/analysis/score/" + list.id}>
                   <div
                     className={"badge btn-primary"}
                     style={{

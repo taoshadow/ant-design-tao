@@ -2,7 +2,7 @@
 /***
  * @Author          TangTao https://promiselee.cn/tao
  * @CreateTime      2019-9-20 16:22:19
- * @UpdateTime      2019-9-3 22:59:36
+ * @UpdateTime      2019-9-27 10:50:13
  * @Copyright       西湖大学 propro http://www.proteomics.pro/
  * @Archive         post 查询 xic 数据
  *

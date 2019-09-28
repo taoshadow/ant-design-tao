@@ -575,6 +575,35 @@ let language_ch = {
   "propro.analysis_xic_list_peptide_clinic": "肽段诊所",
   "propro.analysis_xic_list_operation_delete": "删除数据",
 
+  // 打分数据
+  "propro.analysis_score_title": "打分数据",
+  "propro.analysis_score_id": "ID",
+  "propro.analysis_score_analyse_code": "分析代号",
+  "propro.analysis_score_association_library_name": "关联标准库",
+  "propro.analysis_score_creator": "负责人",
+  "propro.analysis_score_create_time": "创建时间",
+  "propro.analysis_score_update_time": "更新时间",
+  "propro.analysis_score_fdr": "FDR",
+  "propro.analysis_score_list_load_time": "查询时间",
+  "propro.analysis_score_list_load_numbers": "已加载",
+  "propro.analysis_score_list_total_numbers": "总页数",
+  "propro.analysis_score_list_load_percentage": "加载进度",
+  "propro.analysis_score_search": "搜索",
+  "propro.analysis_score_reset": "重置",
+  "propro.analysis_score_list_search": "查找",
+  "propro.analysis_score_list_index": "No",
+  "propro.analysis_score_list_predict_result": "预测结果",
+  "propro.analysis_score_list_predict_rt": "预测RT",
+  "propro.analysis_score_list_decoy_target": "Decoy/Target",
+  "propro.analysis_score_list_operation": "操作",
+  "propro.analysis_score_list_view_data": "查看详情",
+
+  "propro.analysis_score_list_data_detail": "数据详情",
+  "propro.analysis_score_list_is_decoy": "Decoy",
+  "propro.analysis_score_list_is_target": "Target",
+  "propro.analysis_score_list_fdr": "FDR",
+  //
+
   "propro.end": "end"
 };
 
