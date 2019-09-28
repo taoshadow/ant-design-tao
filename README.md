@@ -107,7 +107,7 @@ No.
 ```bash
 tyarn global add umi
 tyarn install
-npm run dev
+npm run tao
 ```
 
 
@@ -129,8 +129,8 @@ npm run dev
   "description": "基于antd开发,针对propro-sever定制",
   "main": "index.js",
   "scripts": {
-    "dev": "umi dev",
     "build": "umi build",
+    "tao": "echo Ant-design-tao && echo Author:TangTao && echo Github:https://github.com/tangtaoshadow  && DATE /T && TIME /T && echo Running && umi build  ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
