@@ -97,7 +97,6 @@ const analysis_score_state_to_props = state => {
   (obj.analysis_score_status = analysis_score_status),
     (obj.analysis_score_time = analysis_score_time),
     (obj.analysis_score_data = analysis_score_data);
-
   return obj;
 };
 
@@ -346,12 +345,13 @@ class Analysis_score extends React.Component {
               } else if ("scores" == key) {
                 //
                 let arr = feature_scores_list[j][key];
-                if (0 < arr.length) {
+                if (0 <= arr.length) {
                   obj_temp1.scores = feature_scores_list[j][key];
+                } else {
+                  obj_temp1.scores = null;
                 }
               } else {
                 // null
-                obj_temp1.scores = null;
               }
             });
 
@@ -365,7 +365,6 @@ class Analysis_score extends React.Component {
               (feature_scores_list_arr[j] = obj_temp1),
               (obj_temp1 = {});
           }
-          // console.log(feature_scores_list_arr);
         }
 
         (obj_temp.index = i + 1),
@@ -536,6 +535,7 @@ class Analysis_score extends React.Component {
       "VarLibrarySangle-",
       "VarLibraryRootmeansquare-"
     ];
+
     let { length: len0 } = data;
     let arr = null;
     // 性能问题在这可以忽略 便于阅读 分三步完成
