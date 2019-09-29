@@ -8,7 +8,7 @@
  *
  */
 
-import * as analysis_score_service from "../service/analysis_score_service";
+import * as analysis_score_service from "../service/analysis_score";
 console.log("init models analysis_score.js");
 
 //  开始执行
