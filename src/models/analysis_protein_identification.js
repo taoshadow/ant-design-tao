@@ -1,7 +1,7 @@
 // path : /src/models/analysis_protein_identification.js
 /***
  * @Author          TangTao https://promiselee.cn/tao
- * @CreateTime      2019-9-20 16:22:04
+ * @CreateTime      2019-9-29 14:29:11
  * @UpdateTime      2019-9-27 10:50:31
  * @Copyright       西湖大学 propro http://www.proteomics.pro/
  * @Archive         调用查询 更新 删除 分析 结果
@@ -49,24 +49,7 @@ let model = {
       });
       return 0;
     },
-    *delete_analysis_protein_identification({ payload }, sagaEffects) {
-      const { call, put } = sagaEffects;
-      let result = "";
-      try {
-        // 捕获异常
-        result = yield call(
-          analysis_protein_identification_service.delete_analysis_protein_identification,
-          payload
-        );
-      } catch (e) {
-        result = "";
-      }
-      yield put({
-        type: "delete_analysis_protein_identification_result",
-        payload: result
-      });
-      return 0;
-    },
+
     *query_analysis_protein_identification({ payload }, sagaEffects) {
       const { call, put } = sagaEffects;
       let result = "";
@@ -140,44 +123,6 @@ let model = {
 
       // 2 成功获取数据
       obj.analysis_protein_identification_status = res_status;
-
-      return obj;
-    },
-    delete_analysis_protein_identification_result(state, { payload: result }) {
-      // 尝试提取返回结果
-      let res_status = -1;
-      let obj = {};
-
-      for (let i in state) {
-        obj[i] = state[i];
-      }
-
-      if ("error" != result) {
-        try {
-          // 尝试提取 服务端返回数据 error_1 与 error 区分
-          let { status = "error_1" } = result;
-          // 尝试写入 data
-          obj.analysis_protein_identification_delete_data = result.data;
-          // 如果提取到 status 那么就 把 status 返回
-          res_status = "error_1" == status ? -1 : status;
-        } catch (e) {
-          // 转换出错
-        }
-      } else {
-        // 这里本地出错 pass
-      }
-
-      obj.analysis_protein_identification_delete_time = new Date().getTime();
-
-      // 1 检查 返回数据状态
-      if (-1 == res_status) {
-        // 发生严重错误
-        obj.analysis_protein_identification_delete_status = res_status;
-        return obj;
-      }
-
-      // 2 成功获取数据
-      obj.analysis_protein_identification_delete_status = res_status;
 
       return obj;
     }

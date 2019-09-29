@@ -11,7 +11,7 @@
 import request from "../utils/request";
 import tao from "../utils/common";
 
-// 获取 score 数据
+// 获取 蛋白鉴定 数据
 export function get_analysis_protein_identification(data = "") {
   // 读取最新的 token
   let token = tao.get_token();
@@ -27,8 +27,8 @@ export function get_analysis_protein_identification(data = "") {
 
   body_data += "overviewId" + "=" + id + "&";
 
-  // 查询打分分数数据
-  return request("/propro_server/score/list", {
+  // 查询蛋白鉴定结果 post请求
+  return request("/propro_server/score/resultList", {
     headers: {
       // 'content-type': 'application/json',
       // "X-Requested-With": "XMLHttpRequest",
@@ -58,8 +58,7 @@ export function query_analysis_protein_identification(data = "") {
   body_data += "overviewId" + "=" + id + "&";
   body_data += "pageSize" + "=" + page_size + "&";
 
-  // 查询打分数据
-  return request("/propro_server/score/list", {
+  return request("/propro_server/score/resultList", {
     headers: {
       // 'content-type': 'application/json',
       // "X-Requested-With": "XMLHttpRequest",
