@@ -320,7 +320,7 @@ class Analysis_protein_identification extends React.Component {
           (obj_temp.name = key),
           // index
           (obj_temp.index = index + 1),
-          // 存入渲染的数据
+            // 存入原始的数据
           (obj_temp.data = obj),
           (obj_temp.length = 0);
 
@@ -334,6 +334,7 @@ class Analysis_protein_identification extends React.Component {
             arr_temp1 = new Array(len1);
           }
 
+            // 存入渲染的数据
           for (let i = 0; i < len1; i++) {
             // console.log(obj[i]);
             temp1 = obj[i];
@@ -341,6 +342,10 @@ class Analysis_protein_identification extends React.Component {
             obj_temp1.key = "201910031518_" + index + "_" + i;
             obj_temp1.fdr = temp1.fdr;
             obj_temp1.is_unique = temp1.isUnique;
+              obj_temp1.identified_status = temp1.identifiedStatus;
+              obj_temp1.peptide_ref = temp1.peptideRef;
+              obj_temp1.intensity_sum = parseInt(temp1.intensitySum);
+              obj_temp1.is_decoy = temp1.isDecoy;
             arr_temp1[i] = obj_temp1;
             obj_temp1 = {};
           }
@@ -530,6 +535,288 @@ class Analysis_protein_identification extends React.Component {
     } = this.state;
     // 配置 analysis_protein_identification_list_table_columns
 
+    let analysis_protein_identification_data_table_columns = [
+        {
+            // 1  排序
+            title: (
+                < div
+            style = {{
+            fontSize: "8px",
+            fontWeight: "600",
+            letterSpacing: "1px"
+        }
+}
+>
+<
+    FormattedHTMLMessage
+    id = "propro.analysis_protein_identification_data_index" / >
+        < /div>
+),
+    dataIndex: "index",
+        key
+:
+    "index",
+        render
+:
+    text => {
+        return (
+            < div
+        className = {styles.font_second_color}
+        style = {
+        {
+            fontSize: "8px",
+                fontWeight
+        :
+            "600"
+        }
+    }
+    >
+        {
+            text
+        }
+    <
+        /div>
+    )
+        ;
+    }
+},
+    {
+        // 2  肽段全称
+        title: (
+        < span
+        style = {
+        {
+            fontSize: "8px",
+                fontWeight
+        :
+            "600",
+                letterSpacing
+        :
+            "1px"
+        }
+    }
+    >
+    <
+        FormattedHTMLMessage
+        id = "propro.analysis_protein_identification_data_peptide_ref_name" / >
+            < /span>
+    ),
+        dataIndex: "peptide_ref",
+            key
+    :
+        "peptide_ref",
+            render
+    :
+        text => {
+            return (
+                < div
+            style = {
+            {
+                fontSize: "8px",
+                    wordWrap
+            :
+                "break-word",
+                    wordBreak
+            :
+                "break-all",
+                    minWidth
+            :
+                "100px",
+                    maxWidth
+            :
+                "100px"
+            }
+        }
+            className = {styles.font_primary_color}
+                >
+                {text}
+                < /div>
+        )
+            ;
+        }
+    }
+,
+    {
+        // 4  status
+        title: (
+        < span
+        style = {
+        {
+            fontSize: "8px",
+                fontWeight
+        :
+            "600",
+                letterSpacing
+        :
+            "1px"
+        }
+    }
+    >
+    <
+        FormattedHTMLMessage
+        id = "propro.analysis_protein_identification_data_identified_status" / >
+            < /span>
+    ),
+        dataIndex: "identified_status",
+            key
+    :
+        "status",
+            render
+    :
+        text => {
+            let obj = null;
+            obj =
+                0 == text ? (
+                    < img style = {
+            {
+                width: "18px"
+            }
+        }
+            src = {true_svg}
+            />
+        ) :
+            (
+            < img
+            style = {
+            {
+                width: "18px"
+            }
+        }
+            src = {false_svg}
+            />
+        )
+            ;
+
+            return (
+                < div
+            style = {
+            {
+                fontSize: "8px"
+            }
+        }
+            className = {styles.font_primary_color}
+                >
+                {obj}
+                < /div>
+        )
+            ;
+        }
+    }
+,
+    {
+        // 3  FDR
+        title: (
+        < span
+        style = {
+        {
+            fontSize: "8px",
+                fontWeight
+        :
+            "600",
+                letterSpacing
+        :
+            "1px"
+        }
+    }
+    >
+    <
+        FormattedHTMLMessage
+        id = "propro.analysis_protein_identification_data_fdr" / >
+            < /span>
+    ),
+        dataIndex: "fdr",
+            key
+    :
+        "fdr",
+            render
+    :
+        text => {
+            return (
+                < div
+            style = {
+            {
+                fontSize: "8px",
+                    wordWrap
+            :
+                "break-word",
+                    wordBreak
+            :
+                "break-all",
+                    minWidth
+            :
+                "125px",
+                    maxWidth
+            :
+                "125px"
+            }
+        }
+            className = {styles.font_primary_color}
+                >
+                {text}
+                < /div>
+        )
+            ;
+        }
+    }
+,
+    {
+        // 3  Intensity
+        title: (
+        < span
+        style = {
+        {
+            fontSize: "8px",
+                fontWeight
+        :
+            "600",
+                letterSpacing
+        :
+            "1px"
+        }
+    }
+    >
+    <
+        FormattedHTMLMessage
+        id = "propro.analysis_protein_identification_data_intensity_sum" / >
+            < /span>
+    ),
+        dataIndex: "intensity_sum",
+            key
+    :
+        "intensity_sum",
+            render
+    :
+        text => {
+            return (
+                < div
+            style = {
+            {
+                fontSize: "8px",
+                    wordWrap
+            :
+                "break-word",
+                    wordBreak
+            :
+                "break-all",
+                    minWidth
+            :
+                "50px",
+                    maxWidth
+            :
+                "50px"
+            }
+        }
+            className = {styles.font_primary_color}
+                >
+                {text}
+                < /div>
+        )
+            ;
+        }
+    }
+]
+    ;
+
     let analysis_protein_identification_list_table_columns = [
       {
         // 1  排序
@@ -585,8 +872,12 @@ class Analysis_protein_identification extends React.Component {
                 fontSize: "8px",
                 wordWrap: "break-word",
                 wordBreak: "break-all",
-                minWidth: "100px",
-                maxWidth: "100px"
+                  minWidth
+          :
+              "150px",
+                  maxWidth
+          :
+              "150px"
               }}
               className={styles.font_primary_color}
             >
@@ -613,8 +904,29 @@ class Analysis_protein_identification extends React.Component {
         render: list => {
           // console.log("---- render ----");
           console.log(list.data_arr);
-          return <div>111111111</div>;
-          1;
+          return (
+              < Table
+          size = {"small"}
+          bordered = {true}
+          columns = {analysis_protein_identification_data_table_columns}
+          pagination = {
+          {
+              position: "top",
+                  hideOnSinglePage
+          :
+              true,
+                  showQuickJumper
+          :
+              false,
+                  defaultPageSize
+          :
+              500
+          }
+      }
+          dataSource = {list.data_arr}
+          />
+      )
+          ;
         }
       }
     ];

@@ -622,6 +622,11 @@ let language_ch = {
   "propro.analysis_protein_identification_list_index": "NO.",
   "propro.analysis_protein_identification_list_protein_name": "蛋白名称",
   "propro.analysis_protein_identification_list_data": "数据",
+    "propro.analysis_protein_identification_data_index": "No.",
+    "propro.analysis_protein_identification_data_peptide_ref_name": "肽段全称",
+    "propro.analysis_protein_identification_data_fdr": "FDR",
+    "propro.analysis_protein_identification_data_identified_status": "状态",
+    "propro.analysis_protein_identification_data_intensity_sum": "Intensity",
 
   "propro.end": "end"
 };
