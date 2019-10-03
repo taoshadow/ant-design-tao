@@ -597,12 +597,31 @@ let language_ch = {
   "propro.analysis_score_list_decoy_target": "Decoy/Target",
   "propro.analysis_score_list_operation": "操作",
   "propro.analysis_score_list_view_data": "查看详情",
-
   "propro.analysis_score_list_data_detail": "数据详情",
   "propro.analysis_score_list_is_decoy": "Decoy",
   "propro.analysis_score_list_is_target": "Target",
   "propro.analysis_score_list_fdr": "FDR",
-  //
+
+  // 蛋白鉴定
+  "propro.analysis_protein_identification_title": "蛋白鉴定",
+  "propro.analysis_protein_identification_id": "ID",
+  "propro.analysis_protein_identification_analyse_code": "分析代号",
+  "propro.analysis_protein_identification_association_library_name":
+    "关联标准库",
+  "propro.analysis_protein_identification_creator": "负责人",
+  "propro.analysis_protein_identification_fdr": "FDR",
+  "propro.analysis_protein_identification_create_time": "创建时间",
+  "propro.analysis_protein_identification_update_time": "更新时间",
+  "propro.analysis_protein_identification_list_load_time": "查询时间",
+  "propro.analysis_protein_identification_list_load_numbers": "已加载",
+  "propro.analysis_protein_identification_list_total_numbers": "总页数",
+  "propro.analysis_protein_identification_list_load_percentage": "加载进度",
+  "propro.analysis_protein_identification_search": "搜索",
+  "propro.analysis_protein_identification_reset": "重置",
+  "propro.analysis_protein_identification_list_search": "查找",
+  "propro.analysis_protein_identification_list_index": "NO.",
+  "propro.analysis_protein_identification_list_protein_name": "蛋白名称",
+  "propro.analysis_protein_identification_list_data": "数据",
 
   "propro.end": "end"
 };

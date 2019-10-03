@@ -112,14 +112,7 @@ const analysis_protein_identification_dispatch_to_props = dispatch => {
       };
       dispatch(action);
     },
-    delete_analysis_protein_identification: data => {
-      const action = {
-        type:
-          "analysis_protein_identification/delete_analysis_protein_identification",
-        payload: data
-      };
-      dispatch(action);
-    },
+
     query_analysis_protein_identification: data => {
       const action = {
         type:
@@ -159,6 +152,7 @@ class Analysis_protein_identification extends React.Component {
       // 页面大小 通过调整它来设置
       page_size: null,
       total_numbers: null,
+      load_page_numbers: 0,
       load_percentage_value: 0,
       analysis_protein_identification_list_query_time: null,
       search_text: "",
@@ -193,13 +187,14 @@ class Analysis_protein_identification extends React.Component {
     let str = "protein_identification/";
     let index = url.lastIndexOf(str);
     let id = url.substring(index + str.length);
+    // 发起查询数据
     this.props.get_analysis_protein_identification({ id: id });
     setTimeout(() => {
       // 写入 id
       this.setState({
         analysis_protein_identification_id: id
       });
-    }, 40);
+    }, 80);
   };
 
   handle_analysis_protein_identification = () => {
@@ -251,16 +246,133 @@ class Analysis_protein_identification extends React.Component {
   };
 
   change_analysis_protein_identification_data = () => {
-    // this.setState({
-    //   // 标记 成功
-    //   analysis_protein_identification_false_time: 5,
-    //   load_percentage_value: load_percentage_value,
-    //   total_numbers: total_numbers,
-    //   analysis_protein_identification_list_query_time: tao.current_format_time(),
-    //   analysis_protein_identification_list_data: protein_identification_data_arr,
-    //   // 标记数据为可用的状态
-    //   analysis_protein_identification_status: 0
-    // });
+    /*
+    currentPage: 1
+    overview: {classifier: "lda", createDate: 1563191455079, decoyDistributions: {…}, expId: "5d2c65bb5c87654bb97127b5", expName: "C20181208yix_HCC_DIA_T_46A", …}
+    overviewId: "5d2c689f21faa424be559603"
+    pageSize: 10
+    protMap:
+        1/sp|O43148|MCES_HUMAN: (8) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+        1/sp|P02671|FIBA_HUMAN: (256) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, …]
+        1/sp|P35241|RADI_HUMAN: (23) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+        1/sp|P54819|KAD2_HUMAN: (27) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+        1/sp|Q9BUT1|BDH2_HUMAN: (9) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+        1/sp|Q9H814|PHAX_HUMAN: (3) [{…}, {…}, {…}]
+        1/sp|Q9NV70|EXOC1_HUMAN: (10) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+        1/sp|Q9NZ01|TECR_HUMAN: (6) [{…}, {…}, {…}, {…}, {…}, {…}]
+        1/sp|Q86VQ6|TRXR3_HUMAN: (4) [{…}, {…}, {…}, {…}]
+        1/sp|Q969H8|MYDGF_HUMAN: (8) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+            bestRt: 1099.2033151715277
+            dataRef: "5d36ed2d9063e34625b75fad-QAEMLDDLM(UniMod:35)EK_3-false"
+            fdr: 0.5784523020874934
+            featureScoresList: [{…}]
+            fragIntFeature: ";y3:122072.90000000001;y4:31469.201;y5:34618.7;y10^2:27817.3;y10^3:230248.493;y6:0.0;"
+            id: "5d36ed4a9063e34625b77654"
+            identifiedStatus: 2
+            intensitySum: 446226.59400000004
+            isDecoy: false
+            isUnique: true
+            mz: 446.8687
+            mzMap: {y3: 423.1908, y4: 536.27484, y5: 651.3018, y10^2: 605.77014, y10^3: 404.18253, …}
+            overviewId: "5d36ed2d9063e34625b75fad"
+            peptideId: "5d084f24e0073ca454d4eb10"
+            peptideRef: "QAEMLDDLM(UniMod:35)EK_3"
+            proteinName: "1/sp|P54819|KAD2_HUMAN"
+            qValue: 0.5784523020874934
+    __proto__: Object
+    totalNum: 6511
+    totalPage: 652
+    */
+    let {
+      currentPage: current_page,
+      overview,
+      overviewId,
+      pageSize: page_size,
+      protMap: prot_map = null,
+      totalNum: total_numbers,
+      totalPage
+    } = this.props.analysis_protein_identification_data;
+
+    console.log(this.props.analysis_protein_identification_data);
+    let [prot_map_list, load_page_numbers] = [null, 0];
+    if (null != prot_map && "object" == typeof prot_map) {
+      /*     
+          // tangtao 2019 - 9 - 30 22: 31: 31 https://www.promiselee.cn/tao
+          // 遍历对象 扩展开发 这里先不使用
+          for (let [key, value] of Object.entries(prot_map)) {
+            // 转换为 json
+            // `${JSON.stringify(key)}: ${JSON.stringify(value)}`
+            // console.log(key + "-->" + value);
+          } 
+      */
+
+      prot_map_list = [];
+
+      let [obj_temp, obj] = [{}, {}];
+      let [i] = [0];
+      //
+      Object.keys(prot_map).forEach((key, index) => {
+        i++,
+          (obj = prot_map[key]),
+          // key
+          (obj_temp.key = "prot_map_list_" + index),
+          // name
+          (obj_temp.name = key),
+          // index
+          (obj_temp.index = index + 1),
+          // 存入渲染的数据
+          (obj_temp.data = obj),
+          (obj_temp.length = 0);
+
+        if (null != obj) {
+          let { length: len1 = -1 } = obj;
+          obj_temp.length = 0 < len1 ? len1 : 0;
+          // 为了效率 遍历 obj
+          let [obj_temp1, temp1, arr_temp1] = [{}, null, null];
+
+          if (0 < len1) {
+            arr_temp1 = new Array(len1);
+          }
+
+          for (let i = 0; i < len1; i++) {
+            // console.log(obj[i]);
+            temp1 = obj[i];
+            obj_temp1.index = i + 1;
+            obj_temp1.key = "201910031518_" + index + "_" + i;
+            obj_temp1.fdr = temp1.fdr;
+            obj_temp1.is_unique = temp1.isUnique;
+            arr_temp1[i] = obj_temp1;
+            obj_temp1 = {};
+          }
+          obj_temp.data_arr = arr_temp1;
+        }
+
+        // push data
+        prot_map_list.push(obj_temp), (obj_temp = {}), (obj = {});
+      });
+
+      load_page_numbers = i;
+    }
+
+    // 计算加载百分比
+    let load_percentage_value = Math.ceil(
+      (load_page_numbers / total_numbers) * 100
+    );
+
+    // console.log(prot_map_list);
+
+    this.setState({
+      // 标记 成功
+      analysis_protein_identification_false_time: 5,
+      load_percentage_value: load_percentage_value,
+      total_numbers: total_numbers,
+      load_page_numbers: load_page_numbers,
+      analysis_protein_identification_prot_map_list: prot_map_list,
+      analysis_protein_identification_list_query_time: tao.current_format_time(),
+      // analysis_protein_identification_list_data: protein_identification_data_arr,
+      // 标记数据为可用的状态
+      analysis_protein_identification_status: 0
+    });
 
     return 0;
   };
@@ -401,21 +513,23 @@ class Analysis_protein_identification extends React.Component {
       );
     }
 
-    let {
-      overview,
-      protein_identifications
-    } = this.props.analysis_protein_identification_data;
+    /*
 
-    let { length: load_page_numbers } = protein_identifications;
+    id analysis_protein_identification_id
+
+    */
+
+    let { overview } = this.props.analysis_protein_identification_data;
+    //
     let {
-      load_percentage_value,
-      total_numbers,
       analysis_protein_identification_id,
+      load_page_numbers,
+      total_numbers,
       analysis_protein_identification_list_query_time,
-      drawer_data,
-      drawer_visible
+      load_percentage_value
     } = this.state;
     // 配置 analysis_protein_identification_list_table_columns
+
     let analysis_protein_identification_list_table_columns = [
       {
         // 1  排序
@@ -433,6 +547,7 @@ class Analysis_protein_identification extends React.Component {
         dataIndex: "index",
         key: "index",
         width: 80,
+        ...this.get_column_search_props("index"),
         render: text => {
           return (
             <div
@@ -448,7 +563,7 @@ class Analysis_protein_identification extends React.Component {
         }
       },
       {
-        // 2  预测结果
+        // 2  蛋白名称
         title: (
           <span
             style={{
@@ -457,14 +572,12 @@ class Analysis_protein_identification extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.analysis_protein_identification_list_predict_result" />
+            <FormattedHTMLMessage id="propro.analysis_protein_identification_list_protein_name" />
           </span>
         ),
-
-        dataIndex: "identified_status",
-        key: "identified_status",
-        width: 100,
-        ...this.get_column_search_props("identified_status"),
+        dataIndex: "name",
+        key: "name",
+        ...this.get_column_search_props("name"),
         render: text => {
           return (
             <div
@@ -472,55 +585,8 @@ class Analysis_protein_identification extends React.Component {
                 fontSize: "8px",
                 wordWrap: "break-word",
                 wordBreak: "break-all",
-                minWidth: "30px",
-                maxWidth: "30px"
-              }}
-            >
-              {0 == text ? (
-                <img
-                  style={{
-                    width: "18px"
-                  }}
-                  src={true_svg}
-                />
-              ) : (
-                <img
-                  style={{
-                    width: "18px"
-                  }}
-                  src={false_svg}
-                />
-              )}
-            </div>
-          );
-        }
-      },
-      {
-        // 2  RT
-        title: (
-          <span
-            style={{
-              fontSize: "8px",
-              fontWeight: "600",
-              letterSpacing: "1px"
-            }}
-          >
-            <FormattedHTMLMessage id="propro.analysis_protein_identification_list_predict_rt" />
-          </span>
-        ),
-        dataIndex: "rt",
-        key: "rt",
-        width: 100,
-        ...this.get_column_search_props("rt"),
-        render: text => {
-          return (
-            <div
-              style={{
-                fontSize: "8px",
-                wordWrap: "break-word",
-                wordBreak: "break-all",
-                minWidth: "70px",
-                maxWidth: "70px"
+                minWidth: "100px",
+                maxWidth: "100px"
               }}
               className={styles.font_primary_color}
             >
@@ -530,7 +596,7 @@ class Analysis_protein_identification extends React.Component {
         }
       },
       {
-        // 3 FDR
+        // 2  数据
         title: (
           <span
             style={{
@@ -539,154 +605,16 @@ class Analysis_protein_identification extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.analysis_protein_identification_list_fdr" />
+            <FormattedHTMLMessage id="propro.analysis_protein_identification_list_data" />
           </span>
         ),
-        dataIndex: "fdr",
-        key: "fdr",
-        ...this.get_column_search_props("fdr"),
-        render: (text, list) => {
-          return (
-            <div
-              style={{
-                fontSize: "8px",
-                wordWrap: "break-word",
-                wordBreak: "break-all",
-                minWidth: "120px",
-                maxWidth: "120px"
-              }}
-              className={styles.font_primary_color}
-            >
-              {text}
-            </div>
-          );
-        }
-      },
-      {
-        // 4 'Decoy':'Target'
-        title: (
-          <span
-            style={{
-              fontSize: "8px",
-              fontWeight: "600",
-              letterSpacing: "1px"
-            }}
-          >
-            <FormattedHTMLMessage id="propro.analysis_protein_identification_list_decoy_target" />
-          </span>
-        ),
-        dataIndex: "peptide_ref",
-        key: "peptide_ref",
-        ...this.get_column_search_props("peptide_ref"),
-        render: (text, list) => {
-          let span = "";
-
-          if (true == list.is_decoy) {
-            span = (
-              <span className={styles.font_primary_color}>
-                <span
-                  className="badge badge-info"
-                  style={{
-                    padding: "5px 5px"
-                  }}
-                >
-                  <FormattedHTMLMessage id="propro.analysis_protein_identification_list_is_decoy" />
-                </span>
-                &nbsp;{text}
-              </span>
-            );
-          } else {
-            span = (
-              <span className={styles.font_second_color}>
-                <span
-                  className="badge badge-warning"
-                  style={{
-                    padding: "5px 5px"
-                  }}
-                >
-                  <FormattedHTMLMessage id="propro.analysis_protein_identification_list_is_target" />
-                </span>
-                &nbsp;{text}
-              </span>
-            );
-          }
-
-          return (
-            <div
-              style={{
-                fontSize: "8px",
-                wordWrap: "break-word",
-                wordBreak: "break-all",
-                minWidth: "350px",
-                maxWidth: "350px"
-              }}
-              className={styles.font_primary_color}
-            >
-              {span}
-            </div>
-          );
-        }
-      },
-      {
-        // 5  RT
-        title: (
-          <span
-            style={{
-              fontSize: "8px",
-              fontWeight: "600",
-              letterSpacing: "1px"
-            }}
-          >
-            <FormattedHTMLMessage id="propro.analysis_protein_identification_list_operation" />
-          </span>
-        ),
-        // dataIndex: "rt",
-        key: "operation",
+        key: "data",
+        key: "datas",
         render: list => {
-          let { length: len0 = -1 } = list.feature_protein_identifications_list;
-          let numbers = null;
-
-          numbers =
-            0 < len0 ? (
-              <span className={styles.font_dark_color}>{len0}</span>
-            ) : (
-              <span className={styles.font_red_color}>0</span>
-            );
-          return (
-            <div
-              style={{
-                fontSize: "12px"
-              }}
-              className={styles.font_primary_color}
-            >
-              <button
-                type="button"
-                className="btn btn-outline-success"
-                style={{
-                  fontWeight: 400,
-                  fontSize: "12px",
-                  height: "25px",
-                  lineHeight: "13px",
-                  padding: "6px 8px",
-                  letterSpacing: "1px"
-                }}
-                // 暂时还未实现
-                // 提取到当前触发的数据
-
-                onClick={() => {
-                  this.protein_identification_list_view_data(
-                    list.feature_protein_identifications_list
-                  );
-                }}
-              >
-                <span>
-                  <FormattedHTMLMessage id="propro.analysis_protein_identification_list_view_data" />
-                  &nbsp;
-                  {numbers}
-                </span>
-              </button>
-            </div>
-          );
+          // console.log("---- render ----");
+          console.log(list.data_arr);
+          return <div>111111111</div>;
+          1;
         }
       }
     ];
@@ -717,6 +645,7 @@ class Analysis_protein_identification extends React.Component {
           </Tooltip>
           <FormattedHTMLMessage id="propro.analysis_protein_identification_title" />
         </div>
+
         {/* 提示用户 删除 警告信息 */}
         <Modal
           title={
@@ -735,23 +664,6 @@ class Analysis_protein_identification extends React.Component {
             <FormattedHTMLMessage id="propro.irt_standard_library_detail_delete_warning" />
           </div>
         </Modal>
-
-        {/* 抽屉 */}
-
-        {true == drawer_visible && (
-          <Drawer
-            title={
-              <FormattedHTMLMessage id="propro.analysis_protein_identification_list_data_detail" />
-            }
-            placement="left"
-            closable={true}
-            width={500}
-            onClose={this.drawer_close}
-            visible={drawer_visible}
-          >
-            {drawer_data}
-          </Drawer>
-        )}
 
         <div
           style={{
@@ -1032,7 +944,7 @@ class Analysis_protein_identification extends React.Component {
                   defaultPageSize: 50
                 }}
                 dataSource={
-                  this.state.analysis_protein_identification_list_data
+                  this.state.analysis_protein_identification_prot_map_list
                 }
               />
             </div>

@@ -168,6 +168,11 @@ export default {
           component: "propro/analysis/score"
         },
         {
+          // 蛋白鉴定结果
+          path: "/analysis/protein_identification/*",
+          component: "propro/analysis/protein_identification"
+        },
+        {
           path: "/test",
           component: "propro/test"
         },

@@ -2,9 +2,9 @@
 /***
  * @Author          TangTao https://promiselee.cn/tao
  * @CreateTime      2019-9-29 14:29:11
- * @UpdateTime      2019-9-27 10:50:31
+ * @UpdateTime      2019-9-29 15:15:20
  * @Copyright       西湖大学 propro http://www.proteomics.pro/
- * @Archive         调用查询 更新 删除 分析 结果
+ * @Archive         调用查询 蛋白鉴定结果
  *
  */
 
