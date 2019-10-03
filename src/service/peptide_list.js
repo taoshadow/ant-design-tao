@@ -8,6 +8,16 @@
  * @Archive         肽段列表 server
  *
  */
+/***
+ * @Author              TangTao  https://www.promiselee.cn/tao
+ * @Email               tangtao2099@outlook.com
+ * @Copyright           西湖大学 propro Tangtao
+ * @GitHub              https://github.com/tangtaoshadow
+ * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
+ * @CreateTime          2019-10-4 00:07:08
+ * @UpdateTime          2019-10-4 00:09:11
+ * @Archive
+ */
 
 import request from "../utils/request";
 import tao from "../utils/common";
@@ -47,3 +57,14 @@ export function query_peptide_list(data = "") {
     body: body_data
   });
 }
+
+/***
+ * @Author              TangTao  https://www.promiselee.cn/tao
+ * @Email               tangtao2099@outlook.com
+ * @Copyright           西湖大学 propro Tangtao
+ * @GitHub              https://github.com/tangtaoshadow
+ * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
+ * @CreateTime          2019-10-4 00:07:08
+ * @UpdateTime          2019-10-4 00:09:11
+ * @Archive
+ */

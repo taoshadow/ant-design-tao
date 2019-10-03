@@ -1,12 +1,14 @@
 // /src/service/protein_list.js
 
 /***
- * @Author          TangTao https://www.promiselee.cn/tao
+ * @Author              TangTao  https://www.promiselee.cn/tao
+ * @Email               tangtao2099@outlook.com
+ * @Copyright           西湖大学 propro Tangtao
+ * @GitHub              https://github.com/tangtaoshadow
+ * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
  * @CreateTime      2019-9-2 12:30:25
  * @UpdateTime      2019-9-2 12:41:58
- * @Copyright       西湖大学 propro TangTao http://www.proteomics.pro/
- * @Archive         查询蛋白质列表 根据库的id server
- *
+ * @Archive
  */
 
 import request from "../utils/request";

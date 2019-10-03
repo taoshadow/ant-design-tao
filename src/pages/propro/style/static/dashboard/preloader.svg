@@ -1,9 +1,12 @@
-<!-- 加载 2019-8-18 22:46:42 TangTao https://www.promiselee.cn/tao -->
+<!-- 
+	加载 
+	2019-8-18 22:46:42 
+	TangTao https://www.promiselee.cn/tao 
+-->
 <!-- <?xml version="1.0" encoding="utf-8"?> -->
-<!-- Generator: Adobe Illustrator 21.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg width="300" height="300"  version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 560 288" style="enable-background:new 0 0 560 288;" xml:space="preserve">
 
-<!-- change background Gradient color below -->
+<!-- 设置改变颜色梯度 -->
 <defs>
   <linearGradient id="BgGradient">
       <stop offset="5%"  stop-color="#2ab9a5"/>
@@ -11,7 +14,7 @@
   </linearGradient>
 </defs>
 
-<!-- change border and center element color below -->
+<!-- 改变边框 中间颜色 -->
 <style type="text/css">
 	.border-color{stroke:#4cbd89; fill:none; stroke-miterlimit:10; stroke-dasharray:12.2685,12.2685; }
 	.center-element{fill:#FFFFFF;}
@@ -19,7 +22,9 @@
 
 
 <g>
+<!-- 指定圆点 -->
 <circle class="border-color" cx="280" cy="144" r="82">
+<!-- 设置动画 -->
 <animateTransform attributeName="transform"
 	attributeType="XML"
 	type="rotate"
@@ -67,3 +72,5 @@
 		begin=".2s"/>
 </path>
 </svg>
+
+<!-- Author : tangtao https://www.promiselee.cn/tao 2019-10-3 23:59:43 -->

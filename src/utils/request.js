@@ -1,5 +1,16 @@
 // import fetch from 'dva/fetch';
 
+/***
+ * @Author              TangTao  https://www.promiselee.cn/tao
+ * @Email               tangtao2099@outlook.com
+ * @Copyright           西湖大学 propro Tangtao
+ * @GitHub              https://github.com/tangtaoshadow
+ * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
+ * @CreateTime          2019-8-15 23:58:31
+ * @UpdateTime          2019-8-16 00:04:27
+ * @Archive             请求资源公共类
+ */
+
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;

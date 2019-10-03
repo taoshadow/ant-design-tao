@@ -1,10 +1,15 @@
 // /src/service/analysis_xic_service.js
+
+
 /***
- * @Author          TangTao https://promiselee.cn/tao
- * @CreateTime      2019-9-20 16:22:19
- * @UpdateTime      2019-9-27 10:50:13
- * @Copyright       西湖大学 propro http://www.proteomics.pro/
- * @Archive         post 查询 xic 数据
+ * @Author              TangTao https://promiselee.cn/tao
+ * @Copyright           西湖大学 propro Tangtao
+ * @GitHub              https://github.com/tangtaoshadow
+ * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
+ * @CreateTime          2019-9-20 16:22:19
+ * @UpdateTime          2019-9-27 10:50:13
+ * @Copyright           西湖大学 propro http://www.proteomics.pro/
+ * @Archive             post 查询 xic 数据
  *
  */
 

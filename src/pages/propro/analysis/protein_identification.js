@@ -6,6 +6,7 @@
  * @Email               tangtao2099@outlook.com
  * @Copyright           西湖大学 propro Tangtao
  * @GitHub              https://github.com/tangtaoshadow
+ * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
  * @CreateTime          2019-9-29 00:38:00
  * @UpdateTime          2019-10-3 20:39:41
  * @Archive             protein_identification 蛋白鉴定
@@ -43,7 +44,8 @@ import {
   Divider,
   Tag,
   InputNumber,
-  Slider
+  Slider,
+  BackTop
 } from "antd";
 
 import Highlighter from "react-highlight-words";
@@ -71,6 +73,7 @@ import styles from "../style/dashboard/console.less";
 import "../../../layout/Common.css";
 import false_svg from "../style/static/analysis/false.svg";
 import true_svg from "../style/static/analysis/true.svg";
+import arrow_up_svg from "../style/static/analysis/arrow_up.svg";
 import return_svg from "../style/static/dashboard/return.svg";
 import preloader_svg from "../style/static/dashboard/preloader.svg";
 
@@ -532,8 +535,14 @@ class Analysis_protein_identification extends React.Component {
     // console.log(list);
     let obj = (
       <ReactJson
+        name={"PROPRO"}
         theme={"summerfruit:inverted"}
         iconStyle={"circle"}
+        style={{
+          fontSize: "15px",
+          fontWeight: "500"
+        }}
+        collapseStringsAfterLength={120}
         src={list}
       />
     );
@@ -950,6 +959,7 @@ class Analysis_protein_identification extends React.Component {
               columns={
                 this.state.analysis_protein_identification_data_table_columns
               }
+              // scroll={{ y: 240 }}
               pagination={{
                 position: "top",
                 hideOnSinglePage: true,
@@ -1019,6 +1029,12 @@ class Analysis_protein_identification extends React.Component {
             placement="left"
             closable={true}
             width={600}
+            style={{
+              wordWrap: "break-word",
+              wordBreak: "break-all",
+              minWidth: "585px",
+              maxWidth: "585px"
+            }}
             onClose={this.drawer_close}
             visible={drawer_visible}
           >
@@ -1302,12 +1318,23 @@ class Analysis_protein_identification extends React.Component {
                   position: "top",
                   hideOnSinglePage: true,
                   showQuickJumper: false,
-                  defaultPageSize: 50
+                  defaultPageSize: 30
                 }}
                 dataSource={
                   this.state.analysis_protein_identification_prot_map_list
                 }
               />
+              {/* Author: Tangtao HDU https://www.promiselee.cn/tao */}
+              <BackTop visibilityHeight={600}>
+                <div>
+                  <img
+                    style={{
+                      width: "35px"
+                    }}
+                    src={arrow_up_svg}
+                  />
+                </div>
+              </BackTop>
             </div>
           </Col>
         </Row>

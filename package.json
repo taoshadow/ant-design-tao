@@ -1,19 +1,29 @@
 {
   "name": "ant-design-tao",
-  "version": "2.2.1",
+  "version": "^2.2.3",
   "create_time": "2019-7-24 12:10:03",
-  "update_time": "2019-10-3 23:17:44",
-  "description": "基于antd开发,针对propro-sever定制",
+  "update_time": "2019-10-4 00:26:23",
+  "description": "基于ant-design开发,针对propro-server定制",
+  "GitHub[Author]": "https://github.com/tangtaoshadow/ant-design-tao",
+  "Repository[Author]": "https://github.com/tangtaoshadow/ant-design-tao",
   "main": "index.js",
   "scripts": {
-    "build": "umi build",
+    "build": "echo Ant-design-tao && echo Author:TangTao && echo Github:https://github.com/tangtaoshadow  && DATE /T && TIME /T && echo Running && umi build  ",
     "tao": "echo Ant-design-tao && echo Author:TangTao && echo Github:https://github.com/tangtaoshadow  && DATE /T && TIME /T && echo Running && umi dev  ",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: Tangtao : no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "TangTao",
+    "https://www.promiselee.cn/tao",
+    "tangtao2099@outlook.com",
+    "https://www.promiselee.cn/tao",
+    "https://github.com/tangtaoshadow/ant-design-tao"
+  ],
   "author": "TangTao",
   "my_home": "https://www.promiselee.cn/tao",
   "my_email": "tangtao2099@outlook.com",
+  "Gitee[Author]": "https://gitee.com/tangtao2099/ant-design-tao",
+  "Gitee[Propro]": "https://gitee.com/ProproStudio/Propro-Server-Front",
   "license": "TangTao",
   "devDependencies": {
     "umi": "^2.9.6",

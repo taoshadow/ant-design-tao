@@ -1,12 +1,14 @@
 // /src/service/peptide_detail.js
 
 /***
- * @Author          TangTao https://www.promiselee.cn/tao
- * @CreateTime      2019-8-31 20:19:36
- * @UpdateTime      2019-8-30 17:16:37
- * @Copyright       西湖大学 propro TangTao http://www.proteomics.pro/
- * @Archive         肽段列表详情 id  server
- *
+ * @Author              TangTao  https://www.promiselee.cn/tao
+ * @Email               tangtao2099@outlook.com
+ * @Copyright           西湖大学 propro Tangtao
+ * @GitHub              https://github.com/tangtaoshadow
+ * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
+ * @CreateTime          2019-8-31 20:19:36
+ * @UpdateTime          2019-8-30 17:16:37
+ * @Archive             肽段列表详情 id  server
  */
 
 import request from "../utils/request";
@@ -37,3 +39,14 @@ export function query_peptide_detail(data = "") {
     body: body_data
   });
 }
+
+/***
+ * @Author              TangTao  https://www.promiselee.cn/tao
+ * @Email               tangtao2099@outlook.com
+ * @Copyright           西湖大学 propro Tangtao
+ * @GitHub              https://github.com/tangtaoshadow
+ * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
+ * @CreateTime          2019-8-31 20:19:36
+ * @UpdateTime          2019-8-30 17:16:37
+ * @Archive             肽段列表详情 id  server
+ */

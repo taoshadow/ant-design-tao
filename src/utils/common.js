@@ -1,4 +1,16 @@
 let tao = {};
+
+/***
+ * @Author              TangTao  https://www.promiselee.cn/tao
+ * @Email               tangtao2099@outlook.com
+ * @Copyright           西湖大学 propro Tangtao
+ * @GitHub              https://github.com/tangtaoshadow
+ * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
+ * @CreateTime          2019-8-15 23:58:31
+ * @UpdateTime          2019-8-16 00:04:27
+ * @Archive             这是一个自定义根据类 集成了许多需要的方法 针对Propro定制 优化
+ */
+
 /***
  * 计算字符串存储长度
  */
@@ -87,6 +99,15 @@ tao.get_token = () => {
  * @Email               tangtao2099@outlook.com
  * @Copyright           西湖大学 propro Tangtao
  * @GitHub              https://github.com/tangtaoshadow
+
+ */
+
+/***
+ * @Author              TangTao  https://www.promiselee.cn/tao
+ * @Email               tangtao2099@outlook.com
+ * @Copyright           西湖大学 propro Tangtao
+ * @GitHub              https://github.com/tangtaoshadow
+ * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
  * @CreateTime          2019-8-15 23:58:31
  * @UpdateTime          2019-8-16 00:04:27
  * @Archive             时间戳(13位) 转换为 指定的自定义日期格式 比如 (timestamp,'Y-M-D h:m:s')
@@ -148,3 +169,14 @@ tao.current_format_time = function() {
 };
 
 export default tao;
+
+/***
+ * @Author              TangTao  https://www.promiselee.cn/tao
+ * @Email               tangtao2099@outlook.com
+ * @Copyright           西湖大学 propro Tangtao
+ * @GitHub              https://github.com/tangtaoshadow
+ * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
+ * @CreateTime          2019-8-15 23:58:31
+ * @UpdateTime          2019-8-16 00:04:27
+ * @Archive
+ */

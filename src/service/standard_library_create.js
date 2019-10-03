@@ -1,12 +1,14 @@
 // /src/service/standard_library_create.js
 
 /***
- * @Author          TangTao https://www.promiselee.cn/tao
+ * @Author              TangTao  https://www.promiselee.cn/tao
+ * @Email               tangtao2099@outlook.com
+ * @Copyright           西湖大学 propro Tangtao
+ * @GitHub              https://github.com/tangtaoshadow
+ * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
  * @CreateTime      2019-8-28 19:15:47
  * @UpdateTime      2019-8-29 10:39:45
- * @Copyright       西湖大学 propro TangTao http://www.proteomics.pro/
- * @Archive         上传创建的标准库
- *
+ * @Archive
  */
 
 import tao from "../utils/common";

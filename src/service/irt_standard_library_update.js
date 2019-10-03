@@ -1,12 +1,14 @@
 // /src/service/irt_standard_library_update.js
 
 /***
- * @Author          TangTao https://www.promiselee.cn/tao
+ * @Author              TangTao  https://www.promiselee.cn/tao
+ * @Email               tangtao2099@outlook.com
+ * @Copyright           西湖大学 propro Tangtao
+ * @GitHub              https://github.com/tangtaoshadow
+ * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
  * @CreateTime      2019-9-5 13:56:58
  * @UpdateTime      2019-8-29 22:28:44
- * @Copyright       西湖大学 propro TangTao http://www.proteomics.pro/
- * @Archive         更新标准库 指定id 的 库信息
- *
+ * @Archive
  */
 
 import request from "../utils/request";

@@ -1,12 +1,14 @@
 // /src/service/standard_library_detail.js
 
 /***
- * @Author          TangTao https://www.promiselee.cn/tao
+ * @Author              TangTao  https://www.promiselee.cn/tao
+ * @Email               tangtao2099@outlook.com
+ * @Copyright           西湖大学 propro Tangtao
+ * @GitHub              https://github.com/tangtaoshadow
+ * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
  * @CreateTime      2019-8-16 02:39:43
  * @UpdateTime      2019-8-26 11:36:57
- * @Copyright       西湖大学 propro http://www.proteomics.pro/
- * @Archive         标准库 状态信息 更新 修改 删除
- *
+ * @Archive   标准库 状态信息 更新 修改 删除
  */
 
 import request from "../utils/request";
@@ -93,6 +95,17 @@ export async function generate(payload) {
   body_data.append("id", id);
   body_data.append("generator", generator);
 
+  /***
+   * @Author              TangTao  https://www.promiselee.cn/tao
+   * @Email               tangtao2099@outlook.com
+   * @Copyright           西湖大学 propro Tangtao
+   * @GitHub              https://github.com/tangtaoshadow
+   * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
+   * @CreateTime      2019-8-23 05:23:23
+   * @UpdateTime      2019-9-12 11:46:27
+   * @Archive   生成伪肽段
+   */
+
   return await reqwest({
     url: "/propro_server/decoy/generate",
     method: "post",
@@ -173,6 +186,15 @@ export function delete_standard_library_by_id(payload) {
     // 不存在 token
     return "error";
   }
+
+  //  * @Author              TangTao  https://www.promiselee.cn/tao
+  //  * @Email               tangtao2099@outlook.com
+  //  * @Copyright           西湖大学 propro Tangtao
+  //  * @GitHub              https://github.com/tangtaoshadow
+  //  * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
+  //  * @CreateTime      2019-10-4 00:15:25
+  //  * @UpdateTime      2019-10-4 00:15:27
+  //  * @Archive
 
   // 发起查询
   let bodys = "";

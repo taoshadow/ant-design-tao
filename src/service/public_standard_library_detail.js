@@ -1,12 +1,14 @@
 // /src/service/public_standard_library_detail.js
 
 /***
- * @Author          TangTao https://www.promiselee.cn/tao
+ * @Author              TangTao  https://www.promiselee.cn/tao
+ * @Email               tangtao2099@outlook.com
+ * @Copyright           西湖大学 propro Tangtao
+ * @GitHub              https://github.com/tangtaoshadow
+ * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
  * @CreateTime      2019-8-26 10:15:12
  * @UpdateTime      2019-8-30 10:54:51
- * @Copyright       西湖大学 propro http://www.proteomics.pro/
- * @Archive         查询指定id的库信息 重新统计 更新 删除
- *
+ * @Archive 查询指定id的库信息 重新统计 更新 删除
  */
 
 import request from "../utils/request";

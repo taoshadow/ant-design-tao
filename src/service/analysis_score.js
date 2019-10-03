@@ -1,11 +1,14 @@
 // /src/service/analysis_score_service.js
+
 /***
- * @Author          TangTao https://promiselee.cn/tao
- * @CreateTime      2019-9-27 10:50:07
- * @UpdateTime      2019-9-27 11:03:18
- * @Copyright       西湖大学 propro http://www.proteomics.pro/
- * @Archive         查询 score 数据
- *
+ * @Author              TangTao  https://www.promiselee.cn/tao
+ * @Email               tangtao2099@outlook.com
+ * @Copyright           西湖大学 propro Tangtao
+ * @GitHub              https://github.com/tangtaoshadow
+ * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
+ * @CreateTime          2019-9-27 10:50:07
+ * @UpdateTime          2019-9-27 11:03:18
+ * @Archive
  */
 
 import request from "../utils/request";

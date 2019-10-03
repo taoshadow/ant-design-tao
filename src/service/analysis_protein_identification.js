@@ -1,12 +1,18 @@
 // /src/service/analysis_protein_identification.js
+
+
 /***
- * @Author          TangTao https://promiselee.cn/tao
+ * @Author              TangTao  https://www.promiselee.cn/tao
+ * @Email               tangtao2099@outlook.com
+ * @Copyright           西湖大学 propro Tangtao
+ * @GitHub              https://github.com/tangtaoshadow
+ * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
  * @CreateTime      2019-9-29 14:18:09
  * @UpdateTime      2019-9-27 11:03:18
- * @Copyright       西湖大学 propro http://www.proteomics.pro/
- * @Archive         查询 蛋白鉴定 数据
- *
+ * @Archive             查询 蛋白鉴定 数据
  */
+
+ 
 
 import request from "../utils/request";
 import tao from "../utils/common";
