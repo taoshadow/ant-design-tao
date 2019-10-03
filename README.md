@@ -18,7 +18,7 @@
 
 **CreateTime：**`2019-7-25 22:00:25`
 
-**UpdateTime：**`2019-9-28 22:09:10`
+**UpdateTime：**`2019-10-3 22:48:31`
 
 **Copyright:**  唐涛 [HOME](https://www.promiselee.cn/tao) 2019 ©  [西湖大学](https://www.westlake.edu.cn/) [propro](http://www.proteomics.pro/)
 
@@ -93,6 +93,47 @@ No.
 [![CI status](https://github.com/antvis/antvis.github.io/workflows/Node%20CI/badge.svg)](https://github.com/antvis/antvis.github.io/workflows/Node%20CI/badge.svg) [![Dependency Status](https://camo.githubusercontent.com/e37954e0a25b4d7b550adbc3696bf81bd4d2c10f/68747470733a2f2f64617669642d646d2e6f72672f616e747669732f616e747669732e6769746875622e696f2e7376673f7374796c653d666c61742d737175617265)](https://david-dm.org/antvis/antvis.github.io) [![devDependencies Status](https://camo.githubusercontent.com/a53decd63092e9800505abcfcb995567dc62599b/68747470733a2f2f64617669642d646d2e6f72672f616e747669732f616e747669732e6769746875622e696f2f6465762d7374617475732e737667)](https://david-dm.org/antvis/antvis.github.io?type=dev) [![prettier code style](https://camo.githubusercontent.com/687a8ae8d15f9409617d2cc5a30292a884f6813a/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f636f64655f7374796c652d70726574746965722d6666363962342e7376673f7374796c653d666c61742d737175617265)](https://camo.githubusercontent.com/687a8ae8d15f9409617d2cc5a30292a884f6813a/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f636f64655f7374796c652d70726574746965722d6666363962342e7376673f7374796c653d666c61742d737175617265)
 
 
+
+| Latest commit message | Commit time                                                  |                                                              |             |
+| --------------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ----------- |
+|                       | [demo](https://github.com/mac-s-g/react-json-view/tree/master/demo) | [Added `react-lifecycle-compat` for backward compatibility. Supported …](https://github.com/mac-s-g/react-json-view/commit/5d2e973b2db488ba8a9ea3b0893c3940144b5000) | last year   |
+|                       | [dev-server](https://github.com/mac-s-g/react-json-view/tree/master/dev-server) | [Use double quote when string literals are directly assigned to props.](https://github.com/mac-s-g/react-json-view/commit/05a1c5ff1c4114e8fd5bd316dfee8f880ba6b40d) | last year   |
+|                       | [doc](https://github.com/mac-s-g/react-json-view/tree/master/doc) | [update](https://github.com/mac-s-g/react-json-view/commit/0cc9457f0e80f7cc0b36736f77b3c0c584e54695) | 2 years ago |
+|                       | [docker](https://github.com/mac-s-g/react-json-view/tree/master/docker) | [misspelling in readme](https://github.com/mac-s-g/react-json-view/commit/00b6b3d6c86c4efe89b3468cdc26783e77e36c9b) | 2 years ago |
+|                       | [src](https://github.com/mac-s-g/react-json-view/tree/master/src) | [Add title attribute to clipboard icon](https://github.com/mac-s-g/react-json-view/commit/ead8d9dbbdeb1f26ce71550bc54080e9657868ad) | last year   |
+|                       | [test](https://github.com/mac-s-g/react-json-view/tree/master/test) | [address comments](https://github.com/mac-s-g/react-json-view/commit/8ff319a4dbf5dca69ff2c1bf42c1df2b87916464) | last year   |
+|                       | [webpack](https://github.com/mac-s-g/react-json-view/tree/master/webpack) | [Changed devServer host to localhost from 0.0.0.0](https://github.com/mac-s-g/react-json-view/commit/fbd738a67bba5157668e578f43474bd09ef69186) | 2 years ago |
+|                       | [.babelrc](https://github.com/mac-s-g/react-json-view/blob/master/.babelrc) | [updated dependencies, removed unused dependencies, optimized build](https://github.com/mac-s-g/react-json-view/commit/df73feb0df8a29842a0abdc693f0bef78d3d84f3) | 2 years ago |
+|                       | [.coveralls.yml](https://github.com/mac-s-g/react-json-view/blob/master/.coveralls.yml) | [added coveralls.yml](https://github.com/mac-s-g/react-json-view/commit/4a4e43f307c8708b741e3c246dbd1a4297420beb) | 2 years ago |
+|                       | [.eslintrc.js](https://github.com/mac-s-g/react-json-view/blob/master/.eslintrc.js) | [fixup](https://github.com/mac-s-g/react-json-view/commit/787e506d44778e7a60c250ed9b919f8862c9c207) | last year   |
+|                       | [.gitignore](https://github.com/mac-s-g/react-json-view/blob/master/.gitignore) | [removing a couple of unnecessary docker dependencies, adding package-…](https://github.com/mac-s-g/react-json-view/commit/cf9f3b25709cf91e7fecb81da47988fb35f782a5) | 2 years ago |
+|                       | [.npmignore](https://github.com/mac-s-g/react-json-view/blob/master/.npmignore) | [updated npm config to include index.d.ts](https://github.com/mac-s-g/react-json-view/commit/1ab70e2668837872e8db2a0ebfd996bcd5edcc11) | last year   |
+|                       | [.nycrc](https://github.com/mac-s-g/react-json-view/blob/master/.nycrc) | [updated test deps, improved docs](https://github.com/mac-s-g/react-json-view/commit/5c4a714ee92e58f5ad6dff11ac87baaf96bbc3c4) | 2 years ago |
+|                       | [.travis.yml](https://github.com/mac-s-g/react-json-view/blob/master/.travis.yml) | [cleaning up docker scripts](https://github.com/mac-s-g/react-json-view/commit/327592928db9509a8e998a84f8d0dabd0e7dc4fd) | 2 years ago |
+|                       | [Dockerfile](https://github.com/mac-s-g/react-json-view/blob/master/Dockerfile) | [updated test deps, improved docs](https://github.com/mac-s-g/react-json-view/commit/5c4a714ee92e58f5ad6dff11ac87baaf96bbc3c4) | 2 years ago |
+|                       | [LICENSE](https://github.com/mac-s-g/react-json-view/blob/master/LICENSE) | [Rename LISCENSE to LICENSE](https://github.com/mac-s-g/react-json-view/commit/d70ff735e876c1ffa514cc6f07f6778a54d61d8c) | 2 years ago |
+|                       | [README.md](https://github.com/mac-s-g/react-json-view/blob/master/README.md) | [Minor change to `README` to run another CI build (previous one probab…](https://github.com/mac-s-g/react-json-view/commit/d1e8c1a5cd932a384b21fa0482fa1772560ade67) | last year   |
+|                       | [index.d.ts](https://github.com/mac-s-g/react-json-view/blob/master/index.d.ts) | [tidied up `d.ts` as per conde review](https://github.com/mac-s-g/react-json-view/commit/ad6a95fbfa58c83a4a8ea427fa023c9f712aa289) | last year   |
+|                       | [package-lock.json](https://github.com/mac-s-g/react-json-view/blob/master/package-lock.json) | [eslint](https://github.com/mac-s-g/react-json-view/commit/a5fe005027dbf066c2eeafaef3fd3c667e9f368d) | last year   |
+|                       | [package.json](https://github.com/mac-s-g/react-json-view/blob/master/package.json) | [fixes](https://github.com/mac-s-g/react-json-view/commit/1f83554a76a8bbb90b3490d7b110331572677ff0) [#208](https://github.com/mac-s-g/react-json-view/issues/208) | last year   |
+
+### 
+
+# react-json-view
+
+
+
+[![alt text](https://github.com/mac-s-g/react-json-view/raw/master/doc/rjv-icon-alt.png?raw=true)](https://github.com/mac-s-g/react-json-view/blob/master/doc/rjv-icon-alt.png?raw=true)
+
+[![npm](https://camo.githubusercontent.com/aea077d107e2be7e4bd46687288cc015e450cbd0/68747470733a2f2f696d672e736869656c64732e696f2f6e706d2f762f72656163742d6a736f6e2d766965772e737667)](https://www.npmjs.com/package/react-json-view) [![npm](https://camo.githubusercontent.com/f1e3c66942ac6f46c4150c4ee63d7ddaeae52e6d/68747470733a2f2f696d672e736869656c64732e696f2f6e706d2f6c2f72656163742d6a736f6e2d766965772e737667)](https://github.com/mac-s-g/react-json-view/blob/master/LISCENSE) [![Build Status](https://camo.githubusercontent.com/8b2a33257acda9c150cfe1e3f571e82b8fde254f/68747470733a2f2f7472617669732d63692e6f72672f6d61632d732d672f72656163742d6a736f6e2d766965772e737667)](https://travis-ci.org/mac-s-g/react-json-view) [![Coverage Status](https://camo.githubusercontent.com/1805374e444d58a70f44cf4ef456e5f12041b903/68747470733a2f2f636f766572616c6c732e696f2f7265706f732f6769746875622f6d61632d732d672f72656163742d6a736f6e2d766965772f62616467652e7376673f6272616e63683d6d6173746572)](https://coveralls.io/github/mac-s-g/react-json-view?branch=master)
+
+
+
+RJV is a React component for displaying and editing javascript **arrays** and **JSON objects**.
+
+This component provides a responsive interface for displaying arrays or JSON in a web browser. NPM offers a distribution of the source that's transpiled to ES5; so you can include this component with *any web-based javascript application*.
+
+[Example](https://mac-s-g.github.io/react-json-view/demo/dist/)
 
 
 
