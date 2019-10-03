@@ -627,6 +627,8 @@ let language_ch = {
     "propro.analysis_protein_identification_data_fdr": "FDR",
     "propro.analysis_protein_identification_data_identified_status": "状态",
     "propro.analysis_protein_identification_data_intensity_sum": "Intensity",
+    "propro.analysis_protein_identification_data_operation": "操作",
+    "propro.analysis_protein_identification_data_peptide_diagnosis": "肽段诊断",
 
   "propro.end": "end"
 };

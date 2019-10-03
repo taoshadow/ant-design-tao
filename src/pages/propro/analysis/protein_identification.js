@@ -7,7 +7,7 @@
  * @Copyright           西湖大学 propro Tangtao
  * @GitHub              https://github.com/tangtaoshadow
  * @CreateTime          2019-9-29 00:38:00
- * @UpdateTime          2019-9-29 14:14:30
+ * @UpdateTime          2019-10-3 20:39:41
  * @Archive             protein_identification 蛋白鉴定
  */
 
@@ -169,6 +169,8 @@ class Analysis_protein_identification extends React.Component {
     setTimeout(() => {
       this.get_current_analysis_protein_identification_id();
     }, 100);
+      // 提取配置table
+      this.config_table_columns();
 
     // 配置 message
     message.config({
@@ -220,6 +222,7 @@ class Analysis_protein_identification extends React.Component {
         content: Languages[this.props.language]["propro.network_error"],
         okText: Languages[this.props.language]["propro.user_modal_know"]
       });
+
       // 过一段时间 尝试再次连接服务器 这个时间要稍微长一点 用户体验会比较好
       let { analysis_protein_identification_false_time } = this.state;
       // 2-判断是否需要再次发起请求
@@ -493,29 +496,415 @@ class Analysis_protein_identification extends React.Component {
     });
   };
 
-  render() {
+config_table_columns = () => {
+    setTimeout(() => {
+        let analysis_protein_identification_data_table_columns = [
+        {
+            // 1  排序
+            title: (
+                < div
+            style = {{
+                fontSize: "8px",
+                fontWeight: "600",
+                letterSpacing: "1px"
+            }
+    }
+    >
+    <
+        FormattedHTMLMessage
+        id = "propro.analysis_protein_identification_data_index" / >
+            < /div>
+    ),
+        dataIndex: "index",
+            key
+    :
+        "index",
+            render
+    :
+        text => {
+            return (
+                < div
+            className = {styles.font_second_color}
+            style = {
+            {
+                fontSize: "8px",
+                    fontWeight
+            :
+                "600"
+            }
+        }
+        >
+            {
+                text
+            }
+        <
+            /div>
+        )
+            ;
+        }
+    },
+        {
+            // 2  肽段全称
+            title: (
+            < span
+            style = {
+            {
+                fontSize: "8px",
+                    fontWeight
+            :
+                "600",
+                    letterSpacing
+            :
+                "1px"
+            }
+        }
+        >
+        <
+            FormattedHTMLMessage
+            id = "propro.analysis_protein_identification_data_peptide_ref_name" / >
+                < /span>
+        ),
+            dataIndex: "peptide_ref",
+                key
+        :
+            "peptide_ref",
+                render
+        :
+            text => {
+            return (
+                < div
+                style = {
+                {
+                    fontSize: "8px",
+                        wordWrap
+                :
+                    "break-word",
+                        wordBreak
+                :
+                    "break-all",
+                        minWidth
+                :
+                    "100px",
+                        maxWidth
+                :
+                    "100px"
+                }
+            }
+                className = {styles.font_primary_color}
+                    >
+                {text}
+                    < /div>
+            )
+                ;
+            }
+        }
+    ,
+        {
+            // 4  status
+            title: (
+            < span
+            style = {
+            {
+                fontSize: "8px",
+                    fontWeight
+            :
+                "600",
+                    letterSpacing
+            :
+                "1px"
+            }
+        }
+        >
+        <
+            FormattedHTMLMessage
+            id = "propro.analysis_protein_identification_data_identified_status" / >
+                < /span>
+        ),
+            dataIndex: "identified_status",
+                key
+        :
+            "status",
+                render
+        :
+            text => {
+            let obj = null;
+            obj =
+                0 == text ? (
+                    < img style = {
+                {
+                    width: "18px"
+                }
+            }
+                src = {true_svg}
+                />
+            ) :
+                (
+                < img
+                style = {
+                {
+                    width: "18px"
+                }
+            }
+                src = {false_svg}
+                />
+            )
+                ;
+
+            return (
+                < div
+                style = {
+                {
+                    fontSize: "8px"
+                }
+            }
+                className = {styles.font_primary_color}
+                    >
+                {obj}
+                    < /div>
+            )
+                ;
+            }
+        }
+    ,
+        {
+            // 3  FDR
+            title: (
+            < span
+            style = {
+            {
+                fontSize: "8px",
+                    fontWeight
+            :
+                "600",
+                    letterSpacing
+            :
+                "1px"
+            }
+        }
+        >
+        <
+            FormattedHTMLMessage
+            id = "propro.analysis_protein_identification_data_fdr" / >
+                < /span>
+        ),
+            dataIndex: "fdr",
+                key
+        :
+            "fdr",
+                render
+        :
+            text => {
+            return (
+                < div
+                style = {
+                {
+                    fontSize: "8px",
+                        wordWrap
+                :
+                    "break-word",
+                        wordBreak
+                :
+                    "break-all",
+                        minWidth
+                :
+                    "125px",
+                        maxWidth
+                :
+                    "125px"
+                }
+            }
+                className = {styles.font_primary_color}
+                    >
+                {text}
+                    < /div>
+            )
+                ;
+            }
+        }
+    ,
+        {
+            // 3  Intensity
+            title: (
+            < span
+            style = {
+            {
+                fontSize: "8px",
+                    fontWeight
+            :
+                "600",
+                    letterSpacing
+            :
+                "1px"
+            }
+        }
+        >
+        <
+            FormattedHTMLMessage
+            id = "propro.analysis_protein_identification_data_intensity_sum" / >
+                < /span>
+        ),
+            dataIndex: "intensity_sum",
+                key
+        :
+            "intensity_sum",
+                render
+        :
+            text => {
+            return (
+                < div
+                style = {
+                {
+                    fontSize: "8px",
+                        wordWrap
+                :
+                    "break-word",
+                        wordBreak
+                :
+                    "break-all",
+                        minWidth
+                :
+                    "50px",
+                        maxWidth
+                :
+                    "50px"
+                }
+            }
+                className = {styles.font_primary_color}
+                    >
+                {text}
+                    < /div>
+            )
+                ;
+            }
+        }
+    ,
+        {
+            // 3  操作
+            title: (
+            < span
+            style = {
+            {
+                fontSize: "8px",
+                    fontWeight
+            :
+                "600",
+                    letterSpacing
+            :
+                "1px"
+            }
+        }
+        >
+        <
+            FormattedHTMLMessage
+            id = "propro.analysis_protein_identification_data_operation" / >
+                < /span>
+        ),
+            key: "operation",
+                render
+        :
+            list => {
+                let is_decoy_btn = null;
+                if (false == list.is_decoy) {
+                    // pass
+                    is_decoy_btn = (
+                        < button
+                    type = "button"
+                    className = "btn btn-outline-primary"
+                    style = {
+                    {
+                        fontWeight: 400,
+                            fontSize
+                    :
+                        "12px",
+                            height
+                    :
+                        "25px",
+                            lineHeight
+                    :
+                        "13px",
+                            padding
+                    :
+                        "6px 8px",
+                            letterSpacing
+                    :
+                        "1px"
+                    }
+                }
+                    // 暂时还未实现
+                    // 提取到当前触发的数据
+
+                    // onClick={() => {
+                    //   // this.score_list_view_data(list.feature_scores_list);
+                    // }}
+                >
+                <
+                    span >
+                    < FormattedHTMLMessage
+                    id = "propro.analysis_protein_identification_data_peptide_diagnosis" / >
+                        < /span>
+                        < /button>
+                )
+                    ;
+                } else {
+                    // null
+                }
+                return (
+                    < div
+                style = {
+                {
+                    fontSize: "12px"
+                }
+            }
+                className = {styles.font_primary_color}
+                    >
+                    {is_decoy_btn}
+                    < /div>
+            )
+                ;
+            }
+        }
+    ]
+        ;
+
+        //
+        this.setState({
+            analysis_protein_identification_data_table_columns: analysis_protein_identification_data_table_columns
+        });
+    }, 20);
+};
+
+render()
+{
     // 监控 analysis_protein_identification 数据变化
     if (10000 < this.props.analysis_protein_identification_time) {
-      // 资源有更新
-      this.handle_analysis_protein_identification();
+        // 资源有更新
+        this.handle_analysis_protein_identification();
     }
 
     if (0 != this.state.analysis_protein_identification_status) {
-      return (
-        <Fragment>
-          <Row>
-            <Col
-              span={24}
-              style={{
-                textAlign: "center",
-                marginTop: "30px"
-              }}
-            >
-              <img src={preloader_svg} />
-            </Col>
-          </Row>
-        </Fragment>
-      );
+        return (
+            < Fragment >
+            < Row >
+            < Col
+        span = {24}
+        style = {
+        {
+            textAlign: "center",
+                marginTop
+        :
+            "30px"
+        }
+    }
+    >
+    <
+        img
+        src = {preloader_svg}
+        />
+        < /Col>
+        < /Row>
+        < /Fragment>
+    )
+        ;
     }
 
     /*
@@ -524,747 +913,467 @@ class Analysis_protein_identification extends React.Component {
 
     */
 
-    let { overview } = this.props.analysis_protein_identification_data;
+    let {overview} = this.props.analysis_protein_identification_data;
     //
     let {
-      analysis_protein_identification_id,
-      load_page_numbers,
-      total_numbers,
-      analysis_protein_identification_list_query_time,
-      load_percentage_value
+        analysis_protein_identification_id,
+        load_page_numbers,
+        total_numbers,
+        analysis_protein_identification_list_query_time,
+        load_percentage_value
     } = this.state;
     // 配置 analysis_protein_identification_list_table_columns
 
-    let analysis_protein_identification_data_table_columns = [
+    let analysis_protein_identification_list_table_columns = [
         {
             // 1  排序
             title: (
-                < div
-            style = {{
+                <div
+            style={{
             fontSize: "8px",
             fontWeight: "600",
             letterSpacing: "1px"
-        }
-}
+        }}
 >
-<
-    FormattedHTMLMessage
-    id = "propro.analysis_protein_identification_data_index" / >
-        < /div>
+<FormattedHTMLMessage id="propro.analysis_protein_identification_list_index" />
+    </div>
 ),
     dataIndex: "index",
-        key
-:
-    "index",
-        render
-:
-    text => {
+        key: "index",
+    width: 80,
+...this.get_column_search_props("index"),
+    render: text => {
+    return (
+        <div
+    className={styles.font_second_color}
+    style={{
+        fontSize: "8px",
+            fontWeight: "600"
+    }}
+>
+    {text}
+</div>
+);
+}
+},
+    {
+        // 2  蛋白名称
+        title: (
+        <span
+        style={{
+        fontSize: "8px",
+            fontWeight: "600",
+            letterSpacing: "1px"
+    }}
+    >
+    <FormattedHTMLMessage id="propro.analysis_protein_identification_list_protein_name" />
+        </span>
+    ),
+        dataIndex: "name",
+            key: "name",
+    ...this.get_column_search_props("name"),
+        render:text => {
         return (
-            < div
-        className = {styles.font_second_color}
-        style = {
-        {
+            <div
+        style={{
             fontSize: "8px",
-                fontWeight
+                wordWrap: "break-word",
+                wordBreak: "break-all",
+                minWidth
         :
-            "600"
+            "150px",
+                maxWidth
+        :
+            "150px"
+        }}
+        className={styles.font_primary_color}
+            >
+            {text}
+            </div>
+    );
+    }
+    },
+    {
+        // 2  数据
+        title: (
+        <span
+        style={{
+        fontSize: "8px",
+            fontWeight: "600",
+            letterSpacing: "1px"
+    }}
+    >
+    <FormattedHTMLMessage id="propro.analysis_protein_identification_list_data" />
+        </span>
+    ),
+        key: "data",
+            key: "datas",
+        render:list => {
+        // console.log("---- render ----");
+        console.log(list.data_arr);
+        return (
+            < Table
+        size = {"small"}
+        bordered = {true}
+        columns = {
+            this.state.analysis_protein_identification_data_table_columns
+        }
+        pagination = {
+        {
+            position: "top",
+                hideOnSinglePage
+        :
+            true,
+                showQuickJumper
+        :
+            false,
+                defaultPageSize
+        :
+            500
         }
     }
-    >
-        {
-            text
-        }
-    <
-        /div>
+        dataSource = {list.data_arr}
+        />
     )
         ;
     }
-},
-    {
-        // 2  肽段全称
-        title: (
-        < span
-        style = {
-        {
-            fontSize: "8px",
-                fontWeight
-        :
-            "600",
-                letterSpacing
-        :
-            "1px"
-        }
     }
-    >
-    <
-        FormattedHTMLMessage
-        id = "propro.analysis_protein_identification_data_peptide_ref_name" / >
-            < /span>
-    ),
-        dataIndex: "peptide_ref",
-            key
-    :
-        "peptide_ref",
-            render
-    :
-        text => {
-            return (
-                < div
-            style = {
-            {
-                fontSize: "8px",
-                    wordWrap
-            :
-                "break-word",
-                    wordBreak
-            :
-                "break-all",
-                    minWidth
-            :
-                "100px",
-                    maxWidth
-            :
-                "100px"
-            }
-        }
-            className = {styles.font_primary_color}
-                >
-                {text}
-                < /div>
-        )
-            ;
-        }
-    }
-,
-    {
-        // 4  status
-        title: (
-        < span
-        style = {
-        {
-            fontSize: "8px",
-                fontWeight
-        :
-            "600",
-                letterSpacing
-        :
-            "1px"
-        }
-    }
-    >
-    <
-        FormattedHTMLMessage
-        id = "propro.analysis_protein_identification_data_identified_status" / >
-            < /span>
-    ),
-        dataIndex: "identified_status",
-            key
-    :
-        "status",
-            render
-    :
-        text => {
-            let obj = null;
-            obj =
-                0 == text ? (
-                    < img style = {
-            {
-                width: "18px"
-            }
-        }
-            src = {true_svg}
-            />
-        ) :
-            (
-            < img
-            style = {
-            {
-                width: "18px"
-            }
-        }
-            src = {false_svg}
-            />
-        )
-            ;
-
-            return (
-                < div
-            style = {
-            {
-                fontSize: "8px"
-            }
-        }
-            className = {styles.font_primary_color}
-                >
-                {obj}
-                < /div>
-        )
-            ;
-        }
-    }
-,
-    {
-        // 3  FDR
-        title: (
-        < span
-        style = {
-        {
-            fontSize: "8px",
-                fontWeight
-        :
-            "600",
-                letterSpacing
-        :
-            "1px"
-        }
-    }
-    >
-    <
-        FormattedHTMLMessage
-        id = "propro.analysis_protein_identification_data_fdr" / >
-            < /span>
-    ),
-        dataIndex: "fdr",
-            key
-    :
-        "fdr",
-            render
-    :
-        text => {
-            return (
-                < div
-            style = {
-            {
-                fontSize: "8px",
-                    wordWrap
-            :
-                "break-word",
-                    wordBreak
-            :
-                "break-all",
-                    minWidth
-            :
-                "125px",
-                    maxWidth
-            :
-                "125px"
-            }
-        }
-            className = {styles.font_primary_color}
-                >
-                {text}
-                < /div>
-        )
-            ;
-        }
-    }
-,
-    {
-        // 3  Intensity
-        title: (
-        < span
-        style = {
-        {
-            fontSize: "8px",
-                fontWeight
-        :
-            "600",
-                letterSpacing
-        :
-            "1px"
-        }
-    }
-    >
-    <
-        FormattedHTMLMessage
-        id = "propro.analysis_protein_identification_data_intensity_sum" / >
-            < /span>
-    ),
-        dataIndex: "intensity_sum",
-            key
-    :
-        "intensity_sum",
-            render
-    :
-        text => {
-            return (
-                < div
-            style = {
-            {
-                fontSize: "8px",
-                    wordWrap
-            :
-                "break-word",
-                    wordBreak
-            :
-                "break-all",
-                    minWidth
-            :
-                "50px",
-                    maxWidth
-            :
-                "50px"
-            }
-        }
-            className = {styles.font_primary_color}
-                >
-                {text}
-                < /div>
-        )
-            ;
-        }
-    }
-]
-    ;
-
-    let analysis_protein_identification_list_table_columns = [
-      {
-        // 1  排序
-        title: (
-          <div
-            style={{
-              fontSize: "8px",
-              fontWeight: "600",
-              letterSpacing: "1px"
-            }}
-          >
-            <FormattedHTMLMessage id="propro.analysis_protein_identification_list_index" />
-          </div>
-        ),
-        dataIndex: "index",
-        key: "index",
-        width: 80,
-        ...this.get_column_search_props("index"),
-        render: text => {
-          return (
-            <div
-              className={styles.font_second_color}
-              style={{
-                fontSize: "8px",
-                fontWeight: "600"
-              }}
-            >
-              {text}
-            </div>
-          );
-        }
-      },
-      {
-        // 2  蛋白名称
-        title: (
-          <span
-            style={{
-              fontSize: "8px",
-              fontWeight: "600",
-              letterSpacing: "1px"
-            }}
-          >
-            <FormattedHTMLMessage id="propro.analysis_protein_identification_list_protein_name" />
-          </span>
-        ),
-        dataIndex: "name",
-        key: "name",
-        ...this.get_column_search_props("name"),
-        render: text => {
-          return (
-            <div
-              style={{
-                fontSize: "8px",
-                wordWrap: "break-word",
-                wordBreak: "break-all",
-                  minWidth
-          :
-              "150px",
-                  maxWidth
-          :
-              "150px"
-              }}
-              className={styles.font_primary_color}
-            >
-              {text}
-            </div>
-          );
-        }
-      },
-      {
-        // 2  数据
-        title: (
-          <span
-            style={{
-              fontSize: "8px",
-              fontWeight: "600",
-              letterSpacing: "1px"
-            }}
-          >
-            <FormattedHTMLMessage id="propro.analysis_protein_identification_list_data" />
-          </span>
-        ),
-        key: "data",
-        key: "datas",
-        render: list => {
-          // console.log("---- render ----");
-          console.log(list.data_arr);
-          return (
-              < Table
-          size = {"small"}
-          bordered = {true}
-          columns = {analysis_protein_identification_data_table_columns}
-          pagination = {
-          {
-              position: "top",
-                  hideOnSinglePage
-          :
-              true,
-                  showQuickJumper
-          :
-              false,
-                  defaultPageSize
-          :
-              500
-          }
-      }
-          dataSource = {list.data_arr}
-          />
-      )
-          ;
-        }
-      }
-    ];
+];
 
     return (
-      <div>
+        <div>
         <div
-          style={{
-            fontSize: "20px",
-            marginBottom: "20px",
-            fontWeight: "600",
-            letterSpacing: "1px"
-          }}
+    style={{
+    fontSize: "20px",
+        marginBottom: "20px",
+        fontWeight: "600",
+        letterSpacing: "1px"
+}}
+>
+<Tooltip
+    placement="topLeft"
+    title={<FormattedHTMLMessage id="propro.analysis_list_title" />}
+>
+<Link to="/analysis/list">
+    <img
+    src={return_svg}
+    style={{
+    height: "30px",
+        cursor: "pointer"
+}}
+    />
+    </Link>
+    </Tooltip>
+    <FormattedHTMLMessage id="propro.analysis_protein_identification_title" />
+    </div>
+
+    {/* 提示用户 删除 警告信息 */}
+<Modal
+    title={
+        <b>
+        <FormattedHTMLMessage id="propro.modal_title" />
+    </b>
+}
+    visible={this.state.modal_visible}
+    onOk={this.delete_protein_identification_by_id_confirm}
+    onCancel={this.delete_protein_identification_by_id_cancel}
+    maskClosable={true}
+    okText={<FormattedHTMLMessage id="propro.modal_confirm" />}
+    cancelText={<FormattedHTMLMessage id="propro.modal_cancel" />}
+>
+<div className={styles.font_red_color}>
+    <FormattedHTMLMessage id="propro.irt_standard_library_detail_delete_warning" />
+    </div>
+    </Modal>
+
+    <div
+    style={{
+    background: "#FFFFFF",
+        padding: "15px 10px",
+        border: "1px solid #e5e9f2",
+        overflow: "auto"
+}}
+>
+<Row>
+<Col
+    lg={24}
+    xl={24}
+    xxl={20}
+    className={styles.font_primary_color}
+    style={{
+    textAlign: "left",
+        fontSize: "14px",
+        lineHeight: "30px"
+}}
+>
+<Descriptions
+    bordered={true}
+    column={4}
+    size={"middle"}
+    title={"详情"}
         >
-          <Tooltip
-            placement="topLeft"
-            title={<FormattedHTMLMessage id="propro.analysis_list_title" />}
-          >
-            <Link to="/analysis/list">
-              <img
-                src={return_svg}
-                style={{
-                  height: "30px",
-                  cursor: "pointer"
-                }}
-              />
-            </Link>
-          </Tooltip>
-          <FormattedHTMLMessage id="propro.analysis_protein_identification_title" />
-        </div>
-
-        {/* 提示用户 删除 警告信息 */}
-        <Modal
-          title={
-            <b>
-              <FormattedHTMLMessage id="propro.modal_title" />
-            </b>
-          }
-          visible={this.state.modal_visible}
-          onOk={this.delete_protein_identification_by_id_confirm}
-          onCancel={this.delete_protein_identification_by_id_cancel}
-          maskClosable={true}
-          okText={<FormattedHTMLMessage id="propro.modal_confirm" />}
-          cancelText={<FormattedHTMLMessage id="propro.modal_cancel" />}
+        {/* id */}
+        <Descriptions.Item
+    label={
+        <FormattedHTMLMessage id="propro.analysis_protein_identification_id" />
+}
+    span={2}
         >
-          <div className={styles.font_red_color}>
-            <FormattedHTMLMessage id="propro.irt_standard_library_detail_delete_warning" />
-          </div>
-        </Modal>
+        {analysis_protein_identification_id}
+        </Descriptions.Item>
 
-        <div
-          style={{
-            background: "#FFFFFF",
-            padding: "15px 10px",
-            border: "1px solid #e5e9f2",
-            overflow: "auto"
-          }}
+    {/* 关联标准库 */}
+<Descriptions.Item
+    label={
+        <FormattedHTMLMessage id="propro.analysis_protein_identification_association_library_name" />
+}
+    span={2}
         >
-          <Row>
-            <Col
-              lg={24}
-              xl={24}
-              xxl={20}
-              className={styles.font_primary_color}
-              style={{
-                textAlign: "left",
-                fontSize: "14px",
-                lineHeight: "30px"
-              }}
-            >
-              <Descriptions
-                bordered={true}
-                column={4}
-                size={"middle"}
-                title={"详情"}
-              >
-                {/* id */}
-                <Descriptions.Item
-                  label={
-                    <FormattedHTMLMessage id="propro.analysis_protein_identification_id" />
-                  }
-                  span={2}
-                >
-                  {analysis_protein_identification_id}
-                </Descriptions.Item>
+        <span
+    className="badge badge-warning"
+    style={{
+    padding: "5px 5px"
+}}
+>
+    {overview.libraryName}
+</span>
+&nbsp;
+<span
+    className={
+        "badge " +
+                styles.bg_second_color +
+            " " +
+            styles.font_white_color
+    }
+    style={{
+    padding: "5px 5px"
+}}
+>
+    {/* {library.creator} */}
+</span>
+</Descriptions.Item>
 
-                {/* 关联标准库 */}
-                <Descriptions.Item
-                  label={
-                    <FormattedHTMLMessage id="propro.analysis_protein_identification_association_library_name" />
-                  }
-                  span={2}
-                >
-                  <span
-                    className="badge badge-warning"
-                    style={{
-                      padding: "5px 5px"
-                    }}
-                  >
-                    {overview.libraryName}
-                  </span>
-                  &nbsp;
-                  <span
-                    className={
-                      "badge " +
-                      styles.bg_second_color +
-                      " " +
-                      styles.font_white_color
-                    }
-                    style={{
-                      padding: "5px 5px"
-                    }}
-                  >
-                    {/* {library.creator} */}
-                  </span>
-                </Descriptions.Item>
+    {/* 分析代号 */}
+<Descriptions.Item
+    label={
+        <FormattedHTMLMessage id="propro.analysis_protein_identification_analyse_code" />
+}
+    span={4}
+        >
+        {overview.name}
+        </Descriptions.Item>
 
-                {/* 分析代号 */}
-                <Descriptions.Item
-                  label={
-                    <FormattedHTMLMessage id="propro.analysis_protein_identification_analyse_code" />
-                  }
-                  span={4}
-                >
-                  {overview.name}
-                </Descriptions.Item>
+    {/* 负责人 */}
+<Descriptions.Item
+    label={
+        <FormattedHTMLMessage id="propro.analysis_protein_identification_creator" />
+}
+    span={2}
+        >
+        <span
+    className={
+        "badge " +
+                styles.bg_second_color +
+            " " +
+            styles.font_white_color
+    }
+    style={{
+    padding: "5px 5px"
+}}
+>
+    {overview.ownerName}
+</span>
+</Descriptions.Item>
 
-                {/* 负责人 */}
-                <Descriptions.Item
-                  label={
-                    <FormattedHTMLMessage id="propro.analysis_protein_identification_creator" />
-                  }
-                  span={2}
-                >
-                  <span
-                    className={
-                      "badge " +
-                      styles.bg_second_color +
-                      " " +
-                      styles.font_white_color
-                    }
-                    style={{
-                      padding: "5px 5px"
-                    }}
-                  >
-                    {overview.ownerName}
-                  </span>
-                </Descriptions.Item>
+    {/* FDR */}
+<Descriptions.Item
+    label={
+        <FormattedHTMLMessage id="propro.analysis_protein_identification_fdr" />
+}
+    span={2}
+    >
+    {0 != overview.fdr ? (
+        <span className={styles.font_primary_color}>
+        {overview.fdr}
+        </span>
+) : (
+<span className={styles.font_red_color}>
+    {overview.fdr}
+    </span>
+)}
+</Descriptions.Item>
 
-                {/* FDR */}
-                <Descriptions.Item
-                  label={
-                    <FormattedHTMLMessage id="propro.analysis_protein_identification_fdr" />
-                  }
-                  span={2}
-                >
-                  {0 != overview.fdr ? (
-                    <span className={styles.font_primary_color}>
-                      {overview.fdr}
-                    </span>
-                  ) : (
-                    <span className={styles.font_red_color}>
-                      {overview.fdr}
-                    </span>
-                  )}
-                </Descriptions.Item>
+    {/* 创建时间 */}
+<Descriptions.Item
+    label={
+        <FormattedHTMLMessage id="propro.analysis_protein_identification_create_time" />
+}
+    span={2}
+        >
+        <span className={styles.font_green_color}>
+    {tao.format_time(overview.createDate)}
+    </span>
+    </Descriptions.Item>
 
-                {/* 创建时间 */}
-                <Descriptions.Item
-                  label={
-                    <FormattedHTMLMessage id="propro.analysis_protein_identification_create_time" />
-                  }
-                  span={2}
-                >
-                  <span className={styles.font_green_color}>
-                    {tao.format_time(overview.createDate)}
-                  </span>
-                </Descriptions.Item>
+    {/* 更新时间 */}
+<Descriptions.Item
+    label={
+        <FormattedHTMLMessage id="propro.analysis_protein_identification_update_time" />
+}
+    span={2}
+        >
+        <span className={styles.font_green_color}>
+    {tao.format_time(overview.lastModifiedDate)}
+    </span>
+    </Descriptions.Item>
 
-                {/* 更新时间 */}
-                <Descriptions.Item
-                  label={
-                    <FormattedHTMLMessage id="propro.analysis_protein_identification_update_time" />
-                  }
-                  span={2}
-                >
-                  <span className={styles.font_green_color}>
-                    {tao.format_time(overview.lastModifiedDate)}
-                  </span>
-                </Descriptions.Item>
+    {/* 查询时间 */}
+<Descriptions.Item
+    span={4}
+    label={
+        <FormattedHTMLMessage id="propro.analysis_protein_identification_list_load_time" />
+}
+>
+<span className={styles.font_primary_color}>
+    {analysis_protein_identification_list_query_time}
+    </span>
+    </Descriptions.Item>
 
-                {/* 查询时间 */}
-                <Descriptions.Item
-                  span={4}
-                  label={
-                    <FormattedHTMLMessage id="propro.analysis_protein_identification_list_load_time" />
-                  }
-                >
-                  <span className={styles.font_primary_color}>
-                    {analysis_protein_identification_list_query_time}
-                  </span>
-                </Descriptions.Item>
+    {/* 已经加载的页数 */}
+<Descriptions.Item
+    span={2}
+    label={
+        <FormattedHTMLMessage id="propro.analysis_protein_identification_list_load_numbers" />
+}
+>
+<span
+    className={
+        0 >= load_page_numbers
+        ? styles.font_red_color
+        : styles.font_primary_color
+}
+>
+    {load_page_numbers}
+</span>
+</Descriptions.Item>
 
-                {/* 已经加载的页数 */}
-                <Descriptions.Item
-                  span={2}
-                  label={
-                    <FormattedHTMLMessage id="propro.analysis_protein_identification_list_load_numbers" />
-                  }
-                >
-                  <span
-                    className={
-                      0 >= load_page_numbers
-                        ? styles.font_red_color
-                        : styles.font_primary_color
-                    }
-                  >
-                    {load_page_numbers}
-                  </span>
-                </Descriptions.Item>
+    {/* 总页数 */}
+<Descriptions.Item
+    span={2}
+    label={
+        <FormattedHTMLMessage id="propro.analysis_protein_identification_list_total_numbers" />
+}
+>
+<span
+    className={
+        0 == total_numbers
+        ? styles.font_red_color
+        : styles.font_primary_color
+}
+>
+    {total_numbers}
+</span>
+</Descriptions.Item>
+</Descriptions>
+</Col>
 
-                {/* 总页数 */}
-                <Descriptions.Item
-                  span={2}
-                  label={
-                    <FormattedHTMLMessage id="propro.analysis_protein_identification_list_total_numbers" />
-                  }
-                >
-                  <span
-                    className={
-                      0 == total_numbers
-                        ? styles.font_red_color
-                        : styles.font_primary_color
-                    }
-                  >
-                    {total_numbers}
-                  </span>
-                </Descriptions.Item>
-              </Descriptions>
-            </Col>
+    {/* 显示加载百分比 */}
+<Col
+    span={24}
+    style={{
+    marginTop: "30px"
+}}
+>
+<div style={{ float: "left" }}>
+<div
+    style={{
+    float: "left",
+        height: "30px",
+        lineHeight: "30px"
+}}
+>
+<FormattedHTMLMessage id="propro.analysis_protein_identification_list_load_percentage" />
+    &nbsp;:
+</div>
+<div
+    style={{
+    width: "300px"
+}}
+>
+<Slider
+    min={0}
+    max={100}
+    style={{ margin: "10px 0px 0px 90px", height: "30px" }}
+    onChange={this.change_load_percentage_value}
+    value={Math.ceil(load_percentage_value)}
+    />
+    </div>
+    </div>
 
-            {/* 显示加载百分比 */}
-            <Col
-              span={24}
-              style={{
-                marginTop: "30px"
-              }}
-            >
-              <div style={{ float: "left" }}>
-                <div
-                  style={{
-                    float: "left",
-                    height: "30px",
-                    lineHeight: "30px"
-                  }}
-                >
-                  <FormattedHTMLMessage id="propro.analysis_protein_identification_list_load_percentage" />
-                  &nbsp;:
-                </div>
-                <div
-                  style={{
-                    width: "300px"
-                  }}
-                >
-                  <Slider
-                    min={0}
-                    max={100}
-                    style={{ margin: "10px 0px 0px 90px", height: "30px" }}
-                    onChange={this.change_load_percentage_value}
-                    value={Math.ceil(load_percentage_value)}
-                  />
-                </div>
-              </div>
-
-              <div>
-                <InputNumber
-                  min={1}
-                  max={100}
-                  style={{ marginLeft: "15px" }}
-                  value={load_percentage_value}
-                  onChange={this.change_load_percentage_value}
-                />
-                <Button
-                  type="primary"
-                  style={{
-                    padding: "0px 15px",
-                    margin: "0px 50px 0px 10px",
-                    height: "32px",
-                    lineHeight: "32px"
-                  }}
-                  onClick={
-                    this.handle_query_analysis_protein_identification_list
-                  }
-                >
-                  <span>
-                    &nbsp;
-                    <FormattedHTMLMessage id="propro.analysis_protein_identification_list_search" />
-                  </span>
-                </Button>
-              </div>
-            </Col>
-          </Row>
-        </div>
-        <Row>
-          {/* table */}
-          <Col
-            span={24}
-            style={{
-              marginTop: "30px"
-            }}
-          >
-            <div
-              style={{
-                background: "#FFFFFF",
-                padding: "5px",
-                border: "1px solid #e5e9f2",
-                overflow: "auto"
-              }}
-            >
-              <Table
-                size={"middle"}
-                columns={analysis_protein_identification_list_table_columns}
-                pagination={{
-                  position: "top",
-                  hideOnSinglePage: true,
-                  showQuickJumper: false,
-                  defaultPageSize: 50
-                }}
-                dataSource={
-                  this.state.analysis_protein_identification_prot_map_list
-                }
-              />
-            </div>
-          </Col>
-        </Row>
-      </div>
-    );
-  }
+    <div>
+    <InputNumber
+    min={1}
+    max={100}
+    style={{ marginLeft: "15px" }}
+    value={load_percentage_value}
+    onChange={this.change_load_percentage_value}
+    />
+    <Button
+    type="primary"
+    style={{
+    padding: "0px 15px",
+        margin: "0px 50px 0px 10px",
+        height: "32px",
+        lineHeight: "32px"
+}}
+    onClick={
+            this.handle_query_analysis_protein_identification_list
+        }
+        >
+        <span>
+        &nbsp;
+<FormattedHTMLMessage id="propro.analysis_protein_identification_list_search" />
+    </span>
+    </Button>
+    </div>
+    </Col>
+    </Row>
+    </div>
+    <Row>
+    {/* table */}
+    <Col
+    span={24}
+    style={{
+    marginTop: "30px"
+}}
+>
+<div
+    style={{
+    background: "#FFFFFF",
+        padding: "5px",
+        border: "1px solid #e5e9f2",
+        overflow: "auto"
+}}
+>
+<Table
+    size={"middle"}
+    columns={analysis_protein_identification_list_table_columns}
+    pagination={{
+    position: "top",
+        hideOnSinglePage: true,
+        showQuickJumper: false,
+        defaultPageSize: 50
+}}
+    dataSource={
+        this.state.analysis_protein_identification_prot_map_list
+    }
+    />
+    </div>
+    </Col>
+    </Row>
+    </div>
+);
+}
 }
 
 export default Analysis_protein_identification;
