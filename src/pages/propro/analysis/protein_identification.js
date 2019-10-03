@@ -340,15 +340,43 @@ class Analysis_protein_identification extends React.Component {
           // 存入渲染的数据
           for (let i = 0; i < len1; i++) {
             // console.log(obj[i]);
+            // bestRt: 1099.2033151715277
+            // dataRef: "5d36ed2d9063e34625b75fad-QAEMLDDLM(UniMod:35)EK_3-false"
+            // fdr: 0.5784523020874934
+            // featureScoresList: [{…}]
+            // fragIntFeature: ";y3:122072.90000000001;y4:31469.201;y5:34618.7;y10^2:27817.3;y10^3:230248.493;y6:0.0;"
+            // id: "5d36ed4a9063e34625b77654"
+            // identifiedStatus: 2
+            // intensitySum: 446226.59400000004
+            // isDecoy: false
+            // isUnique: true
+            // mz: 446.8687
+            // mzMap: {y3: 423.1908, y4: 536.27484, y5: 651.3018, y10^2: 605.77014, y10^3: 404.18253, …}
+            // overviewId: "5d36ed2d9063e34625b75fad"
+            // peptideId: "5d084f24e0073ca454d4eb10"
+            // peptideRef: "QAEMLDDLM(UniMod:35)EK_3"
+            // proteinName: "1/sp|P54819|KAD2_HUMAN"
+            // qValue: 0.5784523020874934
             temp1 = obj[i];
             obj_temp1.index = i + 1;
-            obj_temp1.key = "201910031518_" + index + "_" + i;
+            obj_temp1.key = "tangtao_201910031518_" + index + "_" + i;
+            obj_temp1.best_rt = temp1.bestRt;
+            obj_temp1.data_ref = temp1.dataRef;
             obj_temp1.fdr = temp1.fdr;
-            obj_temp1.is_unique = temp1.isUnique;
+            obj_temp1.feature_scores_list = temp1.featureScoresList;
+            obj_temp1.frag_int_feature = temp1.fragIntFeature;
+            obj_temp1.id = temp1.id;
             obj_temp1.identified_status = temp1.identifiedStatus;
-            obj_temp1.peptide_ref = temp1.peptideRef;
             obj_temp1.intensity_sum = parseInt(temp1.intensitySum);
             obj_temp1.is_decoy = temp1.isDecoy;
+            obj_temp1.is_unique = temp1.isUnique;
+            obj_temp1.mz = temp1.mz;
+            obj_temp1.mz_map = temp1.mzMap;
+            obj_temp1.overview_Id = temp1.overviewId;
+            obj_temp1.peptide_Id = temp1.peptideId;
+            obj_temp1.peptide_ref = temp1.peptideRef;
+            obj_temp1.protein_name = temp1.proteinName;
+            obj_temp1.q_value = temp1.qValue;
             arr_temp1[i] = obj_temp1;
             obj_temp1 = {};
           }
@@ -496,6 +524,10 @@ class Analysis_protein_identification extends React.Component {
     });
   };
 
+  data_list_view_data = list => {
+    console.log(list);
+  };
+
   config_table_columns = () => {
     setTimeout(() => {
       let analysis_protein_identification_data_table_columns = [
@@ -514,6 +546,7 @@ class Analysis_protein_identification extends React.Component {
           ),
           dataIndex: "index",
           key: "index",
+          width: 50,
           render: text => {
             return (
               <div
@@ -543,17 +576,23 @@ class Analysis_protein_identification extends React.Component {
           ),
           dataIndex: "peptide_ref",
           key: "peptide_ref",
-          render: text => {
+          width: 160,
+          render: (text, list) => {
+            let color_style = styles.font_black_color;
+            if (false == list.is_unique) {
+              // 警告
+              color_style = styles.font_red_color;
+            }
             return (
               <div
                 style={{
                   fontSize: "8px",
                   wordWrap: "break-word",
                   wordBreak: "break-all",
-                  minWidth: "100px",
-                  maxWidth: "100px"
+                  minWidth: "150px",
+                  maxWidth: "150px"
                 }}
-                className={styles.font_primary_color}
+                className={color_style}
               >
                 {text}
               </div>
@@ -561,7 +600,7 @@ class Analysis_protein_identification extends React.Component {
           }
         },
         {
-          // 4  status
+          // 3  status
           title: (
             <span
               style={{
@@ -575,19 +614,25 @@ class Analysis_protein_identification extends React.Component {
           ),
           dataIndex: "identified_status",
           key: "status",
+          width: 60,
           render: text => {
             let obj = null;
             obj =
               0 == text ? (
-                <img style={{ width: "18px" }} src={true_svg} />
+                <img style={{ width: "22px" }} src={true_svg} />
               ) : (
-                <img style={{ width: "18px" }} src={false_svg} />
+                <img style={{ width: "22px" }} src={false_svg} />
               );
 
             return (
               <div
                 style={{
-                  fontSize: "8px"
+                  fontSize: "8px",
+                  wordWrap: "break-word",
+                  wordBreak: "break-all",
+                  minWidth: "60px",
+                  maxWidth: "60px",
+                  textAlign: "center"
                 }}
                 className={styles.font_primary_color}
               >
@@ -597,7 +642,7 @@ class Analysis_protein_identification extends React.Component {
           }
         },
         {
-          // 3  FDR
+          // 4  FDR
           title: (
             <span
               style={{
@@ -611,6 +656,7 @@ class Analysis_protein_identification extends React.Component {
           ),
           dataIndex: "fdr",
           key: "fdr",
+          width: 130,
           render: text => {
             return (
               <div
@@ -629,7 +675,7 @@ class Analysis_protein_identification extends React.Component {
           }
         },
         {
-          // 3  Intensity
+          // 5  Intensity
           title: (
             <span
               style={{
@@ -643,6 +689,7 @@ class Analysis_protein_identification extends React.Component {
           ),
           dataIndex: "intensity_sum",
           key: "intensity_sum",
+          width: 60,
           render: text => {
             return (
               <div
@@ -650,8 +697,8 @@ class Analysis_protein_identification extends React.Component {
                   fontSize: "8px",
                   wordWrap: "break-word",
                   wordBreak: "break-all",
-                  minWidth: "50px",
-                  maxWidth: "50px"
+                  minWidth: "55px",
+                  maxWidth: "55px"
                 }}
                 className={styles.font_primary_color}
               >
@@ -661,7 +708,7 @@ class Analysis_protein_identification extends React.Component {
           }
         },
         {
-          // 3  操作
+          // 6  操作
           title: (
             <span
               style={{
@@ -673,6 +720,7 @@ class Analysis_protein_identification extends React.Component {
               <FormattedHTMLMessage id="propro.analysis_protein_identification_data_operation" />
             </span>
           ),
+
           key: "operation",
           render: list => {
             let is_decoy_btn = null;
@@ -681,13 +729,14 @@ class Analysis_protein_identification extends React.Component {
               is_decoy_btn = (
                 <button
                   type="button"
-                  className="btn btn-outline-primary"
+                  className="btn btn-outline-info"
                   style={{
                     fontWeight: 400,
                     fontSize: "12px",
                     height: "25px",
                     lineHeight: "13px",
                     padding: "6px 8px",
+                    margin: "5px 10px",
                     letterSpacing: "1px"
                   }}
                   // 暂时还未实现
@@ -705,6 +754,31 @@ class Analysis_protein_identification extends React.Component {
             } else {
               // null
             }
+            let view_data_btn = (
+              <button
+                type="button"
+                className="btn btn-outline-success"
+                style={{
+                  fontWeight: 400,
+                  fontSize: "12px",
+                  height: "25px",
+                  lineHeight: "13px",
+                  padding: "6px 8px",
+                  margin: "5px 10px",
+                  letterSpacing: "1px"
+                }}
+                // 暂时还未实现
+                // 提取到当前触发的数据
+
+                onClick={() => {
+                  this.data_list_view_data(list);
+                }}
+              >
+                <span>
+                  <FormattedHTMLMessage id="propro.analysis_protein_identification_data_view_data" />
+                </span>
+              </button>
+            );
             return (
               <div
                 style={{
@@ -713,6 +787,7 @@ class Analysis_protein_identification extends React.Component {
                 className={styles.font_primary_color}
               >
                 {is_decoy_btn}
+                {view_data_btn}
               </div>
             );
           }
