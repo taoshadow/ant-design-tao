@@ -119,7 +119,7 @@ No.
 
 ### 
 
-# react-json-view
+## react-json-view
 
 
 
@@ -134,6 +134,48 @@ RJV is a React component for displaying and editing javascript **arrays** and **
 This component provides a responsive interface for displaying arrays or JSON in a web browser. NPM offers a distribution of the source that's transpiled to ES5; so you can include this component with *any web-based javascript application*.
 
 [Example](https://mac-s-g.github.io/react-json-view/demo/dist/)
+
+### Props
+
+| Name                         | Type                                     | Default            | Description                                                  |
+| ---------------------------- | ---------------------------------------- | ------------------ | ------------------------------------------------------------ |
+| `src`                        | `JSON Object`                            | None               | This property contains your input JSON                       |
+| `name`                       | `string` or `false`                      | "root"             | Contains the name of your root node. Use `null` or `false` for no name. |
+| `theme`                      | `string`                                 | "rjv-default"      | RJV supports base-16 themes. Check out the list of supported themes [in the demo](https://mac-s-g.github.io/react-json-view/demo/dist/). A custom "rjv-default" theme applies by default. |
+| `style`                      | `object`                                 | `{}`               | Style attributes for react-json-view container. Explicit style attributes will override attributes provided by a theme. |
+| `iconStyle`                  | `string`                                 | "circle"           | Style of expand/collapse icons. Accepted values are "circle", triangle" or "square". |
+| `indentWidth`                | `integer`                                | 4                  | Set the indent-width for nested objects                      |
+| `collapsed`                  | `boolean` or `integer`                   | `false`            | When set to `true`, all nodes will be collapsed by default. Use an integer value to collapse at a particular depth. |
+| `collapseStringsAfterLength` | `integer`                                | `false`            | When an integer value is assigned, strings will be cut off at that length. Collapsed strings are followed by an ellipsis. String content can be expanded and collapsed by clicking on the string value. |
+| `shouldCollapse`             | `(field)=>{}`                            | `false`            | Callback function to provide control over what objects and arrays should be collapsed by default. An object is passed to the callback containing `name`, `src`, `type` ("array" or "object") and `namespace`. |
+| `groupArraysAfterLength`     | `integer`                                | `100`              | When an integer value is assigned, arrays will be displayed in groups by count of the value. Groups are displayed with brakcet notation and can be expanded and collapsed by clickong on the brackets. |
+| `enableClipboard`            | `boolean` or `(copy)=>{}`                | `true`             | When prop is not `false`, the user can copy objects and arrays to clipboard by clicking on the clipboard icon. Copy callbacks are supported. |
+| `displayObjectSize`          | `boolean`                                | `true`             | When set to `true`, objects and arrays are labeled with size |
+| `displayDataTypes`           | `boolean`                                | `true`             | When set to `true`, data type labels prefix values           |
+| `onEdit`                     | `(edit)=>{}`                             | `false`            | When a callback function is passed in, `edit` functionality is enabled. The callback is invoked before edits are completed. Returning `false` from `onEdit` will prevent the change from being made. [see: onEdit docs](https://github.com/mac-s-g/react-json-view#onedit-onadd-and-ondelete-interaction) |
+| `onAdd`                      | `(add)=>{}`                              | `false`            | When a callback function is passed in, `add` functionality is enabled. The callback is invoked before additions are completed. Returning `false` from `onAdd` will prevent the change from being made. [see: onAdd docs](https://github.com/mac-s-g/react-json-view#onedit-onadd-and-ondelete-interaction) |
+| `defaultValue`               | `string |number |boolean |array |object` | `null`             | Sets the default value to be used when adding an item to json |
+| `onDelete`                   | `(delete)=>{}`                           | `false`            | When a callback function is passed in, `delete` functionality is enabled. The callback is invoked before deletions are completed. Returning `false` from `onDelete` will prevent the change from being made. [see: onDelete docs](https://github.com/mac-s-g/react-json-view#onedit-onadd-and-ondelete-interaction) |
+| `onSelect`                   | `(select)=>{}`                           | `false`            | When a function is passed in, clicking a value triggers the `onSelect` method to be called. |
+| `sortKeys`                   | `boolean`                                | `false`            | set to true to sort object keys                              |
+| `validationMessage`          | `string`                                 | "Validation Error" | Custom message for validation failures to `onEdit`, `onAdd`, or `onDelete` callbacks |
+
+### Features
+
+- `onEdit`, `onAdd` and `onDelete` props allow users to edit the `src` variable
+- Object, array, string and function values can be collapsed and expanded
+- Object and array nodes display length
+- Object and array nodes support a "Copy to Clipboard" feature
+- String values can be truncated after a specified length
+- Arrays can be subgrouped after a specified length
+- Base-16 Theme Support
+- When `onEdit` is enabled:
+    - `Ctrl/Cmd+Click` Edit Mode
+    - `Ctrl/Cmd+Enter` Submit
+
+
+
+
 
 
 
@@ -153,25 +195,27 @@ npm run tao
 
 
 
+
+
 # package.json
 
 **作者**：[`唐涛`](https://www.promiselee.cn/tao)
 
 **创建**：`2019-9-22 16:35:40`
 
-**修改**：`2019-9-22 16:35:44`
+**修改**：`2019-10-3 23:18:26`
 
 ```json
 {
   "name": "ant-design-tao",
-  "version": "1.2.1",
+  "version": "2.2.1",
   "create_time": "2019-7-24 12:10:03",
-  "update_time": "2019-9-27 10:27:56",
+  "update_time": "2019-10-3 23:17:44",
   "description": "基于antd开发,针对propro-sever定制",
   "main": "index.js",
   "scripts": {
     "build": "umi build",
-    "tao": "echo Ant-design-tao && echo Author:TangTao && echo Github:https://github.com/tangtaoshadow  && DATE /T && TIME /T && echo Running && umi build  ",
+    "tao": "echo Ant-design-tao && echo Author:TangTao && echo Github:https://github.com/tangtaoshadow  && DATE /T && TIME /T && echo Running && umi dev  ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -190,9 +234,11 @@ npm run tao
     "jquery": "^3.4.1",
     "react-highlight-words": "^0.16.0",
     "react-intl": "^2.9.0",
+    "react-json-view": "^1.19.1",
     "reqwest": "^2.0.5"
   }
 }
+
 ```
 
 

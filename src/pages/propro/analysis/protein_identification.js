@@ -18,6 +18,7 @@ import { connect } from "dva";
 import Link from "umi/link";
 import { FormattedHTMLMessage } from "react-intl";
 import { Fragment } from "react";
+import ReactJson from "react-json-view";
 
 import {
   Layout,
@@ -87,6 +88,8 @@ const analysis_protein_identification_state_to_props = state => {
   if ("undefined" != typeof language) {
     obj.language = language;
   }
+
+  //
 
   let {
     analysis_protein_identification_status = -1,
@@ -296,7 +299,7 @@ class Analysis_protein_identification extends React.Component {
       totalPage
     } = this.props.analysis_protein_identification_data;
 
-    console.log(this.props.analysis_protein_identification_data);
+    // console.log(this.props.analysis_protein_identification_data);
     let [prot_map_list, load_page_numbers] = [null, 0];
     if (null != prot_map && "object" == typeof prot_map) {
       /*     
@@ -359,7 +362,8 @@ class Analysis_protein_identification extends React.Component {
             // qValue: 0.5784523020874934
             temp1 = obj[i];
             obj_temp1.index = i + 1;
-            obj_temp1.key = "tangtao_201910031518_" + index + "_" + i;
+            // tangtao 日期 index i
+            obj_temp1.key = "201910031518_" + index + "_" + i;
             obj_temp1.best_rt = temp1.bestRt;
             obj_temp1.data_ref = temp1.dataRef;
             obj_temp1.fdr = temp1.fdr;
@@ -525,7 +529,18 @@ class Analysis_protein_identification extends React.Component {
   };
 
   data_list_view_data = list => {
-    console.log(list);
+    // console.log(list);
+    let obj = (
+      <ReactJson
+        theme={"summerfruit:inverted"}
+        iconStyle={"circle"}
+        src={list}
+      />
+    );
+    this.setState({
+      drawer_visible: true,
+      drawer_data: obj
+    });
   };
 
   config_table_columns = () => {
@@ -839,7 +854,9 @@ class Analysis_protein_identification extends React.Component {
       load_page_numbers,
       total_numbers,
       analysis_protein_identification_list_query_time,
-      load_percentage_value
+      load_percentage_value,
+      drawer_visible,
+      drawer_data
     } = this.state;
     // 配置 analysis_protein_identification_list_table_columns
 
@@ -991,6 +1008,23 @@ class Analysis_protein_identification extends React.Component {
             <FormattedHTMLMessage id="propro.irt_standard_library_detail_delete_warning" />
           </div>
         </Modal>
+
+        {/* 抽屉 */}
+
+        {true == drawer_visible && (
+          <Drawer
+            title={
+              <FormattedHTMLMessage id="propro.analysis_score_list_data_detail" />
+            }
+            placement="left"
+            closable={true}
+            width={600}
+            onClose={this.drawer_close}
+            visible={drawer_visible}
+          >
+            {drawer_data}
+          </Drawer>
+        )}
 
         <div
           style={{
