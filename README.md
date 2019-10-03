@@ -292,8 +292,6 @@ npm run tao
 
 
 
-
-
 # 打分数据列表
 
 **作者**：[`唐涛`](https://www.promiselee.cn/tao)
@@ -303,6 +301,21 @@ npm run tao
 **修改**：`2019-9-28 21:34:09`
 
 ![](http://cdn.promiselee.cn/share_static/files/propro/propro-analysis-score-2019-9-28%20213140.png)
+
+
+
+
+
+
+# 肽段鉴定
+
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
+
+**创建**：`2019-10-4 00:40:32`
+
+**修改**：`2019-10-4 00:41:36`
+
+![](http://cdn.promiselee.cn/share_static/files/propro/propro-analysis-20191004003955.png)
 
 
 
