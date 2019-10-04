@@ -951,7 +951,7 @@ class Analysis_protein_identification extends React.Component {
         key: "datas",
         render: list => {
           // console.log("---- render ----");
-          console.log(list.data_arr);
+          // console.log(list.data_arr);
           return (
             <Table
               size={"small"}
