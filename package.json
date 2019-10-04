@@ -1,6 +1,6 @@
 {
   "name": "ant-design-tao",
-  "version": "^2.2.3",
+  "version": "2.2.3",
   "create_time": "2019-7-24 12:10:03",
   "update_time": "2019-10-4 00:26:23",
   "description": "基于ant-design开发,针对propro-server定制",
