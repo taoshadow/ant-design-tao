@@ -172,39 +172,6 @@ tao.tao_2099 = function(...all_arg) {
   _0x2b4f6[_0x371a("0x0")](...all_arg);
 };
 
-tao.copyright = () => {
-  // 加密配置
-
-  let [title, css] = [null, null];
-  let propro_logo = "%c           ";
-  let propro_logo_css =
-    "font-size:100px;background:url('http://cdn.promiselee.cn/share_static/files/propro/propro-logo-hori-300.png') no-repeat;";
-  tao.tao_2099(propro_logo, propro_logo_css);
-
-  let title_css = "font-size:28px;font-weight:700;color:#007bff;";
-
-  css = "font-size:18px;font-style:italic;color:#007bff;";
-
-  let arr = [
-    "%c西湖大学 Propro",
-    "%cPROPRO官网 http://www.proteomics.pro/",
-    "%c蛋白质组学分析平台 http://www.propro.club",
-    "%cGitee https://gitee.com/ProproStudio",
-    "%cEmail propro@westlake.edu.cn"
-  ];
-
-  tao.tao_2099(
-    arr[0] + "\n" + arr[1] + "\n" + arr[2] + "\n" + arr[3] + "\n" + arr[4],
-    title_css,
-    css,
-    css,
-    css,
-    css
-  );
-  //
-};
-
-tao.copyright();
 // 开发模式 这个函数 与 consolelog 不一样
 // 主要用在开发模式 方便后续发布屏蔽
 tao.dev_consolelog = function() {
@@ -267,6 +234,39 @@ tao.format_time = function(timestamp = 0, date_format = "Y-M-D h:m:s") {
 
   return date_format;
 };
+
+tao.copyright = () => {
+  // 加密配置
+
+  let [title, css] = [null, null];
+  let propro_logo = "           ";
+  let propro_logo_css =
+    "font-size:100px;background:url('http://cdn.promiselee.cn/share_static/files/propro/propro-logo-hori-300.png') no-repeat;";
+
+  let arr = [
+    "西湖大学 Propro",
+    propro_logo,
+    "\nPROPRO官网: http://www.proteomics.pro/",
+    "蛋白质组学分析平台: http://www.propro.club",
+    "Gitee: https://gitee.com/ProproStudio",
+    "Email: propro@westlake.edu.cn",
+    "\n2019 © 西湖大学 PROPRO All Rights Reserved."
+  ];
+  let title_css = "font-size:30px;font-weight:700;color:#007bff;";
+
+  css = "font-size:20px;font-style:italic;color:#007bff;";
+
+  let { length: len0 } = arr;
+  let args = "";
+  for (let i = 0; i < len0; i++) {
+    args += "%c" + arr[i] + "\n";
+  }
+
+  tao.tao_2099(args, title_css, propro_logo_css, css, css, css, css, css);
+  //
+};
+
+tao.copyright();
 
 //数据转化
 tao.format_number = function(n) {
