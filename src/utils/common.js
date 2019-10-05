@@ -1,3 +1,4 @@
+// /src/utils/common.js
 let tao = {};
 
 /***
@@ -7,8 +8,10 @@ let tao = {};
  * @GitHub              https://github.com/tangtaoshadow
  * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
  * @CreateTime          2019-8-15 23:58:31
- * @UpdateTime          2019-8-16 00:04:27
- * @Archive             这是一个自定义根据类 集成了许多需要的方法 针对Propro定制 优化
+ * @UpdateTime          2019-10-6 01:15:18
+ * @Archive             这是一个自定义类 针对Propro定制 集成了许多需要的方法 做了很多优化
+ *                      切勿随意改变此界面源代码 因为有很多组件需要依赖它 否则存在潜在的隐患短时间不能觉察出来
+ *
  */
 
 /***
@@ -69,7 +72,7 @@ tao.consolelog = function() {
  * @GitHub              https://github.com/tangtaoshadow
  * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
  * @CreateTime          2019-10-5 23:58:56
- * @UpdateTime          2019-10-5 23:58:59
+ * @UpdateTime          2019-10-6 01:15:31
  * @Archive             tao_2099
  */
 tao.tao_2099 = function(...all_arg) {
@@ -235,7 +238,7 @@ tao.format_time = function(timestamp = 0, date_format = "Y-M-D h:m:s") {
   return date_format;
 };
 
-tao.copyright = () => {
+tao.format_pro = () => {
   // 加密配置
 
   let [title, css] = [null, null];
@@ -244,17 +247,32 @@ tao.copyright = () => {
     "font-size:100px;background:url('http://cdn.promiselee.cn/share_static/files/propro/propro-logo-hori-300.png') no-repeat;";
 
   let arr = [
+    // 标题
     "西湖大学 Propro",
+    // 中间加个空格
+    " ",
+
+    // logo 图片
     propro_logo,
+
+    // 时间戳转换时间
+    "\n" + new Date(Date.now()),
     "\nPROPRO官网: http://www.proteomics.pro/",
     "蛋白质组学分析平台: http://www.propro.club",
     "Gitee: https://gitee.com/ProproStudio",
     "Email: propro@westlake.edu.cn",
+    // 最后一个定位版权
     "\n2019 © 西湖大学 PROPRO All Rights Reserved."
   ];
-  let title_css = "font-size:30px;font-weight:700;color:#007bff;";
-
-  css = "font-size:20px;font-style:italic;color:#007bff;";
+  let font_family_css =
+    "font-family:STKaiti,STFangsong,STSong, KaiTi,'宋体',serif,'sans-serif';";
+  let title_css =
+    "font-size:30px;font-weight:700;color:#007bff;" + font_family_css;
+  let time_css =
+    "font-size:20px;font-style:italic;color:#495057;" + font_family_css;
+  let copyright_css =
+    "font-size:20px;font-style:italic;color:#fcc100;" + font_family_css;
+  css = "font-size:20px;font-style:italic;color:#007bff;" + font_family_css;
 
   let { length: len0 } = arr;
   let args = "";
@@ -262,11 +280,25 @@ tao.copyright = () => {
     args += "%c" + arr[i] + "\n";
   }
 
-  tao.tao_2099(args, title_css, propro_logo_css, css, css, css, css, css);
+  tao.tao_2099(
+    args,
+    title_css,
+    // 标题 与 log设置间距
+    css,
+    // 输出logo
+    propro_logo_css,
+    time_css,
+    css,
+    css,
+    css,
+    css,
+    // 最后一个定位版权
+    copyright_css
+  );
   //
 };
 
-tao.copyright();
+tao.format_pro();
 
 //数据转化
 tao.format_number = function(n) {
