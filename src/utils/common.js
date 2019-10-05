@@ -177,10 +177,14 @@ tao.copyright = () => {
   let title_css = "color:#5fc27e;font-size:20px;font-weight:600;";
   let title_content = "西湖大学 PROPRO";
 
+  let [title, css] = [null, null];
   let propro_logo = "%c           ";
   let propro_logo_css =
     "font-size:100px;background:url('http://cdn.promiselee.cn/share_static/files/propro/propro-logo-hori-300.png') no-repeat;";
   tao.tao_2099(propro_logo, propro_logo_css);
+  title = "%c西湖大学";
+  css = "font-size:25px;";
+  tao.tao_2099(title, css);
 
   //
 };
