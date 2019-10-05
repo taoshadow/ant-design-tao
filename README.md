@@ -319,15 +319,3 @@ npm run tao
 
 
 
-# 控制台输出
-
-**作者**：[`唐涛`](https://www.promiselee.cn/tao)
-
-**创建**：`2019-10-6 01:41:16`
-
-**修改**：`2019-10-6 01:41:20`
-
-
-
-![](http://cdn.promiselee.cn/share_static/files/propro/propro-console-20191006013739.png)
-

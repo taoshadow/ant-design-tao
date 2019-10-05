@@ -1,5 +1,4 @@
 // /src/utils/common.js
-let tao = {};
 
 /***
  * @Author              TangTao  https://www.promiselee.cn/tao
@@ -13,6 +12,8 @@ let tao = {};
  *                      切勿随意改变此界面源代码 因为有很多组件需要依赖它 否则存在潜在的隐患短时间不能觉察出来
  *
  */
+
+let tao = {};
 
 /***
  * 计算字符串存储长度
@@ -76,10 +77,6 @@ tao.consolelog = function() {
  * @Archive             tao_2099
  */
 tao.tao_2099 = function(...all_arg) {
-  // let tangtao = console;
-  // tangtao.log(...all_arg);
-
-  // 防止注入
   // 绑定console
   let _0x2b4f6 = console;
 
@@ -176,7 +173,7 @@ tao.tao_2099 = function(...all_arg) {
 };
 
 // 开发模式 这个函数 与 consolelog 不一样
-// 主要用在开发模式 方便后续发布屏蔽
+// 主要用在开发模式 方便后续发布屏蔽 tangtao 2019-10-6 02:46:13
 tao.dev_consolelog = function() {
   let len = arguments.length;
   for (let i = 0; i < len; i++) {
@@ -185,6 +182,7 @@ tao.dev_consolelog = function() {
 };
 
 /***
+ * tangtao https://www.promiselee.cn/tao
  * 负责读取 token
  * 符合条件：
  * 1 token 长度大于 15
@@ -238,81 +236,221 @@ tao.format_time = function(timestamp = 0, date_format = "Y-M-D h:m:s") {
   return date_format;
 };
 
+/***
+ * @Author              TangTao  https://www.promiselee.cn/tao
+ * @Email               tangtao2099@outlook.com
+ * @Copyright           西湖大学 propro Tangtao
+ * @GitHub              https://github.com/tangtaoshadow
+ * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
+ * @CreateTime          2019-10-5 22:11:55
+ * @UpdateTime          2019-10-6 02:31:43
+ * @Archive             格式化输出 propro
+ */
 tao.format_pro = () => {
-  // 加密配置
-  window.author = {
-    Author: "tangtao HDU",
-    Repository: "https://github.com/tangtaoshadow/ant-design-tao",
-    authority: "https://github.com/taoshadow/ant-design-tao",
-    Home: "https://www.promiselee.cn/tao",
-    GitHub: "https://github.com/tangtaoshadow",
-    Zhihu: "https://www.zhihu.com/people/tang-tao-24-36/activities",
-    Email: "tangtao2099@email.com",
-    Statement:
-      "唐涛:基于Ant-design,集成了当前许多的流行框架,针对propro开发," +
-      "注重用户体验的适合全球企业,科研机构等使用的蛋白质组学分析平台操作界面."
-  };
-  window.tangtao = author;
-  let [title, css] = [null, null];
-  let propro_logo = "           ";
-  let propro_logo_css =
-    "font-size:100px;background:url('http://cdn.promiselee.cn/share_static/files/propro/propro-logo-hori-300.png') no-repeat;";
-
-  let arr = [
-    // 标题
-    "西湖大学 蛋白质组学 Propro",
-    // 中间加个空格
-    " ",
-    // logo 图片
-    propro_logo,
-    // 时间戳转换时间
-    "\n" + new Date(Date.now()),
-    // 介绍内容 key-value
-    "\nPROPRO官网: http://www.proteomics.pro/",
-    "蛋白质组学分析平台: http://www.propro.club",
-    "Gitee: https://gitee.com/ProproStudio",
-    "Email: propro@westlake.edu.cn",
-    // 最后一个定位版权
-    "\n2019 © 西湖大学 PROPRO All Rights Reserved."
+  //  格式化输出 propro
+  let _0x2cf9 = [
+    "PCfCq1LDlRg4w6oFw5QDwpnCmcKEfynCucKxw5VnaEHDkcKfwpLCk8OSwqB/",
+    "R8OzLSsAwo18wod8wprCvWPDvMO6ThbDpsKCNzTDkWTCp0zDo8KACiBlw4c7Gg==",
+    "HCrCksKhFwR2ZSzCszrDmXrDgsKaWWZqM1fDscK4wp5zwrjDu1dIJkgyLMOawpPDtXDDri7DgMOVfsOzwrhRe0PCvVvDu8OlMBzDlMOX",
+    "wqjCgMOkdEEwCMKhw6otw6TDrsO3R8OJwrHCksOYw4RZdw==",
+    "6LST542e6IGTwr7ll63mt6vCiw7lnr/kuqnCkCEFwq4aw4DCsGPDhMOGWembrOaLt+S6oOW/lOWJseitluWnkeebn+a0nuijkeairuacoMKM6ZO45a6wdlbCjMK2EHDlvrTljpfDtA==",
+    "5rG16Ya755aO5oiL5L+86aq555qH6YCt5ZKM5YS555GS5L+c5LqyAeeloeehqeactuafkOetquS8vOeXsueaneiajOealei2h+e4muWuhuWLouaft+W5vuWPgeaQvOS/neeVmOmfiUo=",
+    "BCEHWGxWAg==",
+    "LsO0w5UpYsOS",
+    "wo7DpcOkWTcsbnbDpsOtw4k=",
+    "wrpKJlw2NMKew63DogE9woEAwo5/wrMXKEnDrsKaIRxBQsOdw6rDocKKw5HDsXrDqAkGdcOpw7Ejw7jCoC/Cm8OxCsOKw7o2wqMPUTVJwqzDh8KQGcOow48oTB8bwqpewoXCpMOfw65BIirDhisewq3DtcKxGhEjwp0mwoJ8w6MUAsOjwqzDqynDqsOudGfDjsOOCcKgwqvDhQfCoCPCocONw63CkDh2F8OxM8OLW8KVKcKyCw==",
+    "6KSe5rqi5aS55a63ZOiag+ebjei2uOe7ueWtpRPCqMKuGjHDlcK6",
+    "wrJKPw==",
+    "Z8KQTnVkPcKx5ayg57+Of3HDnsKpRnN6w4fChDlyPcOpchvChRRlNmzCvsKGwos3w5QVwrZu",
+    "6Jqq55qJ6LS257iV5ayi5YmO5pyg5buj5Y+NORPCkMKoATHCncO6fcKEQsKxTkg9w5sVLEZIVHo8w5g=",
+    "EzrCq0fDgxg3wq0Gw5cEw4TDk8OZPyPCucK2w5VuI0fCkMKRw5PDrMOUwq5gccKtw5FowoUWwrod",
+    "wpHDucKKC8Ksw7LDl8OKHMK7HBYTDmHDj8KXU8KNw59cL8KufUTCiG7DpEI=",
+    "JcK1aWpKwpfDusKI6KWk5rql5aeu5a2twqnDiDI6w5nCvVdgw7FmwqwYw5DChh4gcMOQdD81QMOZwodVRcO5w7U=",
+    "w7w2w7pnIkHDvMK9w6RfT8OBwrjCu3tuw53CrcKZw4/DhcOfekTDoFHClMOKwp57w5AWw6nDqsKyEihRw6rDrWp8w7FKIMKQ5ayZ5L60wonCj8OGbcOKG2/DkMKbw5MewphwwrRAIMO2wrDCg1Nx",
+    "wrrCjsOkZxgiDsOpwr8uw67CnsOiUsKTwr7CkcKYw5MbbcKAGsK5PsKHccKpEEhsUcOCwrA2Tn/DscOROMOmI8Orw6zChA==",
+    "B8KbcMKlaTvDmcOqWDkBw4jCrA16w4HCujzChxjCtRRBI8ORXzddB1t/KsKBwonDmsOBwoPCmsO8VBDCpMOxwqfDm8OLSw==",
+    "wrrCg8K1woQxT3tIfhzDm8KGw6vCh8Omw5LDkk7DvcOww4zDvsKDwrzDrMOxw6TDl0sGwpZ/wpxRFigJwp5fwoTCuV0ow63CtMOzwqg=",
+    "Pw7CjmFGfMO5w4kDwozDsmzCqcKEwrjCi8ObwqocBcKAwrA1wqfDjcO1wqB1YglLCm1Ew4fCiMKxAkjDsQXDn8KTGQHDhiA=",
+    "FcKVccKOdnjCicKp",
+    "PsOcXXN8w7kY",
+    "csK6wqB5TMKDw5hlQAEw",
+    "w6UMwqXDvWfDlSrCrsOow6zDs0nCpcKwVghWwptqGUvCrsOCw5PCm1x7wo5cUCzCusKCfw3DrXgtwqTDtMO5O8KMfibDisKx",
+    "w6cpw5PCq8KIJsOrw63DssOPw6DDuSrCqR7DnsKaDMKDYcKIQXHCgBd1w4XComzCt8OtK8KCw7XDhsO1YnjCmsKcEsO8wrk=",
+    "J8O1w5UxfsKaw4bCp8Knw7/Cm8KhwpnCp3LDiMK/JcO6w53CucOfwpAlwozCjUXDli7DiMOhwqU7w5NaNMKWYcO8w6Yxw79Kw6zDgsKgwr8=",
+    "wrbDsHMcXcKwwrl2wqDDi1FGw4AMasKoC8O6w67DpnbCj8OoQMOMw70tVQLDhsO3wpUNwpsBwooewrhUwq/DmMOwUnM8W8OAFHUZ"
   ];
-  // 设置字体
-  let font_family_css =
-    "font-family:STKaiti,STFangsong,STSong, KaiTi,'宋体',serif,'sans-serif';";
-  // 对应标题样式
-  let title_css =
-    "font-size:30px;font-weight:700;color:#007bff;" + font_family_css;
-  // 对应时间样式
-  let time_css =
-    "font-size:20px;font-style:italic;color:#495057;" + font_family_css;
-  // 声明版权 tangtao https://www.promiselee.cn/tao
-  let copyright_css =
-    "font-size:22px;font-style:italic;color:#fcc100;" + font_family_css;
-  // 通用css 样式
-  css = "font-size:22px;font-style:italic;color:#007bff;" + font_family_css;
-  // 遍历
-  let { length: len0 } = arr;
-  let args = "";
-  for (let i = 0; i < len0; i++) {
-    args += "%c" + arr[i] + "\n";
-  }
 
-  tao.tao_2099(
-    args,
-    title_css,
-    // 标题 与 log设置间距
-    css,
-    // 输出logo
-    propro_logo_css,
-    // 时间
-    time_css,
-    // 通用
-    css,
-    css,
-    css,
-    css,
-    // 最后一个定位版权
-    copyright_css
+  (function(_0x193454, _0x5c00af) {
+    let _0x28e0fe = function(_0x4e942c) {
+      while (--_0x4e942c) {
+        _0x193454["push"](_0x193454["shift"]());
+      }
+    };
+    _0x28e0fe(++_0x5c00af);
+  })(_0x2cf9, 0x6e);
+  let _0x5108 = function(_0xb67384, _0x27295a) {
+    _0xb67384 = _0xb67384 - 0x0;
+    let _0x156d7c = _0x2cf9[_0xb67384];
+    if (_0x5108["hGOliN"] === undefined) {
+      (function() {
+        let _0x35aedc;
+        try {
+          let _0xa9c080 = Function(
+            "return\x20(function()\x20" +
+              "{}.constructor(\x22return\x20this\x22)(\x20)" +
+              ");"
+          );
+          _0x35aedc = _0xa9c080();
+        } catch (_0xfd277a) {
+          _0x35aedc = window;
+        }
+        let _0x2048b2 =
+          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
+        _0x35aedc["atob"] ||
+          (_0x35aedc["atob"] = function(_0x39f824) {
+            let _0x23f64f = String(_0x39f824)["replace"](/=+$/, "");
+            for (
+              let _0x172f59 = 0x0,
+                _0x5489f2,
+                _0x2ca197,
+                _0x211fa3 = 0x0,
+                _0x3d0c7c = "";
+              (_0x2ca197 = _0x23f64f["charAt"](_0x211fa3++));
+              ~_0x2ca197 &&
+              ((_0x5489f2 =
+                _0x172f59 % 0x4 ? _0x5489f2 * 0x40 + _0x2ca197 : _0x2ca197),
+              _0x172f59++ % 0x4)
+                ? (_0x3d0c7c += String["fromCharCode"](
+                    0xff & (_0x5489f2 >> ((-0x2 * _0x172f59) & 0x6))
+                  ))
+                : 0x0
+            ) {
+              _0x2ca197 = _0x2048b2["indexOf"](_0x2ca197);
+            }
+            return _0x3d0c7c;
+          });
+      })();
+      let _0x1feb4e = function(_0x2722a3, _0x27295a) {
+        let _0x5b96eb = [],
+          _0x86c128 = 0x0,
+          _0x3c58eb,
+          _0x1902b4 = "",
+          _0x462a03 = "";
+        _0x2722a3 = atob(_0x2722a3);
+        for (
+          let _0x576d89 = 0x0, _0x744bea = _0x2722a3["length"];
+          _0x576d89 < _0x744bea;
+          _0x576d89++
+        ) {
+          _0x462a03 +=
+            "%" +
+            ("00" + _0x2722a3["charCodeAt"](_0x576d89)["toString"](0x10))[
+              "slice"
+            ](-0x2);
+        }
+        _0x2722a3 = decodeURIComponent(_0x462a03);
+        let _0x1a36d8 = 0x0;
+        for (; _0x1a36d8 < 0x100; _0x1a36d8++) {
+          _0x5b96eb[_0x1a36d8] = _0x1a36d8;
+        }
+        for (_0x1a36d8 = 0x0; _0x1a36d8 < 0x100; _0x1a36d8++) {
+          _0x86c128 =
+            (_0x86c128 +
+              _0x5b96eb[_0x1a36d8] +
+              _0x27295a["charCodeAt"](_0x1a36d8 % _0x27295a["length"])) %
+            0x100;
+          _0x3c58eb = _0x5b96eb[_0x1a36d8];
+          _0x5b96eb[_0x1a36d8] = _0x5b96eb[_0x86c128];
+          _0x5b96eb[_0x86c128] = _0x3c58eb;
+        }
+        _0x1a36d8 = 0x0;
+        _0x86c128 = 0x0;
+        for (
+          let _0x137b6b = 0x0;
+          _0x137b6b < _0x2722a3["length"];
+          _0x137b6b++
+        ) {
+          _0x1a36d8 = (_0x1a36d8 + 0x1) % 0x100;
+          _0x86c128 = (_0x86c128 + _0x5b96eb[_0x1a36d8]) % 0x100;
+          _0x3c58eb = _0x5b96eb[_0x1a36d8];
+          _0x5b96eb[_0x1a36d8] = _0x5b96eb[_0x86c128];
+          _0x5b96eb[_0x86c128] = _0x3c58eb;
+          _0x1902b4 += String["fromCharCode"](
+            _0x2722a3["charCodeAt"](_0x137b6b) ^
+              _0x5b96eb[(_0x5b96eb[_0x1a36d8] + _0x5b96eb[_0x86c128]) % 0x100]
+          );
+        }
+        return _0x1902b4;
+      };
+      _0x5108["qDPgzt"] = _0x1feb4e;
+      _0x5108["ZhESbg"] = {};
+      _0x5108["hGOliN"] = !![];
+    }
+    let _0x219534 = _0x5108["ZhESbg"][_0xb67384];
+    if (_0x219534 === undefined) {
+      if (_0x5108["kGSTkV"] === undefined) {
+        _0x5108["kGSTkV"] = !![];
+      }
+      _0x156d7c = _0x5108["qDPgzt"](_0x156d7c, _0x27295a);
+      _0x5108["ZhESbg"][_0xb67384] = _0x156d7c;
+    } else {
+      _0x156d7c = _0x219534;
+    }
+    return _0x156d7c;
+  };
+  window[_0x5108("0x0", "QWmx")] = {
+    Author: _0x5108("0x1", "qukk"),
+    Repository: _0x5108("0x2", "X(cN"),
+    Authority1: _0x5108("0x3", "P@xK"),
+    Authority2: _0x5108("0x4", "vT2j"),
+    propro_repository: _0x5108("0x5", "e3)O"),
+    Home: _0x5108("0x6", "qej5"),
+    GitHub: _0x5108("0x7", "hDnc"),
+    Zhihu: _0x5108("0x8", "P5Qv"),
+    Email: _0x5108("0x9", "%xbg"),
+    Statement: _0x5108("0xa", "6g1#") + _0x5108("0xb", "Hg@T")
+  };
+  let _0x3d5629 = window[_0x5108("0xc", "q%Ou")];
+  window[_0x5108("0xd", "vT2j")] = _0x3d5629;
+  let [_0x194fb0, _0x5077f3] = [null, null];
+  let _0x5d90b3 = _0x5108("0xe", "ImLp");
+  let _0x2baee7 = _0x5108("0xf", "#Mtz");
+  let _0x49e844 = [
+    _0x5108("0x10", "fuju"),
+    "\x20",
+    _0x5d90b3,
+    "\x0a" + new Date(Date[_0x5108("0x11", "#Mtz")]()),
+    _0x5108("0x12", "&UuN"),
+    _0x5108("0x13", "fuju"),
+    _0x5108("0x14", "qej5"),
+    _0x5108("0x15", "a19L"),
+    _0x5108("0x16", "hDnc")
+  ];
+  let _0x620ee9 = _0x5108("0x17", "gpEb");
+  let _0x4e99a8 = _0x5108("0x18", "%xbg") + _0x620ee9;
+  let _0x3b001e = _0x5108("0x19", "fuju") + _0x620ee9;
+  let _0x574af6 = _0x5108("0x1a", "NI[T") + _0x620ee9;
+  _0x5077f3 = _0x5108("0x1b", "0ZAx") + _0x620ee9;
+  let { length: len0 } = _0x49e844;
+  let _0x423a81 = "";
+  for (let _0xaf70a6 = 0x0; _0xaf70a6 < len0; _0xaf70a6++) {
+    _0x423a81 += "%c" + _0x49e844[_0xaf70a6] + "\x0a";
+  }
+  tao[_0x5108("0x1c", "fuju")](
+    _0x423a81,
+    _0x4e99a8,
+    _0x5077f3,
+    _0x2baee7,
+    _0x3b001e,
+    _0x5077f3,
+    _0x5077f3,
+    _0x5077f3,
+    _0x5077f3,
+    _0x574af6
   );
+
+  //
+  //
   //
 };
 
@@ -363,6 +501,6 @@ export default tao;
  * @GitHub              https://github.com/tangtaoshadow
  * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
  * @CreateTime          2019-8-15 23:58:31
- * @UpdateTime          2019-8-16 00:04:27
+ * @UpdateTime          2019-10-6 02:46:52
  * @Archive
  */
