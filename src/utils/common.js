@@ -183,12 +183,22 @@ tao.copyright = () => {
     "font-size:100px;background:url('http://cdn.promiselee.cn/share_static/files/propro/propro-logo-hori-300.png') no-repeat;";
   tao.tao_2099(propro_logo, propro_logo_css);
   title = "%c西湖大学 PROPRO";
-  css = "font-size:22px;font-weight:600;";
+  css = "font-size:26px;font-weight:600;color:#007bff;";
   tao.tao_2099(title, css);
 
-  title = "%cPROPRO-SERVER http://www.propro.club";
+  title = "%c蛋白质组学分析平台 http://www.propro.club";
   css = "font-size:18px;font-style:italic;color:#007bff;";
-  tao.tao_2099(title, css);
+  let title1 = "%cGitee https://gitee.com/ProproStudio";
+
+  let title2 = "%cPROPRO官网 http://www.proteomics.pro/";
+
+  let arr = [
+    "%c蛋白质组学分析平台 http://www.propro.club",
+    "%cGitee https://gitee.com/ProproStudio",
+    "%cPROPRO官网 http://www.proteomics.pro/"
+  ];
+
+  tao.tao_2099(arr[0] + "\n" + arr[1] + "\n" + arr[2], css, css, css);
   //
 };
 
