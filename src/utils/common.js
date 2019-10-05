@@ -240,7 +240,13 @@ tao.format_time = function(timestamp = 0, date_format = "Y-M-D h:m:s") {
 
 tao.format_pro = () => {
   // 加密配置
-
+  window.tangtao = {
+    Author: "tangtao HDU",
+    Home: "https://www.promiselee.cn/tao",
+    GitHub: "https://github.com/tangtaoshadow",
+    Zhihu: "https://www.zhihu.com/people/tang-tao-24-36/activities",
+    Email: "tangtao2099@email.com"
+  };
   let [title, css] = [null, null];
   let propro_logo = "           ";
   let propro_logo_css =
