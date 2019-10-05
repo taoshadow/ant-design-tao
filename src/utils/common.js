@@ -243,6 +243,7 @@ tao.format_pro = () => {
   window.author = {
     Author: "tangtao HDU",
     Repository: "https://github.com/tangtaoshadow/ant-design-tao",
+    authority: "https://github.com/taoshadow/ant-design-tao",
     Home: "https://www.promiselee.cn/tao",
     GitHub: "https://github.com/tangtaoshadow",
     Zhihu: "https://www.zhihu.com/people/tang-tao-24-36/activities",
