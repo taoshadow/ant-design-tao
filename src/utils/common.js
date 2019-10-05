@@ -251,12 +251,11 @@ tao.format_pro = () => {
     "西湖大学 蛋白质组学 Propro",
     // 中间加个空格
     " ",
-
     // logo 图片
     propro_logo,
-
     // 时间戳转换时间
     "\n" + new Date(Date.now()),
+    // 介绍内容 key-value
     "\nPROPRO官网: http://www.proteomics.pro/",
     "蛋白质组学分析平台: http://www.propro.club",
     "Gitee: https://gitee.com/ProproStudio",
@@ -264,16 +263,21 @@ tao.format_pro = () => {
     // 最后一个定位版权
     "\n2019 © 西湖大学 PROPRO All Rights Reserved."
   ];
+  // 设置字体
   let font_family_css =
     "font-family:STKaiti,STFangsong,STSong, KaiTi,'宋体',serif,'sans-serif';";
+  // 对应标题样式
   let title_css =
     "font-size:30px;font-weight:700;color:#007bff;" + font_family_css;
+  // 对应时间样式
   let time_css =
     "font-size:20px;font-style:italic;color:#495057;" + font_family_css;
+  // 声明版权 tangtao https://www.promiselee.cn/tao
   let copyright_css =
     "font-size:22px;font-style:italic;color:#fcc100;" + font_family_css;
+  // 通用css 样式
   css = "font-size:22px;font-style:italic;color:#007bff;" + font_family_css;
-
+  // 遍历
   let { length: len0 } = arr;
   let args = "";
   for (let i = 0; i < len0; i++) {
@@ -287,7 +291,9 @@ tao.format_pro = () => {
     css,
     // 输出logo
     propro_logo_css,
+    // 时间
     time_css,
+    // 通用
     css,
     css,
     css,
