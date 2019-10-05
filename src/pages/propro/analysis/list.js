@@ -39,7 +39,8 @@ import {
   Tooltip,
   Table,
   Divider,
-  Tag
+  Tag,
+  BackTop
 } from "antd";
 
 import Highlighter from "react-highlight-words";
@@ -70,6 +71,7 @@ import proteins_list_svg from "../style/static/library/list.svg";
 import unordered_list_svg from "../style/static/dashboard/unordered_list.svg";
 import public_library_scg from "../style/static/library/public.svg";
 import update_library_svg from "../style/static/library/update.svg";
+import arrow_up_svg from "../style/static/analysis/arrow_up.svg";
 import report_svg from "../style/static/analysis/report.svg";
 import list_svg from "../style/static/analysis/list.svg";
 import score_svg from "../style/static/analysis/score.svg";
@@ -1122,6 +1124,17 @@ class Analysis_list extends React.Component {
             dataSource={this.state.analysis_list_data}
           />
         </div>
+        {/* Author: Tangtao HDU https://www.promiselee.cn/tao */}
+        <BackTop visibilityHeight={600}>
+          <div>
+            <img
+              style={{
+                width: "35px"
+              }}
+              src={arrow_up_svg}
+            />
+          </div>
+        </BackTop>
       </div>
     );
   }

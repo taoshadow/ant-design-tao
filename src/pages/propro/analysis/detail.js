@@ -40,7 +40,8 @@ import {
   Tooltip,
   Table,
   Divider,
-  Tag
+  Tag,
+  BackTop
 } from "antd";
 
 import Highlighter from "react-highlight-words";
@@ -69,6 +70,7 @@ import "../../../layout/Common.css";
 import report_svg from "../style/static/analysis/report.svg";
 import list_svg from "../style/static/analysis/list.svg";
 import score_svg from "../style/static/analysis/score.svg";
+import arrow_up_svg from "../style/static/analysis/arrow_up.svg";
 import identification_svg from "../style/static/analysis/identification.svg";
 import export_svg from "../style/static/analysis/export.svg";
 import delete_svg from "../style/static/analysis/delete.svg";
@@ -1012,6 +1014,17 @@ class Analysis_detail extends React.Component {
             </Col>
           </Row>
         </div>
+        {/* Author: Tangtao HDU https://www.promiselee.cn/tao 2019-10-5 23:10:05 */}
+        <BackTop visibilityHeight={600}>
+          <div>
+            <img
+              style={{
+                width: "35px"
+              }}
+              src={arrow_up_svg}
+            />
+          </div>
+        </BackTop>
       </div>
     );
   }

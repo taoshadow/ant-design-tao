@@ -43,7 +43,8 @@ import {
   Divider,
   Tag,
   InputNumber,
-  Slider
+  Slider,
+  BackTop
 } from "antd";
 
 import Highlighter from "react-highlight-words";
@@ -69,6 +70,7 @@ const Languages = {
 import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "../style/dashboard/console.less";
 import "../../../layout/Common.css";
+import arrow_up_svg from "../style/static/analysis/arrow_up.svg";
 import false_svg from "../style/static/analysis/false.svg";
 import true_svg from "../style/static/analysis/true.svg";
 import return_svg from "../style/static/dashboard/return.svg";
@@ -1268,6 +1270,17 @@ class Analysis_score extends React.Component {
             </div>
           </Col>
         </Row>
+        {/* Author: Tangtao HDU https://www.promiselee.cn/tao 2019-10-5 23:15:11 */}
+        <BackTop visibilityHeight={600}>
+          <div>
+            <img
+              style={{
+                width: "35px"
+              }}
+              src={arrow_up_svg}
+            />
+          </div>
+        </BackTop>
       </div>
     );
   }

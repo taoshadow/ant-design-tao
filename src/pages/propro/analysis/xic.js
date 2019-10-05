@@ -42,7 +42,8 @@ import {
   Divider,
   Tag,
   InputNumber,
-  Slider
+  Slider,
+  BackTop
 } from "antd";
 
 import Highlighter from "react-highlight-words";
@@ -74,6 +75,7 @@ import score_svg from "../style/static/analysis/score.svg";
 import identification_svg from "../style/static/analysis/identification.svg";
 import export_svg from "../style/static/analysis/export.svg";
 import delete_svg from "../style/static/analysis/delete.svg";
+import arrow_up_svg from "../style/static/analysis/arrow_up.svg";
 import return_svg from "../style/static/dashboard/return.svg";
 import preloader_svg from "../style/static/dashboard/preloader.svg";
 
@@ -1372,6 +1374,17 @@ class Xic extends React.Component {
             </div>
           </Col>
         </Row>
+        {/* Author: Tangtao HDU https://www.promiselee.cn/tao 2019-10-5 23:13:44 */}
+        <BackTop visibilityHeight={600}>
+          <div>
+            <img
+              style={{
+                width: "35px"
+              }}
+              src={arrow_up_svg}
+            />
+          </div>
+        </BackTop>
       </div>
     );
   }
