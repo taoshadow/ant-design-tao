@@ -174,31 +174,33 @@ tao.tao_2099 = function(...all_arg) {
 
 tao.copyright = () => {
   // 加密配置
-  let title_css = "color:#5fc27e;font-size:20px;font-weight:600;";
-  let title_content = "西湖大学 PROPRO";
 
   let [title, css] = [null, null];
   let propro_logo = "%c           ";
   let propro_logo_css =
     "font-size:100px;background:url('http://cdn.promiselee.cn/share_static/files/propro/propro-logo-hori-300.png') no-repeat;";
   tao.tao_2099(propro_logo, propro_logo_css);
-  title = "%c西湖大学 PROPRO";
-  css = "font-size:26px;font-weight:600;color:#007bff;";
-  tao.tao_2099(title, css);
 
-  title = "%c蛋白质组学分析平台 http://www.propro.club";
+  let title_css = "font-size:28px;font-weight:700;color:#007bff;";
+
   css = "font-size:18px;font-style:italic;color:#007bff;";
-  let title1 = "%cGitee https://gitee.com/ProproStudio";
-
-  let title2 = "%cPROPRO官网 http://www.proteomics.pro/";
 
   let arr = [
+    "%c西湖大学 Propro",
+    "%cPROPRO官网 http://www.proteomics.pro/",
     "%c蛋白质组学分析平台 http://www.propro.club",
     "%cGitee https://gitee.com/ProproStudio",
-    "%cPROPRO官网 http://www.proteomics.pro/"
+    "%cEmail propro@westlake.edu.cn"
   ];
 
-  tao.tao_2099(arr[0] + "\n" + arr[1] + "\n" + arr[2], css, css, css);
+  tao.tao_2099(
+    arr[0] + "\n" + arr[1] + "\n" + arr[2] + "\n" + arr[3] + "\n" + arr[4],
+    title_css,
+    css,
+    css,
+    css,
+    css
+  );
   //
 };
 
