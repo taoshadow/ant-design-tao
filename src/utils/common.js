@@ -248,7 +248,7 @@ tao.format_pro = () => {
 
   let arr = [
     // 标题
-    "西湖大学 Propro",
+    "西湖大学 蛋白质组学 Propro",
     // 中间加个空格
     " ",
 
@@ -271,8 +271,8 @@ tao.format_pro = () => {
   let time_css =
     "font-size:20px;font-style:italic;color:#495057;" + font_family_css;
   let copyright_css =
-    "font-size:20px;font-style:italic;color:#fcc100;" + font_family_css;
-  css = "font-size:20px;font-style:italic;color:#007bff;" + font_family_css;
+    "font-size:22px;font-style:italic;color:#fcc100;" + font_family_css;
+  css = "font-size:22px;font-style:italic;color:#007bff;" + font_family_css;
 
   let { length: len0 } = arr;
   let args = "";
