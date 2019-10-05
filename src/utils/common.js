@@ -240,13 +240,18 @@ tao.format_time = function(timestamp = 0, date_format = "Y-M-D h:m:s") {
 
 tao.format_pro = () => {
   // 加密配置
-  window.tangtao = {
+  window.author = {
     Author: "tangtao HDU",
+    Repository: "https://github.com/tangtaoshadow/ant-design-tao",
     Home: "https://www.promiselee.cn/tao",
     GitHub: "https://github.com/tangtaoshadow",
     Zhihu: "https://www.zhihu.com/people/tang-tao-24-36/activities",
-    Email: "tangtao2099@email.com"
+    Email: "tangtao2099@email.com",
+    Statement:
+      "唐涛:基于Ant-design,集成了当前许多的流行框架,针对propro开发," +
+      "注重用户体验的适合全球企业,科研机构等使用的蛋白质组学分析平台操作界面."
   };
+  window.tangtao = author;
   let [title, css] = [null, null];
   let propro_logo = "           ";
   let propro_logo_css =
