@@ -97,10 +97,18 @@ const analysis_protein_identification_state_to_props = state => {
   let {
     analysis_protein_identification_status = -1,
     analysis_protein_identification_time = 0,
-    analysis_protein_identification_data = {}
+    analysis_protein_identification_data = {},
+    analysis_protein_identification_delete_status,
+    // 删除数据的时间戳
+    analysis_protein_identification_delete_time,
+    // 返回的数据
+    analysis_protein_identification_delete_data
   } = state["analysis_protein_identification"];
 
-  (obj.analysis_protein_identification_status = analysis_protein_identification_status),
+  (obj.analysis_protein_identification_delete_status = analysis_protein_identification_delete_status),
+    (obj.analysis_protein_identification_delete_time = analysis_protein_identification_delete_time),
+    (obj.analysis_protein_identification_delete_data = analysis_protein_identification_delete_data),
+    (obj.analysis_protein_identification_status = analysis_protein_identification_status),
     (obj.analysis_protein_identification_time = analysis_protein_identification_time),
     (obj.analysis_protein_identification_data = analysis_protein_identification_data);
 
@@ -868,6 +876,52 @@ class Analysis_protein_identification extends React.Component {
     });
   };
 
+  // 处理删除数据
+  handle_delete_protein_identification = () => {
+    // 时间戳设置为 0
+    this.props.set_state_newvalue({
+      target: "analysis_protein_identification_delete_time",
+      value: 0
+    });
+
+    let {
+      analysis_protein_identification_delete_status,
+      language
+    } = this.props;
+    if (0 == analysis_protein_identification_delete_status) {
+      // 删除成功
+      setTimeout(() => {
+        message.success(
+          Languages[language][
+            "propro.analysis_protein_identification_list_delete"
+          ] +
+            " : " +
+            Languages[language]["propro.prompt_success"],
+          4
+        );
+      }, 200);
+    } else {
+      // 删除失败 可能出在网络
+      setTimeout(() => {
+        message.error(
+          Languages[language][
+            "propro.analysis_protein_identification_list_delete"
+          ] +
+            " : " +
+            Languages[language]["propro.prompt_failed"],
+          4
+        );
+      }, 200);
+
+      return -1;
+    }
+    // 执行跳转到分析列表
+    setTimeout(() => {
+      //
+      this.props.history.push("/analysis/list");
+    }, 1000);
+  };
+
   render() {
     // 监控 analysis_protein_identification 数据变化
     if (10000 < this.props.analysis_protein_identification_time) {
@@ -891,6 +945,12 @@ class Analysis_protein_identification extends React.Component {
           </Row>
         </Fragment>
       );
+    }
+    // 监控删除事件
+    if (10000 < this.props.analysis_protein_identification_delete_time) {
+      // 执行删除 状态报告 tangtao https://www.promiselee.cn/tao
+
+      this.handle_delete_protein_identification();
     }
 
     /*
