@@ -1230,6 +1230,29 @@ class Analysis_protein_identification extends React.Component {
                     {total_numbers}
                   </span>
                 </Descriptions.Item>
+                {/* 操作 */}
+                <Descriptions.Item
+                  span={4}
+                  label={
+                    <FormattedHTMLMessage id="propro.analysis_protein_identification_operation_buttons" />
+                  }
+                >
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    style={{
+                      fontWeight: 400,
+                      fontSize: "14px",
+                      height: "32px",
+                      letterSpacing: "1px"
+                    }}
+                    onClick={this.delete_analysis_xic_list_by_id}
+                  >
+                    <span>
+                      <FormattedHTMLMessage id="propro.analysis_protein_identification_delete" />
+                    </span>
+                  </button>
+                </Descriptions.Item>
               </Descriptions>
             </Col>
 

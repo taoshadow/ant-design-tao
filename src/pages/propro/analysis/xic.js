@@ -1262,7 +1262,7 @@ class Xic extends React.Component {
                 <Descriptions.Item
                   span={4}
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_xic_list_operation_buutons" />
+                    <FormattedHTMLMessage id="propro.analysis_xic_list_operation_buttons" />
                   }
                 >
                   <button
