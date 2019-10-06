@@ -511,6 +511,7 @@ let language_ch = {
   "propro.analysis_list_update_time": "更新时间",
   "propro.analysis_list_search": "搜索",
   "propro.analysis_list_reset": "重置",
+  "propro.analysis_list_delete_warning": "确认删除该条数据?",
 
   // 分析详情
   "propro.analysis_detail_title": "分析报告",
@@ -622,7 +623,7 @@ let language_ch = {
   "propro.analysis_protein_identification_list_operation_buttons": "操作",
   "propro.analysis_protein_identification_list_delete": "删除",
   "propro.analysis_protein_identification_list_delete_warning":
-    "确认删除该蛋白鉴定数据?",
+    "确认删除该条数据?",
   "propro.analysis_protein_identification_list_index": "NO.",
   "propro.analysis_protein_identification_list_protein_name": "蛋白名称",
   "propro.analysis_protein_identification_list_data": "数据",

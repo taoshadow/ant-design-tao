@@ -99,10 +99,16 @@ const analysis_state_to_props = state => {
   let {
     analysis_list_status = -1,
     analysis_list_time = 0,
-    analysis_list_data = {}
+    analysis_list_data = {},
+    analysis_list_delete_status = -1,
+    analysis_list_delete_time = 0,
+    analysis_list_delete_data = {}
   } = state["analysis_list"];
 
-  (obj.analysis_list_status = analysis_list_status),
+  (obj.analysis_list_delete_status = analysis_list_delete_status),
+    (obj.analysis_list_delete_time = analysis_list_delete_time),
+    (obj.analysis_list_delete_data = analysis_list_delete_data),
+    (obj.analysis_list_status = analysis_list_status),
     (obj.analysis_list_time = analysis_list_time),
     (obj.analysis_list_data = analysis_list_data);
 
@@ -116,6 +122,13 @@ const analysis_dispatch_to_props = dispatch => {
       const action = {
         type: "analysis_list/get_analysis_list",
         payload: null
+      };
+      dispatch(action);
+    },
+    delete_analysis_list: data => {
+      const action = {
+        type: "analysis_list/delete_analysis_list",
+        payload: data
       };
       dispatch(action);
     },
@@ -146,7 +159,10 @@ class Analysis_list extends React.Component {
       // 请求失败再次发起请求的尝试次数
       analysis_list_false_time: 5,
       search_text: "",
-      analysis_list_table_columns: null
+      analysis_list_table_columns: null,
+      // modal 配置
+      modal_visible: false,
+      delete_analysis_list_id: null
       //   language: this.props.language
     };
 
@@ -165,6 +181,17 @@ class Analysis_list extends React.Component {
     // 配置表格列参数
     this.config_table_columns();
   }
+
+  refresh_data = () => {
+    setTimeout(() => {
+      // 显示加载界面
+      this.setState({
+        analysis_list_status: -1
+      });
+      // 立即重新发起查询
+      this.props.get_analysis_list();
+    }, 800);
+  };
 
   handle_analysis_list = () => {
     // 时间戳设置为 0
@@ -1034,7 +1061,9 @@ class Analysis_list extends React.Component {
                     margin: "3px",
                     cursor: "pointer"
                   }}
-                  onClick={this.delete_analysis_list_by_id}
+                  onClick={() => {
+                    this.delete_analysis_list_by_id(list.id);
+                  }}
                 >
                   <img
                     src={delete_svg}
@@ -1067,15 +1096,93 @@ class Analysis_list extends React.Component {
     this.setState({ search_text: "" });
   };
 
-  delete_analysis_list_by_id = () => {
-    console.log("delete");
+  delete_analysis_list_by_id = id => {
+    // 调用删除对话框
+    this.setState({
+      delete_analysis_list_id: id,
+      modal_visible: true
+    });
   };
+
+  delete_analysis_list_by_id_confirm = () => {
+    this.setState({
+      modal_visible: false
+    });
+    let { language } = this.props;
+    message.loading(
+      Languages[language]["propro.analysis_list_delete_tip"] +
+        " : " +
+        Languages[language]["propro.prompt_running"],
+      2
+    );
+    // 延迟删除 为用户提供紧急停留时间
+    setTimeout(() => {
+      // 获取id
+      let { delete_analysis_list_id } = this.state;
+      this.props.delete_analysis_list({
+        id: delete_analysis_list_id
+      });
+    }, 1500);
+  };
+
+  delete_analysis_list_by_id_cancel = () => {
+    this.setState({
+      modal_visible: false
+    });
+  };
+
+  handle_delete_analysis_list = () => {
+    //
+    // 时间戳设置为 0
+    this.props.set_state_newvalue({
+      target: "analysis_list_delete_time",
+      value: 0
+    });
+
+    let { analysis_list_delete_status, language } = this.props;
+    if (0 == analysis_list_delete_status) {
+      // 删除成功
+      setTimeout(() => {
+        message.success(
+          Languages[language]["propro.analysis_list_delete_tip"] +
+            " : " +
+            Languages[language]["propro.prompt_success"],
+          4
+        );
+      }, 200);
+    } else {
+      // 删除失败 可能出在网络
+      setTimeout(() => {
+        message.error(
+          Languages[language]["propro.analysis_list_delete_tip"] +
+            " : " +
+            Languages[language]["propro.prompt_failed"],
+          4
+        );
+      }, 200);
+
+      return -1;
+    }
+    // 执行刷新到分析列表
+    setTimeout(() => {
+      // 重新加载数据
+      this.refresh_data();
+    }, 500);
+  };
+  /**************************** render ****************************/
+  /**************************** render ****************************/
+  /**************************** render ****************************/
+  /**************************** render ****************************/
 
   render() {
     // 监控 analysis_list 数据变化
     if (10000 < this.props.analysis_list_time) {
       // 资源有更新
       this.handle_analysis_list();
+    }
+
+    if (10000 < this.props.analysis_list_delete_time) {
+      this.handle_delete_analysis_list();
     }
 
     if (0 != this.state.analysis_list_status) {
@@ -1122,6 +1229,26 @@ class Analysis_list extends React.Component {
           </Tooltip>
           <FormattedHTMLMessage id="propro.analysis_list_title" />
         </div>
+
+        {/* 提示用户 删除 警告信息 */}
+        <Modal
+          title={
+            <b>
+              <FormattedHTMLMessage id="propro.modal_title" />
+            </b>
+          }
+          visible={this.state.modal_visible}
+          onOk={this.delete_analysis_list_by_id_confirm}
+          onCancel={this.delete_analysis_list_by_id_cancel}
+          maskClosable={true}
+          okText={<FormattedHTMLMessage id="propro.modal_confirm" />}
+          cancelText={<FormattedHTMLMessage id="propro.modal_cancel" />}
+        >
+          <div className={styles.font_red_color}>
+            <FormattedHTMLMessage id="propro.analysis_list_delete_warning" />
+          </div>
+        </Modal>
+
         <div
           style={{
             background: "#FFFFFF",

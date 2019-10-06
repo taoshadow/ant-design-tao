@@ -1027,11 +1027,23 @@ class Analysis_protein_identification extends React.Component {
     }, 1000);
   };
 
+  /**************************** render ****************************/
+  /**************************** render ****************************/
+  /**************************** render ****************************/
+  /**************************** render ****************************/
+
   render() {
     // 监控 analysis_protein_identification 数据变化
     if (10000 < this.props.analysis_protein_identification_time) {
       // 资源有更新
       this.handle_analysis_protein_identification();
+    }
+
+    // 监控删除事件
+    if (10000 < this.props.analysis_protein_identification_delete_time) {
+      // 执行删除 状态报告 tangtao https://www.promiselee.cn/tao
+
+      this.handle_delete_protein_identification();
     }
 
     if (0 != this.state.analysis_protein_identification_status) {
@@ -1050,12 +1062,6 @@ class Analysis_protein_identification extends React.Component {
           </Row>
         </Fragment>
       );
-    }
-    // 监控删除事件
-    if (10000 < this.props.analysis_protein_identification_delete_time) {
-      // 执行删除 状态报告 tangtao https://www.promiselee.cn/tao
-
-      this.handle_delete_protein_identification();
     }
 
     /*
