@@ -127,6 +127,14 @@ const analysis_protein_identification_dispatch_to_props = dispatch => {
       };
       dispatch(action);
     },
+    delete_analysis_protein_identification: data => {
+      const action = {
+        type:
+          "analysis_protein_identification/delete_analysis_protein_identification",
+        payload: data
+      };
+      dispatch(action);
+    },
     set_state_newvalue: data => {
       const action = {
         type: "analysis_protein_identification/set_state_newvalue",
@@ -825,6 +833,41 @@ class Analysis_protein_identification extends React.Component {
     }, 20);
   };
 
+  delete_protein_identification_list_by_id = () => {
+    // 调用删除对话框
+    this.setState({
+      modal_visible: true
+    });
+  };
+
+  delete_protein_identification_list_by_id_confirm = () => {
+    this.setState({
+      modal_visible: false
+    });
+    let { language } = this.props;
+    message.loading(
+      Languages[language][
+        "propro.analysis_protein_identification_list_delete"
+      ] +
+        " : " +
+        Languages[language]["propro.prompt_running"],
+      2
+    );
+    setTimeout(() => {
+      // 获取id
+      let { analysis_protein_identification_id } = this.state;
+      this.props.delete_analysis_protein_identification({
+        id: analysis_protein_identification_id
+      });
+    }, 1500);
+  };
+
+  delete_protein_identification_list_by_id_cancel = () => {
+    this.setState({
+      modal_visible: false
+    });
+  };
+
   render() {
     // 监控 analysis_protein_identification 数据变化
     if (10000 < this.props.analysis_protein_identification_time) {
@@ -1008,14 +1051,14 @@ class Analysis_protein_identification extends React.Component {
             </b>
           }
           visible={this.state.modal_visible}
-          onOk={this.delete_protein_identification_by_id_confirm}
-          onCancel={this.delete_protein_identification_by_id_cancel}
+          onOk={this.delete_protein_identification_list_by_id_confirm}
+          onCancel={this.delete_protein_identification_list_by_id_cancel}
           maskClosable={true}
           okText={<FormattedHTMLMessage id="propro.modal_confirm" />}
           cancelText={<FormattedHTMLMessage id="propro.modal_cancel" />}
         >
           <div className={styles.font_red_color}>
-            <FormattedHTMLMessage id="propro.irt_standard_library_detail_delete_warning" />
+            <FormattedHTMLMessage id="propro.analysis_protein_identification_list_delete_warning" />
           </div>
         </Modal>
 
@@ -1234,7 +1277,7 @@ class Analysis_protein_identification extends React.Component {
                 <Descriptions.Item
                   span={4}
                   label={
-                    <FormattedHTMLMessage id="propro.analysis_protein_identification_operation_buttons" />
+                    <FormattedHTMLMessage id="propro.analysis_protein_identification_list_operation_buttons" />
                   }
                 >
                   <button
@@ -1246,10 +1289,10 @@ class Analysis_protein_identification extends React.Component {
                       height: "32px",
                       letterSpacing: "1px"
                     }}
-                    onClick={this.delete_analysis_xic_list_by_id}
+                    onClick={this.delete_protein_identification_list_by_id}
                   >
                     <span>
-                      <FormattedHTMLMessage id="propro.analysis_protein_identification_delete" />
+                      <FormattedHTMLMessage id="propro.analysis_protein_identification_list_delete" />
                     </span>
                   </button>
                 </Descriptions.Item>

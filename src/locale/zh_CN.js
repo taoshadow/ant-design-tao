@@ -619,8 +619,10 @@ let language_ch = {
   "propro.analysis_protein_identification_search": "搜索",
   "propro.analysis_protein_identification_reset": "重置",
   "propro.analysis_protein_identification_list_search": "查找",
-  "propro.analysis_protein_identification_operation_buttons": "操作",
-  "propro.analysis_protein_identification_delete": "删除",
+  "propro.analysis_protein_identification_list_operation_buttons": "操作",
+  "propro.analysis_protein_identification_list_delete": "删除",
+  "propro.analysis_protein_identification_list_delete_warning":
+    "确认删除该蛋白鉴定数据?",
   "propro.analysis_protein_identification_list_index": "NO.",
   "propro.analysis_protein_identification_list_protein_name": "蛋白名称",
   "propro.analysis_protein_identification_list_data": "数据",
