@@ -492,6 +492,7 @@ let language_ch = {
   "propro.analysis_list_title": "分析概览",
   "propro.analysis_list_index": "No.",
   "propro.analysis_list_exp_name": "实验名称",
+  "propro.analysis_list_view_experience": "查看实验",
   "propro.analysis_list_name": "分析代号",
   "propro.analysis_list_id": "分析概览ID",
   "propro.analysis_list_library_name": "标准库名称",

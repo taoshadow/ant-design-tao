@@ -499,7 +499,6 @@ class Analysis_list extends React.Component {
           );
         }
       },
-
       {
         // 2  实验名称
         title: (
@@ -526,14 +525,21 @@ class Analysis_list extends React.Component {
                 maxWidth: "80px"
               }}
             >
-              <Link
-                to={"/library/analysis/detail/" + list.id}
-                style={{
-                  fontSize: "8px"
-                }}
+              <Tooltip
+                placement="topLeft"
+                title={
+                  <FormattedHTMLMessage id="propro.analysis_list_view_experience" />
+                }
               >
-                {list.exp_name}
-              </Link>
+                <Link
+                  to={"/library/analysis/detail/" + list.id}
+                  style={{
+                    fontSize: "8px"
+                  }}
+                >
+                  {list.exp_name}
+                </Link>
+              </Tooltip>
             </div>
           );
         }
@@ -562,7 +568,8 @@ class Analysis_list extends React.Component {
                 wordWrap: "break-word",
                 wordBreak: "break-all",
                 minWidth: "80px",
-                maxWidth: "80px"
+                maxWidth: "80px",
+                fontWeight: "600"
               }}
             >
               {text}
@@ -596,9 +603,7 @@ class Analysis_list extends React.Component {
                 maxWidth: "100px"
               }}
             >
-              <Link to={"/library/analysis/detail/" + list.id}>
-                {list.name}
-              </Link>
+              {list.name}
             </div>
           );
         }
