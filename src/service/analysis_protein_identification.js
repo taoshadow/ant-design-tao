@@ -4672,3 +4672,37 @@ export function query_analysis_protein_identification(data = "") {
     body: body_data
   });
 }
+
+
+// 删除 analysis 数据
+export function delete_analysis_protein_identification(data = "") {
+  // 读取最新的 token
+  let token = tao.get_token();
+
+  let { id = "" } = data;
+  id += "";
+  if (-1 == token || "" == data || 0 >= id.length) {
+    // 不存在 token
+    return "error";
+  }
+
+  let body_data = "";
+
+  body_data += "id" + "=" + id + "&";
+
+  // 请求 irt 库列表
+  return request("/propro_server/analyse/delete", {
+    headers: {
+      // 'content-type': 'application/json',
+      // "X-Requested-With": "XMLHttpRequest",
+      token: token,
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+    },
+    method: "POST",
+    //   发送登录数据 注意 数据未加密
+    body: body_data
+  });
+}
+
+
+
