@@ -145,12 +145,15 @@ class Analysis_list extends React.Component {
       analysis_list_status: -1,
       // 请求失败再次发起请求的尝试次数
       analysis_list_false_time: 5,
-      search_text: ""
+      search_text: "",
+      analysis_list_table_columns: null
       //   language: this.props.language
     };
 
     // 查询 public_irt 列表
-    this.props.get_analysis_list();
+    setTimeout(() => {
+      this.props.get_analysis_list();
+    }, 100);
 
     // 配置 message
     message.config({
@@ -159,6 +162,8 @@ class Analysis_list extends React.Component {
       maxCount: 5,
       getContainer: () => document.body
     });
+    // 配置表格列参数
+    this.config_table_columns();
   }
 
   handle_analysis_list = () => {
@@ -435,19 +440,9 @@ class Analysis_list extends React.Component {
     )
   });
 
-  handle_table_search = (selectedKeys, confirm) => {
-    confirm();
-    this.setState({ search_text: selectedKeys[0] });
-  };
-
-  handle_table_reset = clearFilters => {
-    clearFilters();
-    this.setState({ search_text: "" });
-  };
-
-  render() {
+  config_table_columns = () => {
     // 定义 解析 配置 表格
-    const analysis_list_table_columns = [
+    let analysis_list_table_columns = [
       {
         // 1  序列号
         title: (
@@ -1032,22 +1027,22 @@ class Analysis_list extends React.Component {
                   <FormattedHTMLMessage id="propro.analysis_list_delete_tip" />
                 }
               >
-                <Link to={"/analysis/detail/" + list.id}>
-                  <div
-                    className={"badge btn-danger"}
+                <div
+                  className={"badge btn-danger"}
+                  style={{
+                    padding: "4px 4px",
+                    margin: "3px",
+                    cursor: "pointer"
+                  }}
+                  onClick={this.delete_analysis_list_by_id}
+                >
+                  <img
+                    src={delete_svg}
                     style={{
-                      padding: "4px 4px",
-                      margin: "3px"
+                      width: "20px"
                     }}
-                  >
-                    <img
-                      src={delete_svg}
-                      style={{
-                        width: "20px"
-                      }}
-                    />
-                  </div>
-                </Link>
+                  />
+                </div>
               </Tooltip>
             </div>
           );
@@ -1055,6 +1050,28 @@ class Analysis_list extends React.Component {
       }
     ];
 
+    setTimeout(() => {
+      this.setState({
+        analysis_list_table_columns: analysis_list_table_columns
+      });
+    }, 40);
+  };
+
+  handle_table_search = (selectedKeys, confirm) => {
+    confirm();
+    this.setState({ search_text: selectedKeys[0] });
+  };
+
+  handle_table_reset = clearFilters => {
+    clearFilters();
+    this.setState({ search_text: "" });
+  };
+
+  delete_analysis_list_by_id = () => {
+    console.log("delete");
+  };
+
+  render() {
     // 监控 analysis_list 数据变化
     if (10000 < this.props.analysis_list_time) {
       // 资源有更新
@@ -1115,7 +1132,7 @@ class Analysis_list extends React.Component {
         >
           <Table
             size={"middle"}
-            columns={analysis_list_table_columns}
+            columns={this.state.analysis_list_table_columns}
             pagination={{
               position: "bottom",
               hideOnSinglePage: true,

@@ -834,9 +834,114 @@ class Analysis_protein_identification extends React.Component {
         }
       ];
 
+      let analysis_protein_identification_list_table_columns = [
+        {
+          // 1  排序
+          title: (
+            <div
+              style={{
+                fontSize: "8px",
+                fontWeight: "600",
+                letterSpacing: "1px"
+              }}
+            >
+              <FormattedHTMLMessage id="propro.analysis_protein_identification_list_index" />
+            </div>
+          ),
+          dataIndex: "index",
+          key: "index",
+          width: 80,
+          ...this.get_column_search_props("index"),
+          render: text => {
+            return (
+              <div
+                className={styles.font_second_color}
+                style={{
+                  fontSize: "8px",
+                  fontWeight: "600"
+                }}
+              >
+                {text}
+              </div>
+            );
+          }
+        },
+        {
+          // 2  蛋白名称
+          title: (
+            <span
+              style={{
+                fontSize: "8px",
+                fontWeight: "600",
+                letterSpacing: "1px"
+              }}
+            >
+              <FormattedHTMLMessage id="propro.analysis_protein_identification_list_protein_name" />
+            </span>
+          ),
+          dataIndex: "name",
+          key: "name",
+          ...this.get_column_search_props("name"),
+          render: text => {
+            return (
+              <div
+                style={{
+                  fontSize: "8px",
+                  wordWrap: "break-word",
+                  wordBreak: "break-all",
+                  minWidth: "150px",
+                  maxWidth: "150px"
+                }}
+                className={styles.font_primary_color}
+              >
+                {text}
+              </div>
+            );
+          }
+        },
+        {
+          // 2  数据
+          title: (
+            <span
+              style={{
+                fontSize: "8px",
+                fontWeight: "600",
+                letterSpacing: "1px"
+              }}
+            >
+              <FormattedHTMLMessage id="propro.analysis_protein_identification_list_data" />
+            </span>
+          ),
+          key: "data",
+          key: "datas",
+          render: list => {
+            // console.log("---- render ----");
+            // console.log(list.data_arr);
+            return (
+              <Table
+                size={"small"}
+                bordered={true}
+                columns={
+                  this.state.analysis_protein_identification_data_table_columns
+                }
+                // scroll={{ y: 240 }}
+                pagination={{
+                  position: "top",
+                  hideOnSinglePage: true,
+                  showQuickJumper: false,
+                  defaultPageSize: 500
+                }}
+                dataSource={list.data_arr}
+              />
+            );
+          }
+        }
+      ];
+
       //
       this.setState({
-        analysis_protein_identification_data_table_columns: analysis_protein_identification_data_table_columns
+        analysis_protein_identification_data_table_columns: analysis_protein_identification_data_table_columns,
+        analysis_protein_identification_list_table_columns: analysis_protein_identification_list_table_columns
       });
     }, 20);
   };
@@ -971,110 +1076,6 @@ class Analysis_protein_identification extends React.Component {
       drawer_data
     } = this.state;
     // 配置 analysis_protein_identification_list_table_columns
-
-    let analysis_protein_identification_list_table_columns = [
-      {
-        // 1  排序
-        title: (
-          <div
-            style={{
-              fontSize: "8px",
-              fontWeight: "600",
-              letterSpacing: "1px"
-            }}
-          >
-            <FormattedHTMLMessage id="propro.analysis_protein_identification_list_index" />
-          </div>
-        ),
-        dataIndex: "index",
-        key: "index",
-        width: 80,
-        ...this.get_column_search_props("index"),
-        render: text => {
-          return (
-            <div
-              className={styles.font_second_color}
-              style={{
-                fontSize: "8px",
-                fontWeight: "600"
-              }}
-            >
-              {text}
-            </div>
-          );
-        }
-      },
-      {
-        // 2  蛋白名称
-        title: (
-          <span
-            style={{
-              fontSize: "8px",
-              fontWeight: "600",
-              letterSpacing: "1px"
-            }}
-          >
-            <FormattedHTMLMessage id="propro.analysis_protein_identification_list_protein_name" />
-          </span>
-        ),
-        dataIndex: "name",
-        key: "name",
-        ...this.get_column_search_props("name"),
-        render: text => {
-          return (
-            <div
-              style={{
-                fontSize: "8px",
-                wordWrap: "break-word",
-                wordBreak: "break-all",
-                minWidth: "150px",
-                maxWidth: "150px"
-              }}
-              className={styles.font_primary_color}
-            >
-              {text}
-            </div>
-          );
-        }
-      },
-      {
-        // 2  数据
-        title: (
-          <span
-            style={{
-              fontSize: "8px",
-              fontWeight: "600",
-              letterSpacing: "1px"
-            }}
-          >
-            <FormattedHTMLMessage id="propro.analysis_protein_identification_list_data" />
-          </span>
-        ),
-        key: "data",
-        key: "datas",
-        render: list => {
-          // console.log("---- render ----");
-          // console.log(list.data_arr);
-          return (
-            <Table
-              size={"small"}
-              bordered={true}
-              columns={
-                this.state.analysis_protein_identification_data_table_columns
-              }
-              // scroll={{ y: 240 }}
-              pagination={{
-                position: "top",
-                hideOnSinglePage: true,
-                showQuickJumper: false,
-                defaultPageSize: 500
-              }}
-              dataSource={list.data_arr}
-            />
-          );
-        }
-      }
-    ];
 
     return (
       <div>
