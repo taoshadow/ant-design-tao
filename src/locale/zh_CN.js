@@ -637,6 +637,11 @@ let language_ch = {
   "propro.analysis_protein_identification_data_peptide_diagnosis": "肽段诊断",
   "propro.analysis_protein_identification_data_view_data": "数据详情",
 
+  // experiment_list_title
+  "propro.experiment_list_title": "实验数据列表",
+  "propro.experiment_list_project_name": "项目名称",
+  "propro.experiment_list_experiment_name": "实验名称",
+
   "propro.end": "end"
 };
 

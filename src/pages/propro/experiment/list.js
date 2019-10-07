@@ -67,6 +67,18 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "../style/dashboard/console.less";
 import "../../../layout/Common.css";
 
+import detail_svg from "../style/static/library/detail.svg";
+import proteins_list_svg from "../style/static/library/list.svg";
+import unordered_list_svg from "../style/static/dashboard/unordered_list.svg";
+import public_library_scg from "../style/static/library/public.svg";
+import update_library_svg from "../style/static/library/update.svg";
+import arrow_up_svg from "../style/static/analysis/arrow_up.svg";
+import report_svg from "../style/static/analysis/report.svg";
+import list_svg from "../style/static/analysis/list.svg";
+import score_svg from "../style/static/analysis/score.svg";
+import identification_svg from "../style/static/analysis/identification.svg";
+import export_svg from "../style/static/analysis/export.svg";
+import delete_svg from "../style/static/analysis/delete.svg";
 import return_svg from "../style/static/dashboard/return.svg";
 import preloader_svg from "../style/static/dashboard/preloader.svg";
 
@@ -398,11 +410,121 @@ class Experiment_list extends React.Component {
   });
 
   config_table_columns = () => {
-    // setTimeout(() => {
-    //   this.setState({
-    //     experiment_list_table_columns: experiment_list_table_columns
-    //   });
-    // }, 40);
+    let experiment_list_table_columns = [
+      {
+        // 1  序列号
+        title: (
+          <span
+            style={{
+              fontSize: "14px",
+              fontWeight: "600",
+              letterSpacing: "1px"
+            }}
+          >
+            <FormattedHTMLMessage id="propro.experiment_list_index" />
+          </span>
+        ),
+        dataIndex: "index",
+        key: "index",
+        ...this.get_column_search_props("index"),
+        render: text => {
+          return (
+            <span
+              className={styles.font_second_color}
+              style={{
+                fontSize: "8px",
+                fontWeight: "600"
+              }}
+            >
+              {text}
+            </span>
+          );
+        }
+      },
+      {
+        // 2  项目名称
+        title: (
+          <span
+            style={{
+              fontSize: "14px",
+              fontWeight: "600",
+              letterSpacing: "1px"
+            }}
+          >
+            <FormattedHTMLMessage id="propro.experiment_list_project_name" />
+          </span>
+        ),
+        key: "project_name",
+        ...this.get_column_search_props("project_name"),
+        render: list => {
+          return (
+            <div
+              style={{
+                fontSize: "8px",
+                wordWrap: "break-word",
+                wordBreak: "break-all",
+                minWidth: "80px",
+                maxWidth: "80px"
+              }}
+            >
+              <Tooltip
+                placement="topLeft"
+                title={
+                  <FormattedHTMLMessage id="propro.experiment_list_view_experience" />
+                }
+              >
+                <Link
+                  to={"/library/analysis/detail/" + list.project_name}
+                  style={{
+                    fontSize: "8px"
+                  }}
+                >
+                  {list.project_name}
+                </Link>
+              </Tooltip>
+            </div>
+          );
+        }
+      },
+      {
+        // 3  实验名称
+        title: (
+          <span
+            style={{
+              fontSize: "14px",
+              fontWeight: "600",
+              letterSpacing: "1px"
+            }}
+          >
+            <FormattedHTMLMessage id="propro.experiment_list_experiment_name" />
+          </span>
+        ),
+        dataIndex: "name",
+        key: "name",
+        ...this.get_column_search_props("name"),
+        render: text => {
+          return (
+            <div
+              style={{
+                fontSize: "8px",
+                wordWrap: "break-word",
+                wordBreak: "break-all",
+                minWidth: "80px",
+                maxWidth: "80px",
+                fontWeight: "600"
+              }}
+            >
+              {text}
+            </div>
+          );
+        }
+      }
+    ];
+    setTimeout(() => {
+      this.setState({
+        experiment_list_table_columns: experiment_list_table_columns
+      });
+    }, 40);
   };
 
   handle_table_search = (selectedKeys, confirm) => {
@@ -522,8 +644,6 @@ class Experiment_list extends React.Component {
         </Fragment>
       );
     }
-
-    return 111;
 
     return (
       <div>

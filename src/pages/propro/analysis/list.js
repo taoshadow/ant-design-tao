@@ -485,6 +485,7 @@ class Analysis_list extends React.Component {
         ),
         dataIndex: "index",
         key: "index",
+        ...this.get_column_search_props("index"),
         render: text => {
           return (
             <span
