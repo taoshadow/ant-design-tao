@@ -317,6 +317,14 @@ class Experiment_list extends React.Component {
           lastModifiedDate
         } = experiments[i];
 
+        let window_ranges_size = 0;
+        // 剔除数据
+        airdSize = 0 < airdSize ? airdSize : 0;
+        airdIndexSize = 0 < airdIndexSize ? airdIndexSize : 0;
+        vendorFileSize = 0 < vendorFileSize ? vendorFileSize : 0;
+        let { length: len1 = 0 } = windowRanges;
+        window_ranges_size = 0 <= len1 ? len1 : 0;
+
         (obj_temp.index = i + 1),
           (obj_temp.key = "experiments_arr_" + i),
           (obj_temp.project_name = projectName),
@@ -325,8 +333,14 @@ class Experiment_list extends React.Component {
           (obj_temp.type = type),
           (obj_temp.aird_size = airdSize),
           (obj_temp.aird_index_size = airdIndexSize),
-          (obj_temp.vendor_file_size = vendorFileSize),
+          (obj_temp.aird_size_value = parseInt(
+            (airdSize + airdIndexSize) / 1024 / 1024
+          )),
+          (obj_temp.vendor_file_size_value = parseInt(
+            vendorFileSize / 1024 / 1024
+          )),
           (obj_temp.window_ranges = windowRanges),
+          (obj_temp.window_ranges_size = window_ranges_size),
           (obj_temp.instrument = instrument),
           (obj_temp.last_modified_date = lastModifiedDate),
           (experiments_arr[i] = obj_temp),
@@ -426,6 +440,7 @@ class Experiment_list extends React.Component {
         ),
         dataIndex: "index",
         key: "index",
+        width: 60,
         ...this.get_column_search_props("index"),
         render: text => {
           return (
@@ -455,6 +470,7 @@ class Experiment_list extends React.Component {
           </span>
         ),
         key: "project_name",
+        width: 120,
         ...this.get_column_search_props("project_name"),
         render: list => {
           return (
@@ -463,8 +479,8 @@ class Experiment_list extends React.Component {
                 fontSize: "8px",
                 wordWrap: "break-word",
                 wordBreak: "break-all",
-                minWidth: "80px",
-                maxWidth: "80px"
+                minWidth: "120px",
+                maxWidth: "120px"
               }}
             >
               <Tooltip
@@ -501,6 +517,7 @@ class Experiment_list extends React.Component {
         ),
         dataIndex: "name",
         key: "name",
+        width: 120,
         ...this.get_column_search_props("name"),
         render: text => {
           return (
@@ -509,10 +526,284 @@ class Experiment_list extends React.Component {
                 fontSize: "8px",
                 wordWrap: "break-word",
                 wordBreak: "break-all",
-                minWidth: "80px",
-                maxWidth: "80px",
+                minWidth: "120px",
+                maxWidth: "120px",
                 fontWeight: "600"
               }}
+            >
+              <p
+                className="badge-light"
+                style={{
+                  padding: "5px",
+                  fontSize: "8px",
+                  fontWeight: "600"
+                }}
+              >
+                {text}
+              </p>
+            </div>
+          );
+        }
+      },
+      {
+        // 4  实验ID
+        title: (
+          <span
+            style={{
+              fontSize: "14px",
+              fontWeight: "600",
+              letterSpacing: "1px"
+            }}
+          >
+            <FormattedHTMLMessage id="propro.experiment_list_experiment_id" />
+          </span>
+        ),
+        dataIndex: "id",
+        key: "id",
+        width: 120,
+        ...this.get_column_search_props("id"),
+        render: text => {
+          return (
+            <div
+              style={{
+                fontSize: "8px",
+                wordWrap: "break-word",
+                wordBreak: "break-all",
+                minWidth: "120px",
+                maxWidth: "120px"
+              }}
+              className={styles.font_primary_color}
+            >
+              {text}
+            </div>
+          );
+        }
+      },
+      {
+        // 5  实验类型
+        title: (
+          <span
+            style={{
+              fontSize: "14px",
+              fontWeight: "600",
+              letterSpacing: "1px"
+            }}
+          >
+            <FormattedHTMLMessage id="propro.experiment_list_experiment_type" />
+          </span>
+        ),
+        dataIndex: "type",
+        key: "type",
+        width: 120,
+        ...this.get_column_search_props("type"),
+        render: text => {
+          return (
+            <div
+              style={{
+                fontSize: "8px",
+                wordWrap: "break-word",
+                wordBreak: "break-all",
+                minWidth: "120px",
+                maxWidth: "120px"
+              }}
+            >
+              <span className={styles.font_primary_color}>
+                <span
+                  className={
+                    "badge " +
+                    styles.font_white_color +
+                    " " +
+                    styles.bg_primary_color
+                  }
+                  style={{
+                    padding: "5px",
+                    fontSize: "8px",
+                    fontWeight: "600"
+                  }}
+                >
+                  {text}
+                </span>
+              </span>
+            </div>
+          );
+        }
+      },
+      {
+        // 6  aird_size_value
+        title: (
+          <span
+            style={{
+              fontSize: "14px",
+              fontWeight: "600",
+              letterSpacing: "1px"
+            }}
+          >
+            <FormattedHTMLMessage id="propro.experiment_list_experiment_aird_size" />
+          </span>
+        ),
+        dataIndex: "aird_size_value",
+        key: "aird_size_value",
+        width: 75,
+        ...this.get_column_search_props("aird_size_value"),
+        render: text => {
+          let span = null;
+          if (0 < text) {
+            span = (
+              <span
+                className={
+                  "badge " +
+                  styles.font_white_color +
+                  " " +
+                  styles.bg_green_color
+                }
+                style={{
+                  padding: "5px",
+                  fontSize: "8px",
+                  fontWeight: "600",
+                  minWidth: "55px"
+                }}
+              >
+                {text}&nbsp;MB
+              </span>
+            );
+          } else {
+            // 异常值
+            span = (
+              <span
+                className={
+                  "badge " + styles.font_white_color + " " + styles.bg_red_color
+                }
+                style={{
+                  padding: "5px",
+                  fontSize: "8px",
+                  fontWeight: "600",
+                  minWidth: "55px"
+                }}
+              >
+                0&nbsp;MB
+              </span>
+            );
+          }
+          return (
+            <div
+              style={{
+                fontSize: "8px",
+                wordWrap: "break-word",
+                wordBreak: "break-all",
+                minWidth: "75px",
+                maxWidth: "75px"
+              }}
+            >
+              {span}
+            </div>
+          );
+        }
+      },
+      {
+        // 6  vendor size 供应商文件大小
+        title: (
+          <span
+            style={{
+              fontSize: "14px",
+              fontWeight: "600",
+              letterSpacing: "1px"
+            }}
+          >
+            <FormattedHTMLMessage id="propro.experiment_list_experiment_vendor_file_size" />
+          </span>
+        ),
+        dataIndex: "vendor_file_size_value",
+        key: "vendor_file_size_value",
+        width: 75,
+        ...this.get_column_search_props("vendor_file_size_value"),
+        render: text => {
+          let span = null;
+          if (0 < text) {
+            span = (
+              <span
+                className={
+                  "badge " +
+                  styles.font_white_color +
+                  " " +
+                  styles.bg_green_color
+                }
+                style={{
+                  padding: "5px",
+                  fontSize: "8px",
+                  fontWeight: "600",
+                  minWidth: "55px"
+                }}
+              >
+                {text}&nbsp;MB
+              </span>
+            );
+          } else {
+            // 异常值
+            span = (
+              <span
+                className={
+                  "badge " + styles.font_white_color + " " + styles.bg_red_color
+                }
+                style={{
+                  padding: "5px",
+                  fontSize: "8px",
+                  fontWeight: "600",
+                  minWidth: "55px"
+                }}
+              >
+                0&nbsp;MB
+              </span>
+            );
+          }
+
+          return (
+            <div
+              style={{
+                fontSize: "8px",
+                wordWrap: "break-word",
+                wordBreak: "break-all",
+                minWidth: "75px",
+                maxWidth: "75px"
+              }}
+            >
+              {span}
+            </div>
+          );
+        }
+      },
+      {
+        // 7 Swath窗口数目
+        title: (
+          <span
+            style={{
+              fontSize: "14px",
+              fontWeight: "600",
+              letterSpacing: "1px",
+              wordWrap: "break-word",
+              wordBreak: "break-all",
+              minWidth: "40px",
+              maxWidth: "40px"
+            }}
+          >
+            <FormattedHTMLMessage id="propro.experiment_list_experiment_window_ranges_size" />
+          </span>
+        ),
+        dataIndex: "window_ranges_size",
+        key: "window_ranges_size",
+        width: 40,
+        ...this.get_column_search_props("window_ranges_size"),
+        render: text => {
+          return (
+            <div
+              style={{
+                fontSize: "8px",
+                wordWrap: "break-word",
+                wordBreak: "break-all",
+                minWidth: "40px",
+                maxWidth: "40px",
+                fontWeight: "600"
+              }}
+              className={styles.font_green_color}
             >
               {text}
             </div>

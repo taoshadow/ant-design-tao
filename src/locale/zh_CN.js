@@ -639,8 +639,16 @@ let language_ch = {
 
   // experiment_list_title
   "propro.experiment_list_title": "实验数据列表",
+  "propro.experiment_list_search": "搜索",
+  "propro.experiment_list_reset": "重置",
+  "propro.experiment_list_index": "No.",
   "propro.experiment_list_project_name": "项目名称",
   "propro.experiment_list_experiment_name": "实验名称",
+  "propro.experiment_list_experiment_id": "实验ID",
+  "propro.experiment_list_experiment_type": "实验类型",
+  "propro.experiment_list_experiment_aird_size": "Aird Size",
+  "propro.experiment_list_experiment_vendor_file_size": "厂商文件大小",
+  "propro.experiment_list_experiment_window_ranges_size": "窗口数目",
 
   "propro.end": "end"
 };
