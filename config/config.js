@@ -173,6 +173,12 @@ export default {
           component: "propro/analysis/protein_identification"
         },
         {
+          // 实验列表 默认打开全部
+          path: "/experiment/list/*",
+          component: "propro/experiment/list"
+        },
+
+        {
           path: "/test",
           component: "propro/test"
         },

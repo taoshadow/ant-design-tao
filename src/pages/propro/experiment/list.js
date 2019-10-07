@@ -233,23 +233,105 @@ class Experiment_list extends React.Component {
 
   change_experiment_list_data = () => {
     console.log(this.props.experiment_list_data);
-
     /*
-        TotalNumbers: 15
-        currentPage: 1
-        overviews: (15) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
-        pageSize: 500
-        scores: (20) ["MainScore", "BseriesScore", "IntensityScore", "IsotopeCorrelationScore", "IsotopeOverlapScore", "LibraryCorr", "LibraryRsmd", "LogSnScore", "MassdevScore", "MassdevScoreWeighted", "NormRtScore", "XcorrCoelution", "XcorrCoelutionWeighted", "XcorrShape", "XcorrShapeWeighted", "LibraryDotprod", "LibraryManhattan", "LibrarySangle", "LibraryRootmeansquare", "YseriesScore"]
-        totalPage: 1
+      analyseOverviewDOMap: {5d22faca8536e9793683a57a: {…}, 5d22faca8536e9793683a57b: {…}, 5d22faca8536e9793683a57c: {…}, 5d22faca8536e9793683a57e: {…}}
+      currentPage: 1
+      experiments: (50) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+      pageSize: 50
+      totalNum: 185
+      totalPage: 4
+    */
+    let {
+      analyseOverviewDOMap: analyse_overview_do_map = null,
+      currentPage: current_page = null,
+      experiments = null,
+      pageSize: page_size = null,
+      totalNum: total_numbers = null,
+      totalPage: total_page = null,
+      type = null,
+      projectName: project_name = null,
+      expName: exp_name = null
+    } = this.props.experiment_list_data;
+
+    let { length: len0 } = experiments;
+    let [experiments_arr, load_percentage_value] = [null, 0];
+
+    if (0 < len0) {
+      //
+      experiments_arr = new Array(len0);
+
+      // tangtao 计算百分比
+      load_percentage_value = Math.ceil((len0 / total_numbers) * 100);
+
+      //
+      /*
+      0:
+          airdIndexPath: "E:\data\HYE110_6600_64_Var\HYE110_TTOF6600_64var_lgillet_I160305_001.json"
+          airdIndexSize: 3431589
+          airdPath: "E:\data\HYE110_6600_64_Var\HYE110_TTOF6600_64var_lgillet_I160305_001.aird"
+          airdSize: 2471259255
+          compressors: (2) [{…}, {…}]
+          createDate: 1562567900202
+          features: "TripleTOF 6600:;sourceFileFormat:WIFF;byte_order:LITTLE_ENDIAN;rawId:HYE110_TTOF6600_64var_lgillet_I160305_001-Pedro Sample A - 64 variable;ignoreZeroIntensity:True;overlap:1;propro_client_version:1.7.0;aird_version:2;"
+          iRtLibraryId: "5c6d2ec7dfdfdd2f947c6f39"
+          id: "5d22e4dca1eaff5cabc0fa39"
+          instrument: {analyzer: Array(3), detector: Array(1), manufacturer: "SCIEX", model: "TripleTOF 6600", source: Array(1)}
+          irtResult: {selectedPairs: Array(10), si: {…}, unselectedPairs: Array(0)}
+          lastModifiedDate: 1562902402129
+          name: "HYE110_TTOF6600_64var_lgillet_I160305_001"
+          ownerName: "lms"
+          parentFiles: []
+          projectId: "5d22e4d9a1eaff5cabc0fa37"
+          projectName: "HYE110_6600_64_Var"
+          softwares: (2) [{…}, {…}]
+          type: "DIA_SWATH"
+          vendorFileSize: 3463541784
+          windowRanges: (64) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
       */
 
-    // this.setState({
-    //   experiment_list_data: obj_data,
-    //   // 标记 成功
-    //   experiment_list_false_time: 5,
-    //   // 标记数据为可用的状态
-    //   experiment_list_status: 0
-    // });
+      let [index, obj_temp] = [0, {}];
+      for (let i = 0; i < len0; i++) {
+        //
+        let {
+          projectName,
+          id,
+          name,
+          type,
+          airdSize,
+          airdIndexSize,
+          vendorFileSize,
+          windowRanges,
+          instrument,
+          lastModifiedDate
+        } = experiments[i];
+
+        (obj_temp.index = i + 1),
+          (obj_temp.key = "experiments_arr_" + i),
+          (obj_temp.project_name = projectName),
+          (obj_temp.id = id),
+          (obj_temp.name = name),
+          (obj_temp.type = type),
+          (obj_temp.aird_size = airdSize),
+          (obj_temp.aird_index_size = airdIndexSize),
+          (obj_temp.vendor_file_size = vendorFileSize),
+          (obj_temp.window_ranges = windowRanges),
+          (obj_temp.instrument = instrument),
+          (obj_temp.last_modified_date = lastModifiedDate),
+          (experiments_arr[i] = obj_temp),
+          (obj_temp = {});
+      }
+    }
+
+    this.setState({
+      // 标记 成功
+      experiment_list_false_time: 5,
+      load_percentage_value: load_percentage_value,
+      total_numbers: total_numbers,
+      experiment_list_query_time: tao.current_format_time(),
+      experiment_list_data: experiments_arr,
+      // 标记数据为可用的状态
+      experiment_list_status: 0
+    });
 
     return 0;
   };
@@ -406,6 +488,7 @@ class Experiment_list extends React.Component {
       this.refresh_data();
     }, 500);
   };
+
   /**************************** render ****************************/
   /**************************** render ****************************/
   /**************************** render ****************************/
@@ -439,6 +522,8 @@ class Experiment_list extends React.Component {
         </Fragment>
       );
     }
+
+    return 111;
 
     return (
       <div>
