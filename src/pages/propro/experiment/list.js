@@ -314,6 +314,8 @@ class Experiment_list extends React.Component {
           vendorFileSize,
           windowRanges,
           instrument,
+          irtResult,
+          // irtResult = null,
           lastModifiedDate
         } = experiments[i];
 
@@ -342,6 +344,7 @@ class Experiment_list extends React.Component {
           (obj_temp.window_ranges = windowRanges),
           (obj_temp.window_ranges_size = window_ranges_size),
           (obj_temp.instrument = instrument),
+          (obj_temp.irt_result = irtResult),
           (obj_temp.last_modified_date = lastModifiedDate),
           (experiments_arr[i] = obj_temp),
           (obj_temp = {});
@@ -594,7 +597,7 @@ class Experiment_list extends React.Component {
         ),
         dataIndex: "type",
         key: "type",
-        width: 120,
+        width: 100,
         ...this.get_column_search_props("type"),
         render: text => {
           return (
@@ -603,8 +606,8 @@ class Experiment_list extends React.Component {
                 fontSize: "8px",
                 wordWrap: "break-word",
                 wordBreak: "break-all",
-                minWidth: "120px",
-                maxWidth: "120px"
+                minWidth: "100px",
+                maxWidth: "100px"
               }}
             >
               <span className={styles.font_primary_color}>
@@ -629,7 +632,7 @@ class Experiment_list extends React.Component {
         }
       },
       {
-        // 6  aird_size_value
+        // 6  aird_size_value & vendor_file_size_value
         title: (
           <span
             style={{
@@ -638,17 +641,23 @@ class Experiment_list extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.experiment_list_experiment_aird_size" />
+            <span className={styles.font_green_color}>
+              <FormattedHTMLMessage id="propro.experiment_list_experiment_aird_size" />
+            </span>
+            <br />
+            <span className={styles.font_primary_color}>
+              <FormattedHTMLMessage id="propro.experiment_list_experiment_vendor_file_size" />
+            </span>
           </span>
         ),
         dataIndex: "aird_size_value",
         key: "aird_size_value",
         width: 75,
         ...this.get_column_search_props("aird_size_value"),
-        render: text => {
-          let span = null;
-          if (0 < text) {
-            span = (
+        render: (text, list) => {
+          let aird_size_span = null;
+          if (0 < list.aird_size_value) {
+            aird_size_span = (
               <span
                 className={
                   "badge " +
@@ -663,12 +672,12 @@ class Experiment_list extends React.Component {
                   minWidth: "55px"
                 }}
               >
-                {text}&nbsp;MB
+                {list.aird_size_value}&nbsp;MB
               </span>
             );
           } else {
             // 异常值
-            span = (
+            aird_size_span = (
               <span
                 className={
                   "badge " + styles.font_white_color + " " + styles.bg_red_color
@@ -684,48 +693,17 @@ class Experiment_list extends React.Component {
               </span>
             );
           }
-          return (
-            <div
-              style={{
-                fontSize: "8px",
-                wordWrap: "break-word",
-                wordBreak: "break-all",
-                minWidth: "75px",
-                maxWidth: "75px"
-              }}
-            >
-              {span}
-            </div>
-          );
-        }
-      },
-      {
-        // 6  vendor size 供应商文件大小
-        title: (
-          <span
-            style={{
-              fontSize: "14px",
-              fontWeight: "600",
-              letterSpacing: "1px"
-            }}
-          >
-            <FormattedHTMLMessage id="propro.experiment_list_experiment_vendor_file_size" />
-          </span>
-        ),
-        dataIndex: "vendor_file_size_value",
-        key: "vendor_file_size_value",
-        width: 75,
-        ...this.get_column_search_props("vendor_file_size_value"),
-        render: text => {
-          let span = null;
-          if (0 < text) {
-            span = (
+
+          let vendor_file_size_span = null;
+
+          if (0 < list.vendor_file_size_value) {
+            vendor_file_size_span = (
               <span
                 className={
                   "badge " +
                   styles.font_white_color +
                   " " +
-                  styles.bg_green_color
+                  styles.bg_primary_color
                 }
                 style={{
                   padding: "5px",
@@ -734,12 +712,12 @@ class Experiment_list extends React.Component {
                   minWidth: "55px"
                 }}
               >
-                {text}&nbsp;MB
+                {list.vendor_file_size_value}&nbsp;MB
               </span>
             );
           } else {
             // 异常值
-            span = (
+            vendor_file_size_span = (
               <span
                 className={
                   "badge " + styles.font_white_color + " " + styles.bg_red_color
@@ -766,7 +744,15 @@ class Experiment_list extends React.Component {
                 maxWidth: "75px"
               }}
             >
-              {span}
+              {aird_size_span}
+              <div
+                style={{
+                  height: "5px"
+                }}
+              >
+                &nbsp;
+              </div>
+              {vendor_file_size_span}
             </div>
           );
         }
@@ -806,6 +792,119 @@ class Experiment_list extends React.Component {
               className={styles.font_green_color}
             >
               {text}
+            </div>
+          );
+        }
+      },
+      {
+        // 8 IRT 结果
+        title: (
+          <span
+            style={{
+              fontSize: "14px",
+              fontWeight: "600",
+              letterSpacing: "1px",
+              wordWrap: "break-word",
+              wordBreak: "break-all",
+              minWidth: "100px",
+              maxWidth: "100px"
+            }}
+          >
+            <FormattedHTMLMessage id="propro.experiment_list_experiment_irt_result" />
+          </span>
+        ),
+        dataIndex: "irt_result",
+        key: "irt_result",
+        width: 100,
+        ...this.get_column_search_props("window_ranges_size"),
+        render: text => {
+          /*
+          irtResult:
+          selectedPairs: (10) [Array(2), Array(2), Array(2), Array(2), 
+            Array(2), Array(2), Array(2), Array(2), Array(2), Array(2)]
+          si: {intercept: -63.40565871766859, slope: 0.025800507652154296}
+          unselectedPairs: []
+          */
+
+          let [value0, value1] = [null, null];
+          if ("undefined" != typeof text && null != text) {
+            // 正常
+            let { si = null } = text;
+            if (si != null) {
+              let { slope = null, intercept = null } = si;
+              // 更新
+              value0 = null != slope ? slope : null;
+              value1 = null != intercept ? intercept : null;
+            }
+          } else {
+            // 数据异常 不用管
+          }
+          console.log(value0, value1);
+
+          // 渲染样式
+          let span0 = null;
+          if (null != value0) {
+            span0 = (
+              <p
+                className={"badge-light " + styles.font_green_color}
+                style={{ padding: "5px", margin: "0px " }}
+              >
+                {value0}
+              </p>
+            );
+          } else {
+            span0 = (
+              <p
+                className={"badge-light " + styles.font_red_color}
+                style={{ padding: "5px", margin: "0px " }}
+              >
+                NULL
+              </p>
+            );
+          }
+
+          let span1 = null;
+
+          if (null != value1) {
+            span1 = (
+              <p
+                className={"badge-light " + styles.font_primary_color}
+                style={{ padding: "5px", margin: "0px " }}
+              >
+                {value1}
+              </p>
+            );
+          } else {
+            span1 = (
+              <p
+                className={"badge-light " + styles.font_red_color}
+                style={{ padding: "5px", margin: "0px " }}
+              >
+                NULL
+              </p>
+            );
+          }
+
+          return (
+            <div
+              style={{
+                fontSize: "8px",
+                wordWrap: "break-word",
+                wordBreak: "break-all",
+                minWidth: "100px",
+                maxWidth: "100px"
+              }}
+              className={styles.font_green_color}
+            >
+              {span0}
+              <div
+                style={{
+                  height: "5px"
+                }}
+              >
+                &nbsp;
+              </div>
+              {span1}
             </div>
           );
         }

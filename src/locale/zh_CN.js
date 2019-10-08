@@ -650,6 +650,7 @@ let language_ch = {
   "propro.experiment_list_experiment_aird_size": "Aird Size",
   "propro.experiment_list_experiment_vendor_file_size": "厂商文件大小",
   "propro.experiment_list_experiment_window_ranges_size": "窗口数目",
+  "propro.experiment_list_experiment_irt_result": "Irt 识别结果",
 
   "propro.end": "end"
 };
