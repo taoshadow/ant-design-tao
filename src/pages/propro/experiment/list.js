@@ -314,9 +314,8 @@ class Experiment_list extends React.Component {
           vendorFileSize,
           windowRanges,
           instrument,
-          irtResult,
-          // irtResult = null,
-          lastModifiedDate
+          irtResult = null,
+          lastModifiedDate = null
         } = experiments[i];
 
         let window_ranges_size = 0;
@@ -326,6 +325,12 @@ class Experiment_list extends React.Component {
         vendorFileSize = 0 < vendorFileSize ? vendorFileSize : 0;
         let { length: len1 = 0 } = windowRanges;
         window_ranges_size = 0 <= len1 ? len1 : 0;
+        // 日期
+        if (null != lastModifiedDate) {
+          lastModifiedDate = tao.format_time(parseInt(lastModifiedDate));
+        } else {
+          lastModifiedDate = null;
+        }
 
         (obj_temp.index = i + 1),
           (obj_temp.key = "experiments_arr_" + i),
@@ -473,7 +478,7 @@ class Experiment_list extends React.Component {
           </span>
         ),
         key: "project_name",
-        width: 120,
+        width: 110,
         ...this.get_column_search_props("project_name"),
         render: list => {
           return (
@@ -482,8 +487,8 @@ class Experiment_list extends React.Component {
                 fontSize: "8px",
                 wordWrap: "break-word",
                 wordBreak: "break-all",
-                minWidth: "120px",
-                maxWidth: "120px"
+                minWidth: "110px",
+                maxWidth: "110px"
               }}
             >
               <Tooltip
@@ -520,7 +525,7 @@ class Experiment_list extends React.Component {
         ),
         dataIndex: "name",
         key: "name",
-        width: 120,
+        width: 110,
         ...this.get_column_search_props("name"),
         render: text => {
           return (
@@ -529,8 +534,8 @@ class Experiment_list extends React.Component {
                 fontSize: "8px",
                 wordWrap: "break-word",
                 wordBreak: "break-all",
-                minWidth: "120px",
-                maxWidth: "120px",
+                minWidth: "110px",
+                maxWidth: "110px",
                 fontWeight: "600"
               }}
             >
@@ -563,7 +568,7 @@ class Experiment_list extends React.Component {
         ),
         dataIndex: "id",
         key: "id",
-        width: 120,
+        width: 110,
         ...this.get_column_search_props("id"),
         render: text => {
           return (
@@ -572,8 +577,8 @@ class Experiment_list extends React.Component {
                 fontSize: "8px",
                 wordWrap: "break-word",
                 wordBreak: "break-all",
-                minWidth: "120px",
-                maxWidth: "120px"
+                minWidth: "110px",
+                maxWidth: "110px"
               }}
               className={styles.font_primary_color}
             >
@@ -597,7 +602,7 @@ class Experiment_list extends React.Component {
         ),
         dataIndex: "type",
         key: "type",
-        width: 100,
+        width: 90,
         ...this.get_column_search_props("type"),
         render: text => {
           return (
@@ -606,8 +611,8 @@ class Experiment_list extends React.Component {
                 fontSize: "8px",
                 wordWrap: "break-word",
                 wordBreak: "break-all",
-                minWidth: "100px",
-                maxWidth: "100px"
+                minWidth: "90px",
+                maxWidth: "90px"
               }}
             >
               <span className={styles.font_primary_color}>
@@ -892,7 +897,8 @@ class Experiment_list extends React.Component {
                 wordWrap: "break-word",
                 wordBreak: "break-all",
                 minWidth: "100px",
-                maxWidth: "100px"
+                maxWidth: "100px",
+                fontWeight: "600"
               }}
               className={styles.font_green_color}
             >
@@ -905,6 +911,45 @@ class Experiment_list extends React.Component {
                 &nbsp;
               </div>
               {span1}
+            </div>
+          );
+        }
+      },
+      {
+        // 9 最后修改时间
+        title: (
+          <span
+            style={{
+              fontSize: "14px",
+              fontWeight: "600",
+              letterSpacing: "1px",
+              wordWrap: "break-word",
+              wordBreak: "break-all",
+              minWidth: "110px",
+              maxWidth: "110px"
+            }}
+          >
+            <FormattedHTMLMessage id="propro.experiment_list_experiment_last_modified_date" />
+          </span>
+        ),
+        dataIndex: "last_modified_date",
+        key: "last_modified_date",
+        width: 110,
+        ...this.get_column_search_props("last_modified_date"),
+        render: text => {
+          return (
+            <div
+              style={{
+                fontSize: "8px",
+                wordWrap: "break-word",
+                wordBreak: "break-all",
+                minWidth: "110px",
+                maxWidth: "110px",
+                fontWeight: "600"
+              }}
+              className={styles.font_green_color}
+            >
+              {text}
             </div>
           );
         }

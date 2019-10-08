@@ -651,6 +651,7 @@ let language_ch = {
   "propro.experiment_list_experiment_vendor_file_size": "厂商文件大小",
   "propro.experiment_list_experiment_window_ranges_size": "窗口数目",
   "propro.experiment_list_experiment_irt_result": "Irt 识别结果",
+  "propro.experiment_list_experiment_last_modified_date": "最新更新时间",
 
   "propro.end": "end"
 };
