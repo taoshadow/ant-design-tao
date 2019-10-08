@@ -111,6 +111,7 @@ let language_ch = {
   "propro.console_exp_prm": "PRM",
   "propro.console_project": "项目管理",
   "propro.console_overview": "分析概览",
+  "propro.console_experiment_list": "实验列表",
 
   // 系统错误
   "propro.network_error":

@@ -384,8 +384,10 @@ export default class BasicLayout extends React.Component {
                           <Menu.Item key="2019-8-9 00:55:58">
                             项目管理
                           </Menu.Item>
-                          <Menu.Item key="2019-8-9 00:56:02">
-                            实验管理
+                          <Menu.Item key="2019-10-8 23:34:06">
+                            <Link to="/experiment/list/">
+                              <FormattedHTMLMessage id="propro.console_experiment_list" />
+                            </Link>
                           </Menu.Item>
                           <SubMenu
                             title={
