@@ -844,7 +844,6 @@ class Experiment_list extends React.Component {
           } else {
             // 数据异常 不用管
           }
-          console.log(value0, value1);
 
           // 渲染样式
           let span0 = null;
@@ -950,6 +949,44 @@ class Experiment_list extends React.Component {
               className={styles.font_green_color}
             >
               {text}
+            </div>
+          );
+        }
+      },
+      {
+        // 10 操作
+        title: (
+          <span
+            style={{
+              fontSize: "14px",
+              fontWeight: "600",
+              letterSpacing: "1px",
+              wordWrap: "break-word",
+              wordBreak: "break-all",
+              minWidth: "40px",
+              maxWidth: "40px"
+            }}
+          >
+            <FormattedHTMLMessage id="propro.experiment_list_experiment_operation" />
+          </span>
+        ),
+        key: "operation",
+        width: 40,
+        render: list => {
+          return (
+            <div
+              style={{
+                fontSize: "8px",
+                wordWrap: "break-word",
+                wordBreak: "break-all",
+                minWidth: "40px",
+                maxWidth: "40px",
+                fontWeight: "600"
+              }}
+              className={styles.font_green_color}
+            >
+              11
+              {/* {text} */}
             </div>
           );
         }

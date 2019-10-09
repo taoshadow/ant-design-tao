@@ -652,6 +652,7 @@ let language_ch = {
   "propro.experiment_list_experiment_window_ranges_size": "窗口数目",
   "propro.experiment_list_experiment_irt_result": "Irt 识别结果",
   "propro.experiment_list_experiment_last_modified_date": "最新更新时间",
+  "propro.experiment_list_experiment_operation": "操作",
 
   "propro.end": "end"
 };

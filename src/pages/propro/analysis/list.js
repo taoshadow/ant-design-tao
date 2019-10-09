@@ -834,7 +834,6 @@ class Analysis_list extends React.Component {
           );
         }
       },
-
       {
         // 10   时间 创建/最后修改时间
         title: (
@@ -906,7 +905,6 @@ class Analysis_list extends React.Component {
           );
         }
       },
-
       {
         // 11  操作
         title: (
