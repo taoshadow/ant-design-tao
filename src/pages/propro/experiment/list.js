@@ -67,20 +67,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "../style/dashboard/console.less";
 import "../../../layout/Common.css";
 
-import detail_svg from "../style/static/library/detail.svg";
 import proteins_list_svg from "../style/static/library/list.svg";
 import unordered_list_svg from "../style/static/dashboard/unordered_list.svg";
 import public_library_scg from "../style/static/library/public.svg";
 import update_library_svg from "../style/static/library/update.svg";
 import arrow_up_svg from "../style/static/analysis/arrow_up.svg";
-import report_svg from "../style/static/analysis/report.svg";
-import list_svg from "../style/static/analysis/list.svg";
-import score_svg from "../style/static/analysis/score.svg";
-import identification_svg from "../style/static/analysis/identification.svg";
-import export_svg from "../style/static/analysis/export.svg";
-import delete_svg from "../style/static/analysis/delete.svg";
 import return_svg from "../style/static/dashboard/return.svg";
 import preloader_svg from "../style/static/dashboard/preloader.svg";
+import detail_svg from "../style/static/experiment/detail.svg";
 
 /****************  导入 styles end ***************************/
 
@@ -986,8 +980,32 @@ class Experiment_list extends React.Component {
               }}
               className={styles.font_green_color}
             >
-              11
-              {/* {text} */}
+              {/* 查看数据详情 */}
+              <Tooltip
+                placement="topLeft"
+                title={
+                  <FormattedHTMLMessage id="propro.analysis_list_delete_tip" />
+                }
+              >
+                <div
+                  className={"badge " + styles.bg_orange_color}
+                  style={{
+                    padding: "4px 4px",
+                    margin: "3px",
+                    cursor: "pointer"
+                  }}
+                  onClick={() => {
+                    this.delete_analysis_list_by_id(list.id);
+                  }}
+                >
+                  <img
+                    src={detail_svg}
+                    style={{
+                      width: "20px"
+                    }}
+                  />
+                </div>
+              </Tooltip>
             </div>
           );
         }
