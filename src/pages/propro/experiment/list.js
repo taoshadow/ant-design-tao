@@ -28,6 +28,7 @@ import {
   Breadcrumb,
   Row,
   Col,
+  Drawer,
   Button,
   Dropdown,
   Select,
@@ -157,7 +158,10 @@ class Experiment_list extends React.Component {
       experiment_list_table_columns: null,
       // modal 配置
       modal_visible: false,
-      delete_experiment_list_id: null
+      drawer_visible: false,
+      drawer_data: null,
+      delete_experiment_list_id: null,
+      analyse_overview_do_map: null
       //   language: this.props.language
     };
 
@@ -351,11 +355,20 @@ class Experiment_list extends React.Component {
       }
     }
 
+    // 遍历 analyse_overview_do_map
+    // let analyse_overview_do_map_arr = [];
+    // Object.keys(analyse_overview_do_map).forEach((key, value) => {
+    //   let obj_temp = {};
+    //   // obj_temp.name
+    //   console.log(key, value);
+    // });
+
     this.setState({
       // 标记 成功
       experiment_list_false_time: 5,
       load_percentage_value: load_percentage_value,
       total_numbers: total_numbers,
+      analyse_overview_do_map: analyse_overview_do_map,
       experiment_list_query_time: tao.current_format_time(),
       experiment_list_data: experiments_arr,
       // 标记数据为可用的状态
@@ -984,7 +997,7 @@ class Experiment_list extends React.Component {
               <Tooltip
                 placement="topLeft"
                 title={
-                  <FormattedHTMLMessage id="propro.analysis_list_delete_tip" />
+                  <FormattedHTMLMessage id="propro.experiment_list_experiment_operation_detail" />
                 }
               >
                 <div
@@ -995,7 +1008,7 @@ class Experiment_list extends React.Component {
                     cursor: "pointer"
                   }}
                   onClick={() => {
-                    this.delete_analysis_list_by_id(list.id);
+                    this.view_experiment_list_detail(list.index);
                   }}
                 >
                   <img
@@ -1102,6 +1115,201 @@ class Experiment_list extends React.Component {
     }, 500);
   };
 
+  /************   operation  *****************/
+  /************   operation  *****************/
+  /************   operation  *****************/
+  view_experiment_list_detail = index => {
+    // 注意 index 比数组的位置 多 1 所以可以根据 index 减一 定位 data 的位置
+
+    if (index > 0) {
+      index--;
+    } else {
+      // 上报错误
+      tao.my_console("warn", "参数错误 at experiment list");
+    }
+
+    let { experiment_list_data: data } = this.state;
+
+    // 提取出需要显示的关键数据
+
+    let obj = {};
+    try {
+      /***** 仪器详情 instrument ******/
+      let { instrument = null } = data[index];
+      let { manufacturer = null, model = null } = instrument;
+      // 制造商 manufacturer
+      // 数据正确提取
+      obj.manufacturer = null != manufacturer ? manufacturer : null;
+      obj.model = null != model ? model : null;
+    } catch (e) {
+      tao.my_console("warn", "数据提取失败 at experiment list");
+      // 继续执行
+    }
+
+    /************  提取id 找到识别结果  ****************/
+    let { id } = data[index];
+    // 根据id 尝试从 analyseOverviewDOMap 取新数据
+
+    let { analyse_overview_do_map: data_map } = this.state;
+    // 尝试提取
+    if ("undefined" != typeof data_map[id]) {
+      // 解析数据
+      let {
+        libraryPeptideCount = null,
+        totalPeptideCount = null,
+        matchedProteinCount = null,
+        matchedPeptideCount = null
+      } = data_map[id];
+      //
+      let pp_rate = null;
+      if (
+        0 != matchedProteinCount &&
+        null != matchedProteinCount &&
+        null != matchedPeptideCount
+      ) {
+        pp_rate = matchedPeptideCount / matchedProteinCount;
+      }
+
+      (obj.library_peptide_count = libraryPeptideCount),
+        (obj.total_peptide_count = totalPeptideCount),
+        (obj.matched_protein_count = matchedProteinCount),
+        (obj.matched_peptide_count = matchedPeptideCount),
+        (obj.pp_rate = pp_rate);
+    }
+
+    // 渲染数据
+    console.log(obj);
+    this.show_drawer_data(obj);
+
+    // drawer_data drawer_visible
+  };
+
+  show_drawer_data = data => {
+    let {
+      manufacturer,
+      model,
+      library_peptide_count,
+      total_peptide_count,
+      matched_protein_count,
+      matched_peptide_count,
+      pp_rate
+    } = data;
+
+    let drawer_data = (
+      <div>
+        <div
+          style={{ fontSize: "14px", fontWeight: "600", margin: "10px 0px" }}
+        >
+          <span className={styles.font_blue_color}>设备型号</span>
+          <span className={styles.font_dark_color}>&nbsp;:&nbsp;</span>
+          <span className={styles.font_primary_color}>
+            {null != manufacturer ? (
+              manufacturer
+            ) : (
+              <span className={styles.font_red_color}>NULL</span>
+            )}
+            &nbsp;&nbsp;
+            <span
+              className={"badge badge-secondary"}
+              style={{ padding: "5px" }}
+            >
+              {null != model ? (
+                model
+              ) : (
+                <span className={styles.font_red_color}>NULL</span>
+              )}
+            </span>
+          </span>
+        </div>
+        {/* 识别结果 */}
+        <div
+          style={{ fontSize: "14px", fontWeight: "600", margin: "10px 0px" }}
+        >
+          <span className={styles.font_blue_color}>识别结果</span>
+          <span className={styles.font_dark_color}>&nbsp;:&nbsp;</span>
+
+          <div
+            style={{
+              fontSize: "14px",
+              fontWeight: "500",
+              padding: "5px 10px "
+            }}
+          >
+            <div>
+              <span className={styles.font_second_color}>Peptides</span>
+              &nbsp;:&nbsp;
+              {null != matched_peptide_count ? (
+                <span className={styles.font_green_color}>
+                  {matched_peptide_count}
+                </span>
+              ) : (
+                <span className={styles.font_red_color}>NULL</span>
+              )}
+            </div>
+
+            <div>
+              <span className={styles.font_second_color}>Proteins</span>
+              &nbsp;:&nbsp;
+              {null != matched_protein_count ? (
+                <span className={styles.font_green_color}>
+                  {matched_protein_count}
+                </span>
+              ) : (
+                <span className={styles.font_red_color}>NULL</span>
+              )}
+            </div>
+
+            <div>
+              <span className={styles.font_second_color}>XIC Peptides</span>
+              &nbsp;:&nbsp;
+              {null != total_peptide_count ? (
+                <span className={styles.font_green_color}>
+                  {total_peptide_count}
+                </span>
+              ) : (
+                <span className={styles.font_red_color}>NULL</span>
+              )}
+            </div>
+
+            <div>
+              <span className={styles.font_second_color}>Library Peptides</span>
+              &nbsp;:&nbsp;
+              {null != library_peptide_count ? (
+                <span className={styles.font_green_color}>
+                  {library_peptide_count}
+                </span>
+              ) : (
+                <span className={styles.font_red_color}>NULL</span>
+              )}
+            </div>
+
+            <div>
+              <span className={styles.font_second_color}>PP Rate</span>
+              &nbsp;:&nbsp;
+              {null != pp_rate ? (
+                <span className={styles.font_green_color}>{pp_rate}</span>
+              ) : (
+                <span className={styles.font_red_color}>NULL</span>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+
+    this.setState({
+      drawer_data: drawer_data,
+      drawer_visible: true
+    });
+  };
+
+  drawer_close = () => {
+    // 关闭抽屉
+    this.setState({
+      drawer_visible: false
+    });
+  };
+
   /**************************** render ****************************/
   /**************************** render ****************************/
   /**************************** render ****************************/
@@ -1135,6 +1343,8 @@ class Experiment_list extends React.Component {
         </Fragment>
       );
     }
+
+    let { drawer_data, drawer_visible } = this.state;
 
     return (
       <div>
@@ -1181,6 +1391,27 @@ class Experiment_list extends React.Component {
             <FormattedHTMLMessage id="propro.experiment_list_delete_warning" />
           </div>
         </Modal>
+
+        {true == drawer_visible && (
+          <Drawer
+            title={
+              <FormattedHTMLMessage id="propro.analysis_score_list_data_detail" />
+            }
+            placement="left"
+            closable={true}
+            width={400}
+            style={{
+              wordWrap: "break-word",
+              wordBreak: "break-all",
+              minWidth: "585px",
+              maxWidth: "585px"
+            }}
+            onClose={this.drawer_close}
+            visible={drawer_visible}
+          >
+            {drawer_data}
+          </Drawer>
+        )}
 
         <div
           style={{

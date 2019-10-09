@@ -66,6 +66,18 @@ tao.consolelog = function() {
   }
 };
 
+tao.my_console = function(type, ...all_arg) {
+  if ("log" == type) {
+    console.log(...all_arg);
+  } else if ("warn" == type) {
+    console.warn(...all_arg);
+  } else if ("error" == type) {
+    console.error(...all_arg);
+  } else {
+    console.log(...all_arg);
+  }
+};
+
 /*****
  * @Author              TangTao  https://www.promiselee.cn/tao
  * @Email               tangtao2099@outlook.com
