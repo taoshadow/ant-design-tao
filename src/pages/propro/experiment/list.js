@@ -325,6 +325,7 @@ class Experiment_list extends React.Component {
         vendorFileSize = 0 < vendorFileSize ? vendorFileSize : 0;
         let { length: len1 = 0 } = windowRanges;
         window_ranges_size = 0 <= len1 ? len1 : 0;
+
         // 日期
         if (null != lastModifiedDate) {
           lastModifiedDate = tao.format_time(parseInt(lastModifiedDate));
