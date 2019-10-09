@@ -76,6 +76,7 @@ import arrow_up_svg from "../style/static/analysis/arrow_up.svg";
 import return_svg from "../style/static/dashboard/return.svg";
 import preloader_svg from "../style/static/dashboard/preloader.svg";
 import detail_svg from "../style/static/experiment/detail.svg";
+import list_svg from "../style/static/experiment/list.svg";
 
 /****************  导入 styles end ***************************/
 
@@ -971,15 +972,15 @@ class Experiment_list extends React.Component {
               letterSpacing: "1px",
               wordWrap: "break-word",
               wordBreak: "break-all",
-              minWidth: "40px",
-              maxWidth: "40px"
+              minWidth: "120px",
+              maxWidth: "120px"
             }}
           >
             <FormattedHTMLMessage id="propro.experiment_list_experiment_operation" />
           </span>
         ),
         key: "operation",
-        width: 40,
+        width: 120,
         render: list => {
           return (
             <div
@@ -987,8 +988,8 @@ class Experiment_list extends React.Component {
                 fontSize: "8px",
                 wordWrap: "break-word",
                 wordBreak: "break-all",
-                minWidth: "40px",
-                maxWidth: "40px",
+                minWidth: "120px",
+                maxWidth: "120px",
                 fontWeight: "600"
               }}
               className={styles.font_green_color}
@@ -1018,6 +1019,32 @@ class Experiment_list extends React.Component {
                     }}
                   />
                 </div>
+              </Tooltip>
+
+              {/* 查看分析列表数据 */}
+              <Tooltip
+                placement="topLeft"
+                title={
+                  <FormattedHTMLMessage id="propro.experiment_list_experiment_operation_list" />
+                }
+              >
+                <Link to={"/analysis/list_id/" + list.id}>
+                  <div
+                    className={"badge " + styles.bg_second_color}
+                    style={{
+                      padding: "4px 4px",
+                      margin: "3px",
+                      cursor: "pointer"
+                    }}
+                  >
+                    <img
+                      src={list_svg}
+                      style={{
+                        width: "20px"
+                      }}
+                    />
+                  </div>
+                </Link>
               </Tooltip>
             </div>
           );

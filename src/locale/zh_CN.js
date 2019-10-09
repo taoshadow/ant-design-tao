@@ -654,6 +654,7 @@ let language_ch = {
   "propro.experiment_list_experiment_last_modified_date": "最新更新时间",
   "propro.experiment_list_experiment_operation": "操作",
   "propro.experiment_list_experiment_operation_detail": "详情",
+  "propro.experiment_list_experiment_operation_list": "分析列表",
 
   "propro.end": "end"
 };
