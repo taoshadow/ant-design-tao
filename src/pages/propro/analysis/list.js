@@ -118,10 +118,10 @@ const analysis_state_to_props = state => {
 const analysis_dispatch_to_props = dispatch => {
   return {
     // 更新触发器
-    get_analysis_list: () => {
+    get_analysis_list: data => {
       const action = {
         type: "analysis_list/get_analysis_list",
-        payload: null
+        payload: data
       };
       dispatch(action);
     },
@@ -166,9 +166,8 @@ class Analysis_list extends React.Component {
       //   language: this.props.language
     };
 
-    // 查询 public_irt 列表
     setTimeout(() => {
-      this.props.get_analysis_list();
+      this.query_analysis_list();
     }, 100);
 
     // 配置 message
@@ -189,8 +188,25 @@ class Analysis_list extends React.Component {
         analysis_list_status: -1
       });
       // 立即重新发起查询
-      this.props.get_analysis_list();
+      this.query_analysis_list();
     }, 800);
+  };
+
+  // 查询 analysis_list 列表
+  query_analysis_list = () => {
+    let url = this.props.history.location.pathname;
+    console.log(url);
+    let find_str = "/list_exp_id/";
+    let index = url.lastIndexOf(find_str);
+    let exp_id = url.substring(index + find_str.length);
+
+    let obj = {};
+    if (3 < index) {
+      // 找到 exp_id 发起查询
+      obj.exp_id = exp_id;
+    }
+
+    this.props.get_analysis_list(obj);
   };
 
   handle_analysis_list = () => {

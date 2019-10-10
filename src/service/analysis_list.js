@@ -18,10 +18,17 @@ import tao from "../utils/common";
 export function get_analysis_list(data = "") {
   // 读取最新的 token
   let token = tao.get_token();
+  console.log(data);
+  let { exp_id = "" } = data;
 
   if (-1 == token) {
     // 不存在 token
     return "error";
+  }
+  let body_data = "";
+
+  if ("" != exp_id && 4 < exp_id.length) {
+    body_data += "expId" + "=" + exp_id + "&";
   }
 
   // 请求 irt 库列表
@@ -32,37 +39,9 @@ export function get_analysis_list(data = "") {
       token: token,
       "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
     },
-    method: "POST"
-    //   发送登录数据 注意 数据未加密
-    // body: ''
-  });
-}
-
-// 设置标准库 公开2019-9-4 20:19:59  tangtao
-export function set_library_public_by_id(data = "") {
-  // 读取最新的 token
-  let token = tao.get_token();
-
-  let { id = "" } = data;
-
-  if (-1 == token || "" == data || "" == id) {
-    // 不存在 token
-    return "error";
-  }
-
-  let bodys = "";
-  bodys += "id" + "=" + id + "&";
-
-  return request("/propro_server/library/setPublic", {
-    headers: {
-      // 'content-type': 'application/json',
-      // "X-Requested-With": "XMLHttpRequest",
-      token: token,
-      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-    },
     method: "POST",
-    //   发送登录数据 注意 数据未加密
-    body: bodys
+    //   发送查询参数 注意 数据未加密
+    body: body_data
   });
 }
 
