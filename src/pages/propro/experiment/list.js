@@ -1028,7 +1028,7 @@ class Experiment_list extends React.Component {
                   <FormattedHTMLMessage id="propro.experiment_list_experiment_operation_list" />
                 }
               >
-                <Link to={"/analysis/list_id/" + list.id}>
+                <Link to={"/analysis/list_exp_id/" + list.id}>
                   <div
                     className={"badge " + styles.bg_second_color}
                     style={{

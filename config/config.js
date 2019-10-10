@@ -146,10 +146,14 @@ export default {
           path: "/task/list",
           component: "propro/task/list"
         },
-
         {
           // 分析 列表
           path: "/analysis/list",
+          component: "propro/analysis/list"
+        },
+        {
+          // 分析 列表 指定 exp_id
+          path: "/analysis/list_exp_id/*",
           component: "propro/analysis/list"
         },
         {
