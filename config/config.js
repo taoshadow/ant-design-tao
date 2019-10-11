@@ -182,11 +182,15 @@ export default {
           component: "propro/experiment/list"
         },
         {
+          // 实验列表详情
+          path: "/experiment/detail/*",
+          component: "propro/experiment/detail"
+        },
+        {
           // 编辑实验列表
           path: "/experiment/edit/*",
           component: "propro/experiment/edit"
         },
-
         {
           path: "/test",
           component: "propro/test"

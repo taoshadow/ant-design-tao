@@ -29,7 +29,6 @@ export function get_experiment_edit(data = "") {
 
   body_data += "id" + "=" + id + "&";
 
-  console.log(body_data);
   // 编辑 实验数据 列表
   return request("/propro_server/experiment/edit", {
     headers: {
