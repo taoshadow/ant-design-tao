@@ -655,6 +655,9 @@ let language_ch = {
   "propro.experiment_list_experiment_operation": "操作",
   "propro.experiment_list_experiment_operation_detail": "详情",
   "propro.experiment_list_experiment_operation_list": "分析列表",
+  "propro.experiment_list_experiment_operation_modify": "修改",
+  "propro.experiment_list_experiment_operation_irt": "计算irt",
+  "propro.experiment_list_experiment_operation_process": "批量执行",
 
   "propro.end": "end"
 };

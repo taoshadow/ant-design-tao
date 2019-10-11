@@ -1,5 +1,5 @@
-// src/pages/propro/experiment/list.js
-// list 实验数据 列表
+// src/pages/propro/experiment/edit.js
+// 编辑 list 实验数据
 
 /***
  * @Author              TangTao https://www.promiselee.cn/tao
@@ -7,8 +7,8 @@
  * @Copyright           西湖大学 propro Tangtao
  * @GitHub              https://github.com/tangtaoshadow
  * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
- * @CreateTime          2019-10-7 01:19:51
- * @UpdateTime          2019-10-7 21:32:51
+ * @CreateTime          2019-10-11 12:39:09
+ * @UpdateTime          2019-10-11 12:39:30
  * @Archive             实验数据列表
  */
 
@@ -148,7 +148,7 @@ const experiment_dispatch_to_props = dispatch => {
   experiment_state_to_props,
   experiment_dispatch_to_props
 )
-class Experiment_list extends React.Component {
+class Experiment_list_edit extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -1554,4 +1554,4 @@ class Experiment_list extends React.Component {
   }
 }
 
-export default Experiment_list;
+export default Experiment_list_edit;
