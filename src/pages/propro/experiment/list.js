@@ -118,10 +118,10 @@ const experiment_state_to_props = state => {
 const experiment_dispatch_to_props = dispatch => {
   return {
     // 更新触发器
-    get_experiment_list: () => {
+    get_experiment_list: (data = null) => {
       const action = {
         type: "experiment_list/get_experiment_list",
-        payload: null
+        payload: data
       };
       dispatch(action);
     },

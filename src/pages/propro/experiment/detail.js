@@ -19,6 +19,7 @@ import { connect } from "dva";
 import Link from "umi/link";
 import { FormattedHTMLMessage } from "react-intl";
 import { Fragment } from "react";
+import ReactJson from "react-json-view";
 
 import {
   Layout,
@@ -28,6 +29,7 @@ import {
   Breadcrumb,
   Row,
   Col,
+  Descriptions,
   Drawer,
   Button,
   Dropdown,
@@ -112,10 +114,10 @@ const experiment_state_to_props = state => {
 const experiment_dispatch_to_props = dispatch => {
   return {
     // 更新触发器
-    get_experiment_detail: () => {
+    get_experiment_detail: data => {
       const action = {
         type: "experiment_detail/get_experiment_detail",
-        payload: null
+        payload: data
       };
       dispatch(action);
     },
@@ -261,16 +263,39 @@ class Experiment_detail extends React.Component {
   change_experiment_detail_data = () => {
     console.log(this.props.experiment_detail_data);
 
+    let { experiment } = this.props.experiment_detail_data;
+    /*
+    experiment:
+        airdIndexPath: "E:\data\HYE110_6600_64_Var\HYE110_TTOF6600_64var_lgillet_I160305_001.json"
+        airdIndexSize: 3431589
+        airdPath: "E:\data\HYE110_6600_64_Var\HYE110_TTOF6600_64var_lgillet_I160305_001.aird"
+        airdSize: 2471259255
+        compressors: (2) [{…}, {…}]
+        createDate: 1562567900202
+        features: "TripleTOF 6600:;sourceFileFormat:WIFF;byte_order:LITTLE_ENDIAN;rawId:HYE110_TTOF6600_64var_lgillet_I160305_001-Pedro Sample A - 64 variable;ignoreZeroIntensity:True;overlap:1;propro_client_version:1.7.0;aird_version:2;"
+        iRtLibraryId: "5c6d2ec7dfdfdd2f947c6f39"
+        id: "5d22e4dca1eaff5cabc0fa39"
+        instrument: {analyzer: Array(3), detector: Array(1), manufacturer: "SCIEX", model: "TripleTOF 6600", source: Array(1)}
+        irtResult: {selectedPairs: Array(10), si: {…}, unselectedPairs: Array(0)}
+        lastModifiedDate: 1562902402129
+        name: "HYE110_TTOF6600_64var_lgillet_I160305_001"
+        ownerName: "lms"
+        parentFiles: []
+        projectId: "5d22e4d9a1eaff5cabc0fa37"
+        projectName: "HYE110_6600_64_Var"
+        softwares: (2) [{…}, {…}]
+        type: "DIA_SWATH"
+        vendorFileSize: 3463541784
+        windowRanges: (64) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+    */
+
     this.setState({
       //   // 标记 成功
-      //   experiment_detail_false_time: 5,
-      //   load_percentage_value: load_percentage_value,
-      //   total_numbers: total_numbers,
-      //   analyse_overview_do_map: analyse_overview_do_map,
-      //   experiment_detail_query_time: tao.current_format_time(),
-      //   experiment_detail_data: experiments_arr,
-      //   // 标记数据为可用的状态
-      //   experiment_detail_status: 0
+      experiment_detail_false_time: 5,
+      experiment_detail_query_time: tao.current_format_time(),
+      experiment_detail_data: experiment,
+      // 标记数据为可用的状态
+      experiment_detail_status: 0
     });
 
     return 0;
@@ -433,11 +458,43 @@ class Experiment_detail extends React.Component {
   /************   operation  *****************/
   /************   operation  *****************/
 
-  show_drawer_data = data => {
-    // this.setState({
-    //   drawer_data: drawer_data,
-    //   drawer_visible: true
-    // });
+  show_drawer_data = () => {
+    let drawer_data = null;
+    let view_data = null;
+    //   提取出窗口数据
+    let { experiment = null } = this.props.experiment_detail_data;
+    if (null != experiment) {
+      try {
+        let { windowRanges: window_ranges = [] } = experiment;
+        let { length: len0 } = window_ranges;
+        if (0 < len0) {
+          // 有数据
+          view_data = window_ranges;
+        }
+      } catch (error) {
+        view_data = null;
+      }
+    }
+
+    drawer_data = (
+      <ReactJson
+        name={"PROPRO"}
+        theme={"summerfruit:inverted"}
+        iconStyle={"circle"}
+        style={{
+          fontSize: "15px",
+          fontWeight: "500"
+        }}
+        displayDataTypes={false}
+        collapseStringsAfterLength={140}
+        src={view_data}
+      />
+    );
+
+    this.setState({
+      drawer_data: drawer_data,
+      drawer_visible: true
+    });
   };
 
   drawer_close = () => {
@@ -445,6 +502,13 @@ class Experiment_detail extends React.Component {
     this.setState({
       drawer_visible: false
     });
+  };
+
+  view_swatch_data = () => {
+    // 调用侧边栏
+    setTimeout(() => {
+      this.show_drawer_data();
+    }, 100);
   };
 
   /**************************** render ****************************/
@@ -483,7 +547,179 @@ class Experiment_detail extends React.Component {
 
     let { drawer_data, drawer_visible } = this.state;
 
-    return 11111;
+    let { experiment: detail_data } = this.props.experiment_detail_data;
+    let {
+      createDate = 0,
+      lastModifiedDate = 0,
+      irtResult: irt_result = null,
+      windowRanges: window_ranges = [],
+      instrument = {},
+      softwares = [],
+      compressors = [],
+      features = ""
+    } = detail_data;
+    let create_date = tao.format_time(createDate);
+    let last_modified_date = tao.format_time(lastModifiedDate);
+
+    // 提取斜率和截距
+
+    let [slope, intercept, slope_intercept] = [null, null, null];
+    try {
+      let { si = null } = irt_result;
+      (slope = si.slope), (intercept = si.intercept);
+    } catch (e) {
+      (slope = null), (intercept = null);
+    }
+
+    if (null != intercept && null != slope && 0 != intercept) {
+      slope_intercept = parseFloat(slope / intercept).toFixed(5);
+    }
+
+    // Swatch窗口数目
+    let { length: len0 = -1 } = window_ranges;
+    let window_ranges_size = 0;
+    if (0 < len0) {
+      //
+      window_ranges_size = len0;
+    }
+
+    // 从仪器 instrument 中提取 制造商 和 型号
+    let {
+      manufacturer = null,
+      model = null,
+      source = null,
+      analyzer = [],
+      detector = []
+    } = instrument;
+
+    /**** analyzer ****/
+
+    let { length: len1 } = analyzer;
+    let analyzer_arr = null;
+    if (0 < len1) {
+      //
+      analyzer_arr = new Array(len1);
+      for (let i = 0; i < len1; i++) {
+        //
+        analyzer_arr[i] = (
+          <span
+            key={"analyzer_arr_" + i}
+            className={"badge badge-info"}
+            style={{
+              padding: "4px 6px",
+              margin: "5px 5px"
+            }}
+          >
+            {analyzer[i]}
+          </span>
+        );
+      }
+    }
+
+    /**** detector ****/
+
+    let { length: len2 } = detector;
+    let detector_arr = null;
+    if (0 < len2) {
+      //
+      detector_arr = new Array(len2);
+      for (let i = 0; i < len2; i++) {
+        //
+        detector_arr[i] = (
+          <span
+            key={"detector_arr_" + i}
+            className={"badge badge-info"}
+            style={{
+              padding: "4px 6px",
+              margin: "5px 5px"
+            }}
+          >
+            {detector[i]}
+          </span>
+        );
+      }
+    }
+
+    /**** softwares ****/
+
+    let { length: len3 } = softwares;
+    let softwares_arr = null;
+    if (0 < len3) {
+      //
+      softwares_arr = new Array(len3);
+      for (let i = 0; i < len3; i++) {
+        //
+        softwares_arr[i] = (
+          <div
+            key={"softwares_arr_" + i}
+            className={"badge badge-light"}
+            style={{
+              padding: "4px 6px",
+              margin: "5px 5px",
+              wordWrap: "break-word",
+              wordBreak: "break-all"
+            }}
+          >
+            {softwares[i].name}&nbsp;:&nbsp;{softwares[i].version}
+          </div>
+        );
+      }
+    }
+
+    /**** compressors ****/
+
+    let { length: len4 } = compressors;
+    let compressors_arr = null;
+    if (0 < len4) {
+      //
+      compressors_arr = new Array(len4);
+      for (let i = 0; i < len4; i++) {
+        //
+        compressors_arr[i] = (
+          <div
+            key={"compressors_arr_" + i}
+            className={"badge badge-light"}
+            style={{
+              padding: "4px 6px",
+              margin: "5px 5px",
+              wordWrap: "break-word",
+              wordBreak: "break-all"
+            }}
+          >
+            {compressors[i].target}&nbsp;:&nbsp;{compressors[i].method}
+          </div>
+        );
+      }
+    }
+
+    /**** features ****/
+    // 特征字段
+    features += "";
+    let features_list = features.split(";");
+    let { length: len5 } = features_list;
+    let features_arr = null;
+    if (0 < len5) {
+      //
+      features_arr = new Array(len5);
+      for (let i = 0; i < len5; i++) {
+        //
+        features_arr[i] = (
+          <div
+            key={"features_arr_" + i}
+            className={"badge badge-light " + styles.font_green_color}
+            style={{
+              padding: "4px 6px",
+              margin: "5px 5px",
+              wordWrap: "break-word",
+              wordBreak: "break-all"
+            }}
+          >
+            {features_list[i]}
+          </div>
+        );
+      }
+    }
+
     return (
       <div>
         <div
@@ -533,11 +769,11 @@ class Experiment_detail extends React.Component {
         {true == drawer_visible && (
           <Drawer
             title={
-              <FormattedHTMLMessage id="propro.analysis_score_detail_data_detail" />
+              <FormattedHTMLMessage id="propro.experiment_detail_swtach_data_detail" />
             }
             placement="left"
             closable={true}
-            width={400}
+            width={600}
             style={{
               wordWrap: "break-word",
               wordBreak: "break-all",
@@ -554,23 +790,427 @@ class Experiment_detail extends React.Component {
         <div
           style={{
             background: "#FFFFFF",
-            padding: "5px",
+            padding: "15px 10px",
+            fontSize: "14px",
             border: "1px solid #e5e9f2",
             overflow: "auto"
           }}
         >
-          <Table
-            size={"middle"}
-            columns={this.state.experiment_detail_table_columns}
-            pagination={{
-              position: "bottom",
-              hideOnSinglePage: true,
-              defaultPageSize: 100
-            }}
-            dataSource={this.state.experiment_detail_data}
-          />
+          <Row>
+            <Col
+              lg={24}
+              xl={24}
+              xxl={20}
+              className={styles.font_primary_color}
+              style={{
+                textAlign: "left",
+                fontSize: "14px",
+                lineHeight: "30px"
+              }}
+            >
+              <Descriptions
+                bordered
+                size="middle"
+                column={4}
+                style={{
+                  overflowX: "auto",
+                  overflowY: "auto"
+                }}
+                title={
+                  <Fragment>
+                    <Row>
+                      <Col lg={8}>
+                        负责人 :&nbsp;
+                        <span
+                          className={"badge " + `${styles.bg_second_color}`}
+                          style={{ padding: "5px 10px", color: "#ffffff" }}
+                        >
+                          {detail_data.ownerName}
+                        </span>
+                      </Col>
+                      <Col lg={8}>
+                        <FormattedHTMLMessage id="propro.public_irt_standard_library_detail_create_time" />
+                        :&nbsp;
+                        <span
+                          className={"badge " + `${styles.bg_green_color}`}
+                          style={{ padding: "5px 10px", color: "#FFFFFF" }}
+                        >
+                          {create_date}
+                        </span>
+                      </Col>
+
+                      <Col lg={8}>
+                        <FormattedHTMLMessage id="propro.public_irt_standard_library_detail_last_modify_time" />
+                        :&nbsp;
+                        <span
+                          className={"badge " + `${styles.bg_yellow_color}`}
+                          style={{ padding: "5px 10px", color: "#FFFFFF" }}
+                        >
+                          {last_modified_date}
+                        </span>
+                      </Col>
+                    </Row>
+                  </Fragment>
+                }
+              >
+                <Descriptions.Item span={2} label="实验ID">
+                  <div
+                    style={{
+                      wordWrap: "break-word",
+                      wordBreak: "break-all",
+                      padding: "5px"
+                    }}
+                    className={styles.font_primary_color}
+                  >
+                    {detail_data.id}
+                  </div>
+                </Descriptions.Item>
+                <Descriptions.Item span={2} label="项目ID">
+                  <div
+                    style={{
+                      wordWrap: "break-word",
+                      wordBreak: "break-all",
+                      padding: "5px"
+                    }}
+                    className={styles.font_primary_color}
+                  >
+                    {detail_data.projectId}
+                  </div>
+                </Descriptions.Item>
+                {/* 实验名称 */}
+                <Descriptions.Item span={4} label="实验名称">
+                  <div
+                    style={{
+                      wordWrap: "break-word",
+                      wordBreak: "break-all",
+                      padding: "5px"
+                    }}
+                    // className={styles.font_primary_color}
+                  >
+                    {detail_data.name}
+                  </div>
+                </Descriptions.Item>
+                {/* 别名 */}
+                <Descriptions.Item span={2} label="别名">
+                  <div
+                    style={{
+                      wordWrap: "break-word",
+                      wordBreak: "break-all",
+                      padding: "5px"
+                    }}
+                    className={styles.font_primary_color}
+                  >
+                    {detail_data.alias}
+                  </div>
+                </Descriptions.Item>
+                {/* 实验类型 */}
+                <Descriptions.Item span={2} label="实验类型">
+                  <div
+                    style={{
+                      wordWrap: "break-word",
+                      wordBreak: "break-all",
+                      padding: "5px"
+                    }}
+                    className={styles.font_second_color}
+                  >
+                    {detail_data.type}
+                  </div>
+                </Descriptions.Item>
+                {/* 项目ID */}
+                <Descriptions.Item span={2} label="项目ID">
+                  <div
+                    style={{
+                      wordWrap: "break-word",
+                      wordBreak: "break-all",
+                      padding: "5px"
+                    }}
+                    className={styles.font_primary_color}
+                  >
+                    {detail_data.projectId}
+                  </div>
+                </Descriptions.Item>
+                {/* 项目名称 */}
+                <Descriptions.Item span={2} label="项目名称">
+                  <div
+                    style={{
+                      wordWrap: "break-word",
+                      wordBreak: "break-all",
+                      padding: "5px"
+                    }}
+                    // className={styles.font_primary_color}
+                  >
+                    {detail_data.projectName}
+                  </div>
+                </Descriptions.Item>
+                {/* Aird文件路径 */}
+                <Descriptions.Item span={4} label="Aird文件路径">
+                  <div
+                    style={{
+                      wordWrap: "break-word",
+                      wordBreak: "break-all",
+                      padding: "5px"
+                    }}
+                    // className={styles.font_primary_color}
+                  >
+                    {detail_data.airdPath}
+                  </div>
+                </Descriptions.Item>
+                {/* Aird索引文件路径 */}
+                <Descriptions.Item span={4} label="Aird索引文件路径">
+                  <div
+                    style={{
+                      wordWrap: "break-word",
+                      wordBreak: "break-all",
+                      padding: "5px"
+                    }}
+                    // className={styles.font_primary_color}
+                  >
+                    {detail_data.airdIndexPath}
+                  </div>
+                </Descriptions.Item>
+                {/* iRT标准库ID */}
+                <Descriptions.Item span={4} label="iRT标准库ID">
+                  <div
+                    style={{
+                      wordWrap: "break-word",
+                      wordBreak: "break-all",
+                      padding: "5px"
+                    }}
+                    className={styles.font_primary_color}
+                  >
+                    {detail_data.iRtLibraryId}
+                  </div>
+                </Descriptions.Item>
+                {/* 斜率/截距 */}
+                <Descriptions.Item span={4} label="斜率/截距">
+                  <div
+                    style={{
+                      wordWrap: "break-word",
+                      wordBreak: "break-all",
+                      padding: "5px"
+                    }}
+                    className={styles.font_green_color}
+                  >
+                    {null != slope ? (
+                      slope
+                    ) : (
+                      <span className={styles.font_red_color}>NULL</span>
+                    )}
+                    &nbsp;/&nbsp;
+                    {null != intercept ? (
+                      intercept
+                    ) : (
+                      <span className={styles.font_red_color}>NULL</span>
+                    )}
+                    &nbsp;=&nbsp;
+                    {null != slope_intercept ? (
+                      slope_intercept
+                    ) : (
+                      <span className={styles.font_red_color}>NULL</span>
+                    )}
+                  </div>
+                </Descriptions.Item>
+                {/* Swatch窗口数目 */}
+                <Descriptions.Item span={4} label="Swatch窗口数目">
+                  <div
+                    style={{
+                      wordWrap: "break-word",
+                      wordBreak: "break-all",
+                      padding: "5px"
+                    }}
+                    className={styles.font_green_color}
+                  >
+                    {0 < window_ranges_size ? (
+                      window_ranges_size
+                    ) : (
+                      <span className={styles.font_red_color}>NULL</span>
+                    )}
+                    <button
+                      type="button"
+                      className="btn btn-outline-success"
+                      style={{
+                        padding: "5px",
+                        height: "30px",
+                        fontSize: "12px",
+                        lineHeight: "20px",
+                        marginLeft: "30px"
+                      }}
+                      // 这里为了处理冒泡 采用箭头方式传参
+                      onClick={this.view_swatch_data}
+                    >
+                      查看详情
+                    </button>
+                  </div>
+                </Descriptions.Item>
+
+                {/* 设备信息 制造商 型号 */}
+                <Descriptions.Item span={4} label="设备信息">
+                  <div
+                    style={{
+                      wordWrap: "break-word",
+                      wordBreak: "break-all",
+                      padding: "5px"
+                    }}
+                    // className={styles.font_primary_color}
+                  >
+                    <span
+                      className={styles.font_primary_color}
+                      style={{
+                        fontWeight: "600"
+                      }}
+                    >
+                      {null != manufacturer ? (
+                        manufacturer
+                      ) : (
+                        <span className={styles.font_red_color}>NULL</span>
+                      )}
+                    </span>
+                    &nbsp; &nbsp;
+                    <span
+                      className={"badge badge-secondary "}
+                      style={{
+                        fontWeight: "600",
+                        padding: "5px"
+                      }}
+                    >
+                      {null != model ? (
+                        model
+                      ) : (
+                        <span className={styles.font_red_color}>NULL</span>
+                      )}
+                    </span>
+                  </div>
+                </Descriptions.Item>
+
+                {/* Source */}
+                <Descriptions.Item span={4} label="Source">
+                  <div
+                    style={{
+                      wordWrap: "break-word",
+                      wordBreak: "break-all",
+                      padding: "5px"
+                    }}
+                    // className={styles.font_primary_color}
+                  >
+                    {null != source ? (
+                      source
+                    ) : (
+                      <span className={styles.font_red_color}>NULL</span>
+                    )}
+                  </div>
+                </Descriptions.Item>
+
+                {/* Analyzer */}
+                <Descriptions.Item span={4} label="Analyzer">
+                  <div
+                    style={{
+                      wordWrap: "break-word",
+                      wordBreak: "break-all",
+                      padding: "5px"
+                    }}
+                    // className={styles.font_primary_color}
+                  >
+                    {null != analyzer_arr ? (
+                      analyzer_arr
+                    ) : (
+                      <span className={styles.font_red_color}>NULL</span>
+                    )}
+                  </div>
+                </Descriptions.Item>
+
+                {/* Detector */}
+                <Descriptions.Item span={4} label="Detector">
+                  <div
+                    style={{
+                      wordWrap: "break-word",
+                      wordBreak: "break-all",
+                      padding: "5px"
+                    }}
+                    // className={styles.font_primary_color}
+                  >
+                    {null != detector_arr ? (
+                      detector_arr
+                    ) : (
+                      <span className={styles.font_red_color}>NULL</span>
+                    )}
+                  </div>
+                </Descriptions.Item>
+
+                {/* ******* 注意 ******* */}
+                {/* ******* 注意 ******* */}
+                {/* ******* 注意 ******* */}
+                {/* ******* 注意 ******* */}
+                {/* 未实现的功能 filename File Type */}
+
+                {/* Softwares Name & type */}
+                <Descriptions.Item span={4} label="Softwares">
+                  <div
+                    style={{
+                      padding: "5px"
+                    }}
+                    // className={styles.font_primary_color}
+                  >
+                    {null != softwares_arr ? (
+                      softwares_arr
+                    ) : (
+                      <span className={styles.font_red_color}>NULL</span>
+                    )}
+                  </div>
+                </Descriptions.Item>
+
+                {/* Compressors */}
+                <Descriptions.Item span={4} label="Compressors">
+                  <div
+                    style={{
+                      padding: "5px"
+                    }}
+                    // className={styles.font_primary_color}
+                  >
+                    {null != compressors_arr ? (
+                      compressors_arr
+                    ) : (
+                      <span className={styles.font_red_color}>NULL</span>
+                    )}
+                  </div>
+                </Descriptions.Item>
+
+                {/* 详情描述 */}
+                <Descriptions.Item span={4} label="详情描述">
+                  <div
+                    style={{
+                      padding: "5px"
+                    }}
+                    // className={styles.font_primary_color}
+                  >
+                    {null != detail_data.description ? (
+                      detail_data.description
+                    ) : (
+                      <span className={styles.font_red_color}>NULL</span>
+                    )}
+                  </div>
+                </Descriptions.Item>
+
+                {/* 特征字段 */}
+                <Descriptions.Item span={4} label="特征字段">
+                  <div
+                    style={{
+                      padding: "5px"
+                    }}
+                    // className={styles.font_primary_color}
+                  >
+                    {null != features_arr ? (
+                      features_arr
+                    ) : (
+                      <span className={styles.font_red_color}>NULL</span>
+                    )}
+                  </div>
+                </Descriptions.Item>
+              </Descriptions>
+            </Col>
+          </Row>
         </div>
-        {/* Author: Tangtao HDU https://www.promiselee.cn/tao */}
+
+        {/* Author: Tangtao HDU https://www.promiselee.cn/tao 2019-10-11 18:37:29 */}
         <BackTop visibilityHeight={600}>
           <div>
             <img
@@ -587,3 +1227,5 @@ class Experiment_detail extends React.Component {
 }
 
 export default Experiment_detail;
+
+// tangtao https://www.promiselee.cn/tao at 2019-10-11 18:37:53

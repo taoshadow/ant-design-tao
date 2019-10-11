@@ -834,6 +834,8 @@ class Analysis_protein_identification extends React.Component {
         }
       ];
 
+      // 配置 analysis_protein_identification_list_table_columns
+
       let analysis_protein_identification_list_table_columns = [
         {
           // 1  排序
@@ -1081,7 +1083,6 @@ class Analysis_protein_identification extends React.Component {
       drawer_visible,
       drawer_data
     } = this.state;
-    // 配置 analysis_protein_identification_list_table_columns
 
     return (
       <div>
@@ -1446,7 +1447,9 @@ class Analysis_protein_identification extends React.Component {
             >
               <Table
                 size={"middle"}
-                columns={analysis_protein_identification_list_table_columns}
+                columns={
+                  this.state.analysis_protein_identification_list_table_columns
+                }
                 pagination={{
                   position: "top",
                   hideOnSinglePage: true,

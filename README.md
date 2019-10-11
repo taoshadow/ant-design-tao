@@ -18,7 +18,7 @@
 
 **CreateTime：**`2019-7-25 22:00:25`
 
-**UpdateTime：**`2019-10-6 02:03:57`
+**UpdateTime：**`2019-10-11 19:26:00`
 
 **Copyright:**  唐涛 [HOME](https://www.promiselee.cn/tao) 2019 ©  [西湖大学](https://www.westlake.edu.cn/) [propro](http://www.proteomics.pro/)
 
@@ -316,6 +316,18 @@ npm run tao
 **修改**：`2019-10-4 00:41:36`
 
 ![](http://cdn.promiselee.cn/share_static/files/propro/propro-analysis-20191004003955.png)
+
+
+
+# 实验数据列表
+
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
+
+**创建**：`2019-10-11 19:25:00`
+
+**修改**：`2019-10-11 19:25:17`
+
+![](http://cdn.promiselee.cn/share_static/files/propro/propro-experiment-list-20191011192358.png)
 
 
 

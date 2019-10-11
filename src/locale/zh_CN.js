@@ -660,6 +660,10 @@ let language_ch = {
   "propro.experiment_list_experiment_operation_process": "批量执行",
   "propro.experiment_list_experiment_detail": "实验详情",
 
+  // 实验详情
+  "propro.experiment_detail_title": "实验详情",
+  "propro.experiment_detail_swtach_data_detail": "Swatch 窗口数据详情",
+
   "propro.end": "end"
 };
 
