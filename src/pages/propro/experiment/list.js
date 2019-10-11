@@ -215,16 +215,19 @@ class Experiment_list extends React.Component {
     } else {
       // 数据获取失败
       // 1-弹出警告
-      Modal.error({
-        title: "False",
-        content: Languages[this.props.language]["propro.network_error"],
-        okText: Languages[this.props.language]["propro.user_modal_know"]
-      });
+      setTimeout(() => {
+        Modal.error({
+          title: "False",
+          content: Languages[this.props.language]["propro.network_error"],
+          okText: Languages[this.props.language]["propro.user_modal_know"]
+        });
+      }, 40);
       // 过一段时间 尝试再次连接服务器 这个时间要稍微长一点 用户体验会比较好
       let { experiment_list_false_time } = this.state;
       // 2-判断是否需要再次发起请求
       if (0 >= experiment_list_false_time) {
-        console.error(
+        tao.my_console(
+          "error",
           "@Author:tangtao; 系统已终止运行,请重新刷新页面; ",
           "初步诊断:未能成功连接到 propro-server 的服务器或者未能成功解析返回的数据"
         );
@@ -539,7 +542,7 @@ class Experiment_list extends React.Component {
         key: "name",
         width: 110,
         ...this.get_column_search_props("name"),
-        render: text => {
+        render: (text, list) => {
           return (
             <div
               style={{
@@ -551,16 +554,26 @@ class Experiment_list extends React.Component {
                 fontWeight: "600"
               }}
             >
-              <p
-                className="badge-light"
-                style={{
-                  padding: "5px",
-                  fontSize: "8px",
-                  fontWeight: "600"
-                }}
+              <Tooltip
+                placement="topLeft"
+                title={
+                  <FormattedHTMLMessage id="propro.experiment_list_experiment_detail" />
+                }
               >
-                {text}
-              </p>
+                <Link to={"/experiment/detail/" + list.id}>
+                  <p
+                    className={"badge-light " + styles.font_blue_color}
+                    style={{
+                      padding: "5px",
+                      fontSize: "8px",
+                      fontWeight: "600",
+                      cursor: "pointer"
+                    }}
+                  >
+                    {text}
+                  </p>
+                </Link>
+              </Tooltip>
             </div>
           );
         }
@@ -1029,7 +1042,7 @@ class Experiment_list extends React.Component {
                   <FormattedHTMLMessage id="propro.experiment_list_experiment_operation_modify" />
                 }
               >
-                <Link to={"/analysis/list_exp_id/" + list.id}>
+                <Link to={"/experiment/edit/" + list.id}>
                   <div
                     className={"badge " + styles.bg_blue_color}
                     style={{

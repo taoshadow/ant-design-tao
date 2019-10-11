@@ -658,6 +658,7 @@ let language_ch = {
   "propro.experiment_list_experiment_operation_modify": "修改",
   "propro.experiment_list_experiment_operation_irt": "计算irt",
   "propro.experiment_list_experiment_operation_process": "批量执行",
+  "propro.experiment_list_experiment_detail": "实验详情",
 
   "propro.end": "end"
 };

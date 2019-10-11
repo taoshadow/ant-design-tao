@@ -195,7 +195,6 @@ class Analysis_list extends React.Component {
   // 查询 analysis_list 列表
   query_analysis_list = () => {
     let url = this.props.history.location.pathname;
-    console.log(url);
     let find_str = "/list_exp_id/";
     let index = url.lastIndexOf(find_str);
     let exp_id = url.substring(index + find_str.length);
