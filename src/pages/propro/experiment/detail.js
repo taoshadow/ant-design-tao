@@ -8,7 +8,7 @@
  * @GitHub              https://github.com/tangtaoshadow
  * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
  * @CreateTime          2019-10-11 16:26:11
- * @UpdateTime          2019-10-12 14:43:59
+ * @UpdateTime          2019-10-13 02:17:55
  * @Archive             实验数据列表
  */
 
@@ -36,6 +36,7 @@ import {
   Select,
   Popconfirm,
   message,
+  notification,
   Tabs,
   Input,
   Modal,
@@ -96,14 +97,14 @@ const experiment_state_to_props = state => {
     experiment_detail_status = -1,
     experiment_detail_time = 0,
     experiment_detail_data = {},
-    experiment_detail_delete_status = -1,
-    experiment_detail_delete_time = 0,
-    experiment_detail_delete_data = {}
+    experiment_detail_list_delete_status,
+    experiment_detail_list_delete_time,
+    experiment_detail_list_delete_data
   } = state["experiment_detail"];
 
-  (obj.experiment_detail_delete_status = experiment_detail_delete_status),
-    (obj.experiment_detail_delete_time = experiment_detail_delete_time),
-    (obj.experiment_detail_delete_data = experiment_detail_delete_data),
+  (obj.experiment_detail_list_delete_status = experiment_detail_list_delete_status),
+    (obj.experiment_detail_list_delete_time = experiment_detail_list_delete_time),
+    (obj.experiment_detail_list_delete_data = experiment_detail_list_delete_data),
     (obj.experiment_detail_status = experiment_detail_status),
     (obj.experiment_detail_time = experiment_detail_time),
     (obj.experiment_detail_data = experiment_detail_data);
@@ -121,9 +122,9 @@ const experiment_dispatch_to_props = dispatch => {
       };
       dispatch(action);
     },
-    delete_experiment_detail: data => {
+    delete_experiment_detail_list: data => {
       const action = {
-        type: "experiment_detail/delete_experiment_detail",
+        type: "experiment_detail/delete_experiment_detail_list",
         payload: data
       };
       dispatch(action);
@@ -155,14 +156,13 @@ class Experiment_detail extends React.Component {
       experiment_detail_status: -1,
       // 请求失败再次发起请求的尝试次数
       experiment_detail_false_time: 5,
+      experiment_detail_list_delete_status: -1,
       search_text: "",
       experiment_detail_table_columns: null,
       // modal 配置
       modal_visible: false,
       drawer_visible: false,
-      drawer_data: null,
-      delete_experiment_detail_id: null,
-      analyse_overview_do_map: null
+      drawer_data: null
       //   language: this.props.language
     };
 
@@ -314,10 +314,9 @@ class Experiment_detail extends React.Component {
     return 0;
   };
 
-  delete_experiment_detail_by_id = id => {
+  delete_experiment_detail_by_id = () => {
     // 调用删除对话框
     this.setState({
-      delete_experiment_detail_id: id,
       modal_visible: true
     });
   };
@@ -336,9 +335,9 @@ class Experiment_detail extends React.Component {
     // 延迟删除 为用户提供紧急停留时间
     setTimeout(() => {
       // 获取id
-      let { delete_experiment_detail_id } = this.state;
+      let { experiment_detail_id } = this.state;
       this.props.delete_experiment_detail({
-        id: delete_experiment_detail_id
+        id: experiment_detail_id
       });
     }, 1500);
   };
@@ -349,20 +348,23 @@ class Experiment_detail extends React.Component {
     });
   };
 
-  handle_delete_experiment_detail = () => {
+  // 处理删除实验数据 结果
+  handle_delete_experiment_detail_list = () => {
     //
     // 时间戳设置为 0
     this.props.set_state_newvalue({
-      target: "experiment_detail_delete_time",
+      target: "experiment_detail_list_delete_time",
       value: 0
     });
 
-    let { experiment_detail_delete_status, language } = this.props;
-    if (0 == experiment_detail_delete_status) {
+    let { experiment_detail_list_delete_status: status, language } = this.props;
+    if (0 == status) {
       // 删除成功
       setTimeout(() => {
         message.success(
-          Languages[language]["propro.experiment_detail_delete_tip"] +
+          Languages[language][
+            "propro.experiment_detail_list_operation_delete"
+          ] +
             " : " +
             Languages[language]["propro.prompt_success"],
           4
@@ -372,7 +374,9 @@ class Experiment_detail extends React.Component {
       // 删除失败 可能出在网络
       setTimeout(() => {
         message.error(
-          Languages[language]["propro.experiment_detail_delete_tip"] +
+          Languages[language][
+            "propro.experiment_detail_list_operation_delete"
+          ] +
             " : " +
             Languages[language]["propro.prompt_failed"],
           4
@@ -383,8 +387,8 @@ class Experiment_detail extends React.Component {
     }
     // 执行刷新到分析列表
     setTimeout(() => {
-      // 重新加载数据
-      this.refresh_data();
+      // 返回实验列表
+      this.props.history.push("/experiment/list/");
     }, 500);
   };
 
@@ -445,6 +449,120 @@ class Experiment_detail extends React.Component {
     }, 100);
   };
 
+  delete_experiment_detail_list_by_id = () => {
+    this.setState({
+      modal_visible: true
+    });
+  };
+
+  delete_experiment_detail_list_by_id_confirm = () => {
+    this.setState({
+      modal_visible: false,
+      // 允许删除
+      experiment_detail_list_delete_status: 0
+    });
+    // 执行删除操作
+    let { language } = this.props;
+
+    setTimeout(() => {
+      message.loading(
+        Languages[language]["propro.experiment_detail_list_operation_delete"] +
+          " : " +
+          Languages[language]["propro.prompt_running"],
+        4
+      );
+    }, 30);
+
+    // 提供撤销操作
+    setTimeout(() => {
+      let btn_obj = (
+        <button
+          type="button"
+          className="btn btn-outline-primary"
+          style={{
+            fontWeight: 400,
+            fontSize: "12px",
+            margin: "5px 5px",
+            height: "30px",
+            lineHeight: "20px",
+            padding: "5px 10px",
+            letterSpacing: "1px"
+          }}
+          // 暂时还未实现
+          onClick={this.undo_delete_experiment_detail_list_by_id}
+        >
+          撤销
+        </button>
+      );
+      notification.warn({
+        message:
+          Languages[language]["propro.notification_operation_warn_title"],
+        description:
+          Languages[language][
+            "propro.experiment_detail_notification_operation_delete_description"
+          ] + " ...",
+        btn: btn_obj,
+        duration: 3
+      });
+    }, 300);
+
+    // // 故意延迟 供用户撤销
+    setTimeout(() => {
+      this.delete_experiment_detail_list_by_id_execute();
+    }, 3500);
+  };
+
+  delete_experiment_detail_list_by_id_cancel = () => {
+    this.setState({
+      modal_visible: false
+    });
+  };
+
+  // 执行删除 不可逆
+  delete_experiment_detail_list_by_id_execute = () => {
+    //
+    setTimeout(() => {
+      // 获取id
+      let {
+        experiment_detail_id,
+        experiment_detail_list_delete_status = -1
+      } = this.state;
+      if (0 == experiment_detail_list_delete_status) {
+        // 执行删除
+        this.props.delete_experiment_detail_list({ id: experiment_detail_id });
+      } else {
+        tao.my_console("info", "tangtao : 撤销成功");
+        let { language } = this.props;
+
+        // 提示撤销成功
+        message.info(
+          Languages[language][
+            "propro.experiment_detail_list_operation_delete_undo"
+          ] +
+            " : " +
+            Languages[language]["propro.prompt_success"],
+          4
+        );
+
+        return -1;
+      }
+      // 重新置位
+      this.setState({
+        experiment_detail_list_delete_status: -1
+      });
+    }, 100);
+  };
+
+  // 撤销删除操作
+  undo_delete_experiment_detail_list_by_id = () => {
+    // 立即撤销
+    setTimeout(() => {
+      this.setState({
+        experiment_detail_list_delete_status: -1
+      });
+    }, 30);
+  };
+
   /**************************** render ****************************/
   /**************************** render ****************************/
   /**************************** render ****************************/
@@ -457,8 +575,8 @@ class Experiment_detail extends React.Component {
       this.handle_experiment_detail();
     }
 
-    if (10000 < this.props.experiment_detail_delete_time) {
-      this.handle_delete_experiment_detail();
+    if (10000 < this.props.experiment_detail_list_delete_time) {
+      this.handle_delete_experiment_detail_list();
     }
 
     if (0 != this.state.experiment_detail_status) {
@@ -721,14 +839,14 @@ class Experiment_detail extends React.Component {
             </b>
           }
           visible={this.state.modal_visible}
-          onOk={this.delete_experiment_detail_by_id_confirm}
-          onCancel={this.delete_experiment_detail_by_id_cancel}
+          onOk={this.delete_experiment_detail_list_by_id_confirm}
+          onCancel={this.delete_experiment_detail_list_by_id_cancel}
           maskClosable={true}
           okText={<FormattedHTMLMessage id="propro.modal_confirm" />}
           cancelText={<FormattedHTMLMessage id="propro.modal_cancel" />}
         >
           <div className={styles.font_red_color}>
-            <FormattedHTMLMessage id="propro.experiment_detail_delete_warning" />
+            <FormattedHTMLMessage id="propro.experiment_detail_list_delete_warning" />
           </div>
         </Modal>
 
@@ -1240,7 +1358,7 @@ class Experiment_detail extends React.Component {
                         letterSpacing: "1px"
                       }}
                       // 暂时还未实现
-                      // onClick={this.delete_analysis_xic_list_by_id}
+                      onClick={this.delete_experiment_detail_list_by_id}
                     >
                       删除
                     </button>

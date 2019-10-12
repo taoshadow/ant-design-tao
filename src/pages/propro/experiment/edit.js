@@ -129,9 +129,9 @@ const experiment_dispatch_to_props = dispatch => {
       };
       dispatch(action);
     },
-    delete_experiment_edit: data => {
+    delete_experiment_edit_list: data => {
       const action = {
-        type: "experiment_edit/delete_experiment_edit",
+        type: "experiment_edit/delete_experiment_edit_list",
         payload: data
       };
       dispatch(action);
@@ -171,9 +171,8 @@ class Experiment_edit extends React.Component {
       modal_visible: false,
       drawer_visible: false,
       drawer_data: null,
-      delete_experiment_edit_id: null,
       // -1 默认不允许删除 0 允许删除
-      delete_experiment_edit_list_status: -1,
+      experiment_edit_list_delete_status: -1,
       intercept: null,
       slope: null,
       description: null,
@@ -189,7 +188,7 @@ class Experiment_edit extends React.Component {
 
     // 配置 message
     message.config({
-      top: 500,
+      top: 420,
       duration: 2,
       maxCount: 5,
       getContainer: () => document.body
@@ -379,6 +378,46 @@ class Experiment_edit extends React.Component {
     return 0;
   };
 
+  // 处理删除实验数据 结果
+  handle_delete_experiment_edit_list = () => {
+    //
+    // 时间戳设置为 0
+    this.props.set_state_newvalue({
+      target: "experiment_edit_list_delete_time",
+      value: 0
+    });
+
+    let { experiment_edit_list_delete_status: status, language } = this.props;
+    if (0 == status) {
+      // 删除成功
+      setTimeout(() => {
+        message.success(
+          Languages[language]["propro.experiment_edit_list_operation_delete"] +
+            " : " +
+            Languages[language]["propro.prompt_success"],
+          4
+        );
+      }, 200);
+    } else {
+      // 删除失败 可能出在网络
+      setTimeout(() => {
+        message.error(
+          Languages[language]["propro.experiment_edit_list_operation_delete"] +
+            " : " +
+            Languages[language]["propro.prompt_failed"],
+          4
+        );
+      }, 200);
+
+      return -1;
+    }
+    // 执行刷新到分析列表
+    setTimeout(() => {
+      // 返回实验列表
+      this.props.history.push("/experiment/list/");
+    }, 500);
+  };
+
   /************   operation  *****************/
   /************   operation  *****************/
   /************   operation  *****************/
@@ -527,7 +566,7 @@ class Experiment_edit extends React.Component {
     this.setState({
       modal_visible: false,
       // 允许删除
-      delete_experiment_edit_list_status: 0
+      experiment_edit_list_delete_status: 0
     });
     // 执行删除操作
     let { language } = this.props;
@@ -593,14 +632,15 @@ class Experiment_edit extends React.Component {
       // 获取id
       let {
         experiment_edit_id,
-        delete_experiment_edit_list_status = -1
+        experiment_edit_list_delete_status = -1
       } = this.state;
-      if (0 == delete_experiment_edit_list_status) {
-        this.props.delete_experiment_edit({ id: experiment_edit_id });
+      if (0 == experiment_edit_list_delete_status) {
+        this.props.delete_experiment_edit_list({ id: experiment_edit_id });
       } else {
         tao.my_console("info", "tangtao : 撤销成功");
         let { language } = this.props;
 
+        // 提示撤销成功
         message.info(
           Languages[language][
             "propro.experiment_edit_list_operation_delete_undo"
@@ -614,7 +654,7 @@ class Experiment_edit extends React.Component {
       }
       // 重新置位
       this.setState({
-        delete_experiment_edit_list_status: -1
+        experiment_edit_list_delete_status: -1
       });
     }, 100);
   };
@@ -624,7 +664,7 @@ class Experiment_edit extends React.Component {
     // 立即撤销
     setTimeout(() => {
       this.setState({
-        delete_experiment_edit_list_status: -1
+        experiment_edit_list_delete_status: -1
       });
     }, 30);
   };
@@ -642,7 +682,7 @@ class Experiment_edit extends React.Component {
     }
 
     if (10000 < this.props.experiment_edit_list_delete_time) {
-      this.handle_delete_experiment_edit();
+      this.handle_delete_experiment_edit_list();
     }
 
     if (0 != this.state.experiment_edit_status) {

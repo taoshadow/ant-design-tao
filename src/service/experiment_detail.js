@@ -44,15 +44,14 @@ export function get_experiment_detail(data = "") {
 
 // delete_experiment_detail
 
-// 删除 experiment 数据 create by tangtao at 2019-10-7 23:58:45
+// 删除 experiment 数据 create by tangtao at 2019-10-13 02:30:59
 // https://www.promiselee.cn/tao
-export function delete_experiment_detail(data = "") {
+export function delete_experiment_detail_list(data = "") {
   // 读取最新的 token
   let token = tao.get_token();
-
   let { id = "" } = data;
   id += "";
-  if (-1 == token || "" == data || 0 >= id.length) {
+  if (-1 == token || "" == data || 3 >= id.length) {
     // 不存在 token
     return "error";
   }
@@ -62,7 +61,7 @@ export function delete_experiment_detail(data = "") {
   body_data += "id" + "=" + id + "&";
 
   // 请求 irt 库列表
-  return request("/propro_server/analyse/delete", {
+  return request("/propro_server/experiment/delete", {
     headers: {
       // 'content-type': 'application/json',
       // "X-Requested-With": "XMLHttpRequest",

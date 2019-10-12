@@ -666,8 +666,13 @@ let language_ch = {
   // 实验详情
   "propro.experiment_detail_title": "实验详情",
   "propro.experiment_detail_create_time": "创建时间",
-  "propro.experiment_detail_create_time": "更新时间",
+  "propro.experiment_detail_last_modify_time": "更新时间",
   "propro.experiment_detail_swtach_data_detail": "Swatch 窗口数据详情",
+  "propro.experiment_detail_list_delete_warning": "确定删除该实验数据?",
+  "propro.experiment_detail_list_operation_delete": "删除实验数据",
+  "propro.experiment_detail_list_operation_delete_undo": "撤销删除实验数据",
+  "propro.experiment_detail_notification_operation_delete_description":
+    "正在删除实验数据",
 
   // 更新实验数据
   "propro.experiment_update_title": "更新实验数据",

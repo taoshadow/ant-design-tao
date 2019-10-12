@@ -28,9 +28,9 @@ let model = {
     experiment_edit_time: 0,
     // 返回的数据
     experiment_edit_data: 0,
-    delete_experiment_edit_list_delete_status: -1,
-    delete_experiment_edit_list_delete_time: 0,
-    delete_experiment_edit_list_delete_data: null
+    experiment_edit_list_delete_status: -1,
+    experiment_edit_list_delete_time: 0,
+    experiment_edit_list_delete_data: null
   },
 
   effects: {
@@ -145,7 +145,7 @@ let model = {
           // 尝试提取 服务端返回数据 error_1 与 error 区分
           let { status = "error_1" } = result;
           // 尝试写入 data
-          obj.delete_experiment_edit_list_delete_data = result.data;
+          obj.experiment_edit_list_delete_data = result.data;
           // 如果提取到 status 那么就 把 status 返回
           res_status = "error_1" == status ? -1 : status;
         } catch (e) {
@@ -155,17 +155,17 @@ let model = {
         // 这里本地出错 pass
       }
 
-      obj.delete_experiment_edit_list_delete_time = new Date().getTime();
+      obj.experiment_edit_list_delete_time = new Date().getTime();
 
       // 1 检查 返回数据状态
       if (-1 == res_status) {
         // 发生严重错误
-        obj.delete_experiment_edit_list_delete_status = res_status;
+        obj.experiment_edit_list_delete_status = res_status;
         return obj;
       }
 
       // 2 成功获取数据
-      obj.delete_experiment_edit_list_delete_status = res_status;
+      obj.experiment_edit_list_delete_status = res_status;
 
       return obj;
     }

@@ -28,9 +28,9 @@ let model = {
     experiment_detail_time: 0,
     // 返回的数据
     experiment_detail_data: 0,
-    experiment_detail_delete_status: -1,
-    experiment_detail_delete_time: 0,
-    experiment_detail_delete_data: null
+    experiment_detail_list_delete_status: -1,
+    experiment_detail_list_delete_time: 0,
+    experiment_detail_list_delete_data: null
   },
 
   effects: {
@@ -54,20 +54,20 @@ let model = {
       return 0;
     },
 
-    *delete_experiment_detail({ payload }, sagaEffects) {
+    *delete_experiment_detail_list({ payload }, sagaEffects) {
       const { call, put } = sagaEffects;
       let result = "";
       try {
         // 捕获异常
         result = yield call(
-          experiment_detail_service.delete_experiment_detail,
+          experiment_detail_service.delete_experiment_detail_list,
           payload
         );
       } catch (e) {
         result = "";
       }
       yield put({
-        type: "delete_experiment_detail_result",
+        type: "delete_experiment_detail_list_result",
         payload: result
       });
       return 0;
@@ -130,7 +130,7 @@ let model = {
       return obj;
     },
 
-    delete_experiment_detail_result(state, { payload: result }) {
+    delete_experiment_detail_list_result(state, { payload: result }) {
       // @AUTHOR:tangtao HDU https://www.promiselee.cn/tao
       // 尝试提取返回结果
       let res_status = -1;
@@ -145,7 +145,7 @@ let model = {
           // 尝试提取 服务端返回数据 error_1 与 error 区分
           let { status = "error_1" } = result;
           // 尝试写入 data
-          obj.experiment_detail_delete_data = result.data;
+          obj.experiment_detail_list_delete_data = result.data;
           // 如果提取到 status 那么就 把 status 返回
           res_status = "error_1" == status ? -1 : status;
         } catch (e) {
@@ -155,17 +155,17 @@ let model = {
         // 这里本地出错 pass
       }
 
-      obj.experiment_detail_delete_time = new Date().getTime();
+      obj.experiment_detail_list_delete_time = new Date().getTime();
 
       // 1 检查 返回数据状态
       if (-1 == res_status) {
         // 发生严重错误
-        obj.experiment_detail_delete_status = res_status;
+        obj.experiment_detail_list_delete_status = res_status;
         return obj;
       }
 
       // 2 成功获取数据
-      obj.experiment_detail_delete_status = res_status;
+      obj.experiment_detail_list_delete_status = res_status;
 
       return obj;
     }
