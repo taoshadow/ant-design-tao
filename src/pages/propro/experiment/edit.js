@@ -118,7 +118,7 @@ const experiment_state_to_props = state => {
 const experiment_dispatch_to_props = dispatch => {
   return {
     // 更新触发器
-    get_experiment_edit: (data) => {
+    get_experiment_edit: data => {
       const action = {
         type: "experiment_edit/get_experiment_edit",
         payload: data
@@ -244,7 +244,7 @@ class Experiment_edit extends React.Component {
       let { experiment_edit_false_time } = this.state;
 
       // 2-判断是否需要再次发起请求
-        if (0 >= experiment_edit_false_time) {
+      if (0 >= experiment_edit_false_time) {
         // 提示错误警告
         tao.my_console(
           "error",
@@ -296,17 +296,14 @@ class Experiment_edit extends React.Component {
         vendorFileSize: 3463541784
         windowRanges: (64) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
     */
-      
+
     this.setState({
       // 标记 成功
-      //   experiment_edit_false_time: 5,
-      //   load_percentage_value: load_percentage_value,
-      //   total_numbers: total_numbers,
-      //   analyse_overview_do_map: analyse_overview_do_map,
-      //   experiment_edit_query_time: tao.current_format_time(),
+      experiment_edit_false_time: 5,
+      experiment_edit_query_time: tao.current_format_time(),
       //   experiment_edit_data: experiments_arr,
       //   // 标记数据为可用的状态
-      //   experiment_edit_status: 0
+      experiment_edit_status: 0
     });
 
     return 0;
@@ -392,9 +389,7 @@ class Experiment_edit extends React.Component {
   };
 
   show_drawer_data = data => {
-   
-
-      let drawer_data = null;
+    let drawer_data = null;
     this.setState({
       drawer_data: drawer_data,
       drawer_visible: true

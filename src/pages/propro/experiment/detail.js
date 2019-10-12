@@ -775,9 +775,9 @@ class Experiment_detail extends React.Component {
         >
           <Tooltip
             placement="topLeft"
-            title={<FormattedHTMLMessage id="propro.console" />}
+            title={<FormattedHTMLMessage id="propro.experiment_list_title" />}
           >
-            <Link to="/console">
+            <Link to="/experiment/list/">
               <img
                 src={return_svg}
                 style={{

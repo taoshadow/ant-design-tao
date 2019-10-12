@@ -331,3 +331,14 @@ npm run tao
 
 
 
+# 实验数据详情
+
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
+
+**创建**：`2019-10-12 19:08:06`
+
+**修改**：`2019-10-12 19:08:20`
+
+![tangtao](http://cdn.promiselee.cn/share_static/files/propro/propro-experiment-detail-20191012191046.png)
+
+
