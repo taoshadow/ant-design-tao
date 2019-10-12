@@ -8,7 +8,7 @@
  * @GitHub              https://github.com/tangtaoshadow
  * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
  * @CreateTime          2019-10-11 16:26:11
- * @UpdateTime          2019-10-7 21:32:51
+ * @UpdateTime          2019-10-12 14:43:59
  * @Archive             实验数据列表
  */
 
@@ -150,6 +150,7 @@ class Experiment_detail extends React.Component {
     this.state = {
       //   查询到的标准库数据
       experiment_detail_data: [],
+      experiment_detail_id: null,
       // 默认没有数据 状态为 -1 这个变量 暂时用不着 但是后续扩展会用到
       experiment_detail_status: -1,
       // 请求失败再次发起请求的尝试次数
@@ -194,9 +195,24 @@ class Experiment_detail extends React.Component {
     if (3 < index) {
       // 找到 id 添加
       obj.id = id;
+      // 延时写入
+      setTimeout(() => {
+        this.setState({
+          experiment_detail_id: id
+        });
+      }, 30);
+    } else {
+      // 找不到 数据异常
+      tao.my_console(
+        "warn",
+        "@Author:tangtao; url非法 ",
+        "初步诊断:url值不正确"
+      );
     }
 
-    this.props.get_experiment_detail(obj);
+    setTimeout(() => {
+      this.props.get_experiment_detail(obj);
+    }, 40);
   };
 
   refresh_data = () => {
@@ -545,7 +561,7 @@ class Experiment_detail extends React.Component {
       );
     }
 
-    let { drawer_data, drawer_visible } = this.state;
+    let { drawer_data, drawer_visible, experiment_detail_id } = this.state;
 
     let { experiment: detail_data } = this.props.experiment_detail_data;
     let {
@@ -556,7 +572,8 @@ class Experiment_detail extends React.Component {
       instrument = {},
       softwares = [],
       compressors = [],
-      features = ""
+      features = "",
+      parentFiles: parent_files = []
     } = detail_data;
     let create_date = tao.format_time(createDate);
     let last_modified_date = tao.format_time(lastModifiedDate);
@@ -636,6 +653,32 @@ class Experiment_detail extends React.Component {
           >
             {detector[i]}
           </span>
+        );
+      }
+    }
+
+    /**** parentFiles ****/
+
+    let { length: len_files } = parent_files;
+    let parent_files_arr = null;
+    if (0 < len_files) {
+      //
+      parent_files_arr = new Array(len_files);
+      for (let i = 0; i < len_files; i++) {
+        //
+        parent_files_arr[i] = (
+          <div
+            key={"parent_files_arr_" + i}
+            className={"badge badge-light"}
+            style={{
+              padding: "4px 6px",
+              margin: "5px 5px",
+              wordWrap: "break-word",
+              wordBreak: "break-all"
+            }}
+          >
+            {parent_files[i].name}&nbsp;:&nbsp;{parent_files[i].type}
+          </div>
         );
       }
     }
@@ -1136,11 +1179,21 @@ class Experiment_detail extends React.Component {
                   </div>
                 </Descriptions.Item>
 
-                {/* ******* 注意 ******* */}
-                {/* ******* 注意 ******* */}
-                {/* ******* 注意 ******* */}
-                {/* ******* 注意 ******* */}
-                {/* 未实现的功能 filename File Type */}
+                {/* File Name & type */}
+                <Descriptions.Item span={4} label="Files">
+                  <div
+                    style={{
+                      padding: "5px"
+                    }}
+                    // className={styles.font_primary_color}
+                  >
+                    {null != parent_files_arr ? (
+                      parent_files_arr
+                    ) : (
+                      <span className={styles.font_red_color}>NULL</span>
+                    )}
+                  </div>
+                </Descriptions.Item>
 
                 {/* Softwares Name & type */}
                 <Descriptions.Item span={4} label="Softwares">
@@ -1203,6 +1256,71 @@ class Experiment_detail extends React.Component {
                     ) : (
                       <span className={styles.font_red_color}>NULL</span>
                     )}
+                  </div>
+                </Descriptions.Item>
+
+                {/* 操作 */}
+                <Descriptions.Item span={4} label="操作">
+                  <div
+                    style={{
+                      padding: "5px"
+                    }}
+                    // className={styles.font_primary_color}
+                  >
+                    <button
+                      type="button"
+                      className="btn btn-outline-primary"
+                      style={{
+                        fontWeight: 400,
+                        fontSize: "12px",
+                        margin: "5px 5px",
+                        height: "24px",
+                        lineHeight: "14px",
+                        padding: "5px",
+                        letterSpacing: "1px"
+                      }}
+                      // 暂时还未实现
+                      // onClick={this.delete_analysis_xic_list_by_id}
+                    >
+                      <span>原始谱图列表</span>
+                    </button>
+
+                    <Link to={"/experiment/edit/" + experiment_detail_id}>
+                      <button
+                        className="btn btn-outline-primary"
+                        style={{
+                          fontWeight: 400,
+                          fontSize: "12px",
+                          margin: "5px 5px",
+                          height: "24px",
+                          lineHeight: "14px",
+                          padding: "5px",
+                          letterSpacing: "1px"
+                        }}
+                        // 暂时还未实现
+                        // onClick={this.delete_analysis_xic_list_by_id}
+                      >
+                        修改
+                      </button>
+                    </Link>
+
+                    <button
+                      type="button"
+                      className="btn btn-outline-danger"
+                      style={{
+                        fontWeight: 400,
+                        fontSize: "12px",
+                        margin: "5px 5px",
+                        height: "24px",
+                        lineHeight: "14px",
+                        padding: "5px",
+                        letterSpacing: "1px"
+                      }}
+                      // 暂时还未实现
+                      // onClick={this.delete_analysis_xic_list_by_id}
+                    >
+                      删除
+                    </button>
                   </div>
                 </Descriptions.Item>
               </Descriptions>
