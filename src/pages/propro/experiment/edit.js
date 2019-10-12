@@ -19,6 +19,7 @@ import { connect } from "dva";
 import Link from "umi/link";
 import { FormattedHTMLMessage } from "react-intl";
 import { Fragment } from "react";
+import ReactJson from "react-json-view";
 
 import {
   Layout,
@@ -45,6 +46,7 @@ import {
   BackTop
 } from "antd";
 
+const { TextArea } = Input;
 import Highlighter from "react-highlight-words";
 
 import tao from "../../../utils/common";
@@ -170,7 +172,8 @@ class Experiment_edit extends React.Component {
       drawer_visible: false,
       drawer_data: null,
       delete_experiment_edit_id: null,
-      analyse_overview_do_map: null
+      features_arr: null,
+      features_source: null
     };
 
     // 查询 experiment_edit 列表
@@ -313,20 +316,94 @@ class Experiment_edit extends React.Component {
         windowRanges: (64) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
     */
 
+    // 提取斜率和截距
+
+    let { experiment } = this.props.experiment_edit_data;
+
+    let {
+      irtResult: irt_result = null,
+      description = null,
+      features = ""
+    } = experiment;
+    let [slope, intercept] = [null, null];
+    try {
+      let { si = null } = irt_result;
+      (slope = si.slope), (intercept = si.intercept);
+    } catch (e) {
+      (slope = null), (intercept = null);
+    }
+
+    /**** features ****/
+    // 特征字段
+    features += "";
+    let features_list = features.split(";");
+    let { length: len5 } = features_list;
+    let features_str = "";
+    if (0 < len5) {
+      //
+      for (let i = 0; i < len5; i++) {
+        //
+        features_str += features_list[i] + "\n";
+      }
+    }
+
     this.setState({
       // 标记 成功
       experiment_edit_false_time: 5,
       experiment_edit_query_time: tao.current_format_time(),
+      intercept: intercept,
+      slope: slope,
+      description: description,
+      features_str: features_str,
+      // 原始特征字段
+      features_source: features,
       //   experiment_edit_data: experiments_arr,
       //   // 标记数据为可用的状态
       experiment_edit_status: 0
     });
 
+    this.change_state_features_arr();
+
     return 0;
   };
 
-  show_drawer_data = data => {
+  /************   operation  *****************/
+  /************   operation  *****************/
+  /************   operation  *****************/
+
+  show_drawer_data = () => {
     let drawer_data = null;
+    let view_data = null;
+    //   提取出窗口数据
+    let { experiment = null } = this.props.experiment_edit_data;
+    if (null != experiment) {
+      try {
+        let { windowRanges: window_ranges = [] } = experiment;
+        let { length: len0 } = window_ranges;
+        if (0 < len0) {
+          // 有数据
+          view_data = window_ranges;
+        }
+      } catch (error) {
+        view_data = null;
+      }
+    }
+
+    drawer_data = (
+      <ReactJson
+        name={"PROPRO"}
+        theme={"summerfruit:inverted"}
+        iconStyle={"circle"}
+        style={{
+          fontSize: "15px",
+          fontWeight: "500"
+        }}
+        displayDataTypes={false}
+        collapseStringsAfterLength={140}
+        src={view_data}
+      />
+    );
+
     this.setState({
       drawer_data: drawer_data,
       drawer_visible: true
@@ -338,6 +415,94 @@ class Experiment_edit extends React.Component {
     this.setState({
       drawer_visible: false
     });
+  };
+
+  view_swatch_data = () => {
+    // 调用侧边栏
+    setTimeout(() => {
+      this.show_drawer_data();
+    }, 100);
+  };
+
+  // 截距
+  change_state_intercept = obj => {
+    // 值先全部保留 最后进行转换为 float
+    this.setState({
+      intercept: obj.target.value
+    });
+  };
+
+  // 斜率
+  change_state_slope = obj => {
+    // 值先全部保留 最后进行转换为 float
+    this.setState({
+      slope: obj.target.value
+    });
+  };
+
+  // 详情描述
+  change_state_description = obj => {
+    // 值先全部保留 最后进行转换为 float
+    this.setState({
+      description: obj.target.value
+    });
+  };
+
+  // 特征字段
+  change_state_features_str = obj => {
+    // 处理数据
+    let str = obj.target.value;
+    // 剔除\n\nstr之间的空白字符 并且用分号连接
+    str = str.replace(/\n/g, ";");
+
+    // 值先全部保留
+    this.setState({
+      features_str: obj.target.value,
+      features_source: str
+    });
+
+    // Author:tangtao https://www.promiselee.cn/tao
+    // 注意 要先写入 state 再去改变 所以使用延时回调
+    setTimeout(() => {
+      this.change_state_features_arr();
+    }, 30);
+  };
+
+  // handle
+
+  change_state_features_arr = () => {
+    let str = this.state.features_source;
+    setTimeout(() => {
+      let features_list = str.split(";");
+      let { length: len5 } = features_list;
+      let features_arr = null;
+      if (0 < len5) {
+        //
+        features_arr = new Array(len5);
+        for (let i = 0; i < len5; i++) {
+          //
+          features_arr[i] = (
+            <div
+              key={"features_arr_" + i}
+              className={"badge badge-light " + styles.font_green_color}
+              style={{
+                padding: "4px 6px",
+                margin: "5px 5px",
+                wordWrap: "break-word",
+                wordBreak: "break-all"
+              }}
+            >
+              {features_list[i]}
+            </div>
+          );
+        }
+      }
+
+      // 值先全部保留
+      this.setState({
+        features_arr: features_arr
+      });
+    }, 150);
   };
 
   /**************************** render ****************************/
@@ -374,16 +539,27 @@ class Experiment_edit extends React.Component {
       );
     }
 
-    let { drawer_data, drawer_visible, experiment_edit_id } = this.state;
+    let {
+      drawer_data,
+      drawer_visible,
+      experiment_edit_id,
+      // 截距
+      intercept,
+      // 斜率
+      slope,
+      // 详情描述
+      description,
+      // 特征字段
+      features_str,
+      features_arr
+    } = this.state;
 
-
-     /***************  解析experiment_edit_data  ******************/
+    /***************  解析experiment_edit_data  ******************/
     /***************  解析experiment_edit_data  ******************/
     let { experiment: detail_data } = this.props.experiment_edit_data;
     let {
       createDate = 0,
       lastModifiedDate = 0,
-      irtResult: irt_result = null,
       windowRanges: window_ranges = [],
       instrument = {},
       softwares = [],
@@ -393,20 +569,6 @@ class Experiment_edit extends React.Component {
     } = detail_data;
     let create_date = tao.format_time(createDate);
     let last_modified_date = tao.format_time(lastModifiedDate);
-
-    // 提取斜率和截距
-
-    let [slope, intercept, slope_intercept] = [null, null, null];
-    try {
-      let { si = null } = irt_result;
-      (slope = si.slope), (intercept = si.intercept);
-    } catch (e) {
-      (slope = null), (intercept = null);
-    }
-
-    if (null != intercept && null != slope && 0 != intercept) {
-      slope_intercept = parseFloat(slope / intercept).toFixed(5);
-    }
 
     // Swatch窗口数目
     let { length: len0 = -1 } = window_ranges;
@@ -551,38 +713,8 @@ class Experiment_edit extends React.Component {
       }
     }
 
-    /**** features ****/
-    // 特征字段
-    features += "";
-    let features_list = features.split(";");
-    let { length: len5 } = features_list;
-    let features_arr = null;
-    if (0 < len5) {
-      //
-      features_arr = new Array(len5);
-      for (let i = 0; i < len5; i++) {
-        //
-        features_arr[i] = (
-          <div
-            key={"features_arr_" + i}
-            className={"badge badge-light " + styles.font_green_color}
-            style={{
-              padding: "4px 6px",
-              margin: "5px 5px",
-              wordWrap: "break-word",
-              wordBreak: "break-all"
-            }}
-          >
-            {features_list[i]}
-          </div>
-        );
-      }
-    }
-
     /***************  解析experiment_edit_data  ******************/
     /***************  解析experiment_edit_data  ******************/
-
-
 
     return (
       <div>
@@ -598,7 +730,7 @@ class Experiment_edit extends React.Component {
             placement="topLeft"
             title={<FormattedHTMLMessage id="propro.experiment_detail_title" />}
           >
-            <Link to={"/experiment/detail/" +  experiment_edit_id}>
+            <Link to={"/experiment/detail/" + experiment_edit_id}>
               <img
                 src={return_svg}
                 style={{
@@ -633,11 +765,11 @@ class Experiment_edit extends React.Component {
         {true == drawer_visible && (
           <Drawer
             title={
-              <FormattedHTMLMessage id="propro.analysis_score_list_data_edit" />
+              <FormattedHTMLMessage id="propro.experiment_edit_swtach_data_detail" />
             }
             placement="left"
             closable={true}
-            width={400}
+            width={600}
             style={{
               wordWrap: "break-word",
               wordBreak: "break-all",
@@ -729,6 +861,7 @@ class Experiment_edit extends React.Component {
                     {detail_data.id}
                   </div>
                 </Descriptions.Item>
+
                 <Descriptions.Item span={2} label="项目ID">
                   <div
                     style={{
@@ -741,6 +874,7 @@ class Experiment_edit extends React.Component {
                     {detail_data.projectId}
                   </div>
                 </Descriptions.Item>
+
                 {/* 实验名称 */}
                 <Descriptions.Item span={4} label="实验名称">
                   <div
@@ -754,6 +888,7 @@ class Experiment_edit extends React.Component {
                     {detail_data.name}
                   </div>
                 </Descriptions.Item>
+
                 {/* 别名 */}
                 <Descriptions.Item span={2} label="别名">
                   <div
@@ -767,6 +902,7 @@ class Experiment_edit extends React.Component {
                     {detail_data.alias}
                   </div>
                 </Descriptions.Item>
+
                 {/* 实验类型 */}
                 <Descriptions.Item span={2} label="实验类型">
                   <div
@@ -780,6 +916,7 @@ class Experiment_edit extends React.Component {
                     {detail_data.type}
                   </div>
                 </Descriptions.Item>
+
                 {/* 项目ID */}
                 <Descriptions.Item span={2} label="项目ID">
                   <div
@@ -793,6 +930,7 @@ class Experiment_edit extends React.Component {
                     {detail_data.projectId}
                   </div>
                 </Descriptions.Item>
+
                 {/* 项目名称 */}
                 <Descriptions.Item span={2} label="项目名称">
                   <div
@@ -806,6 +944,7 @@ class Experiment_edit extends React.Component {
                     {detail_data.projectName}
                   </div>
                 </Descriptions.Item>
+
                 {/* Aird文件路径 */}
                 <Descriptions.Item span={4} label="Aird文件路径">
                   <div
@@ -819,6 +958,7 @@ class Experiment_edit extends React.Component {
                     {detail_data.airdPath}
                   </div>
                 </Descriptions.Item>
+
                 {/* Aird索引文件路径 */}
                 <Descriptions.Item span={4} label="Aird索引文件路径">
                   <div
@@ -832,6 +972,7 @@ class Experiment_edit extends React.Component {
                     {detail_data.airdIndexPath}
                   </div>
                 </Descriptions.Item>
+
                 {/* iRT标准库ID */}
                 <Descriptions.Item span={4} label="iRT标准库ID">
                   <div
@@ -845,8 +986,16 @@ class Experiment_edit extends React.Component {
                     {detail_data.iRtLibraryId}
                   </div>
                 </Descriptions.Item>
-                {/* 斜率/截距 */}
-                <Descriptions.Item span={4} label="斜率/截距">
+
+                {/* 斜率 */}
+                <Descriptions.Item
+                  span={2}
+                  label={
+                    <span className={styles.font_second_color}>
+                      <FormattedHTMLMessage id="propro.experiment_edit_slope" />
+                    </span>
+                  }
+                >
                   <div
                     style={{
                       wordWrap: "break-word",
@@ -855,23 +1004,32 @@ class Experiment_edit extends React.Component {
                     }}
                     className={styles.font_green_color}
                   >
-                    {null != slope ? (
-                      slope
-                    ) : (
-                      <span className={styles.font_red_color}>NULL</span>
-                    )}
-                    &nbsp;/&nbsp;
-                    {null != intercept ? (
-                      intercept
-                    ) : (
-                      <span className={styles.font_red_color}>NULL</span>
-                    )}
-                    &nbsp;=&nbsp;
-                    {null != slope_intercept ? (
-                      slope_intercept
-                    ) : (
-                      <span className={styles.font_red_color}>NULL</span>
-                    )}
+                    <Input value={slope} onChange={this.change_state_slope} />
+                  </div>
+                </Descriptions.Item>
+
+                {/* 截距 */}
+                <Descriptions.Item
+                  span={2}
+                  label={
+                    <span className={styles.font_second_color}>
+                      <FormattedHTMLMessage id="propro.experiment_edit_intercept" />
+                    </span>
+                  }
+                >
+                  <div
+                    style={{
+                      wordWrap: "break-word",
+                      wordBreak: "break-all",
+                      padding: "5px"
+                    }}
+                    className={styles.font_green_color}
+                  >
+                    <Input
+                      value={intercept}
+                      className={styles.font_primary_color}
+                      onChange={this.change_state_intercept}
+                    />
                   </div>
                 </Descriptions.Item>
                 {/* Swatch窗口数目 */}
@@ -1049,34 +1207,71 @@ class Experiment_edit extends React.Component {
                 </Descriptions.Item>
 
                 {/* 详情描述 */}
-                <Descriptions.Item span={4} label="详情描述">
+                <Descriptions.Item
+                  span={4}
+                  label={
+                    <span className={styles.font_second_color}>
+                      <FormattedHTMLMessage id="propro.experiment_edit_description" />
+                    </span>
+                  }
+                >
                   <div
                     style={{
                       padding: "5px"
                     }}
                     // className={styles.font_primary_color}
                   >
-                    {null != detail_data.description ? (
-                      detail_data.description
-                    ) : (
-                      <span className={styles.font_red_color}>NULL</span>
-                    )}
+                    <TextArea
+                      value={description}
+                      onChange={this.change_state_description}
+                      autosize={{ minRows: 3, maxRows: 6 }}
+                    />
                   </div>
                 </Descriptions.Item>
 
                 {/* 特征字段 */}
-                <Descriptions.Item span={4} label="特征字段">
+                <Descriptions.Item
+                  span={4}
+                  label={
+                    <span className={styles.font_second_color}>
+                      <FormattedHTMLMessage id="propro.experiment_edit_features" />
+                    </span>
+                  }
+                >
                   <div
                     style={{
                       padding: "5px"
                     }}
                     // className={styles.font_primary_color}
                   >
-                    {null != features_arr ? (
-                      features_arr
-                    ) : (
-                      <span className={styles.font_red_color}>NULL</span>
-                    )}
+                    <div
+                      style={{
+                        padding: "10px",
+                        marginBottom: "10px"
+                      }}
+                    >
+                      <div
+                        className={styles.font_second_color}
+                        style={{ fontSize: "14px", padding: "10px 0px" }}
+                      >
+                        实际效果
+                      </div>
+
+                      {null != features_arr ? (
+                        features_arr
+                      ) : (
+                        <span className={styles.font_red_color}>NULL</span>
+                      )}
+                    </div>
+
+                    <TextArea
+                      value={features_str}
+                      style={{
+                        padding: "10px"
+                      }}
+                      onChange={this.change_state_features_str}
+                      autosize={{ minRows: 4, maxRows: 8 }}
+                    />
                   </div>
                 </Descriptions.Item>
 
@@ -1103,10 +1298,8 @@ class Experiment_edit extends React.Component {
                       // 暂时还未实现
                       // onClick={this.delete_analysis_xic_list_by_id}
                     >
-                      <span>原始谱图列表</span>
+                      <span>更新</span>
                     </button>
-
-                 
 
                     <button
                       type="button"
