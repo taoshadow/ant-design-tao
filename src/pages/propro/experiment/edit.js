@@ -36,6 +36,7 @@ import {
   Select,
   Popconfirm,
   message,
+  notification,
   Tabs,
   Input,
   Modal,
@@ -103,14 +104,14 @@ const experiment_state_to_props = state => {
     experiment_edit_status = -1,
     experiment_edit_time = 0,
     experiment_edit_data = {},
-    experiment_edit_delete_status = -1,
-    experiment_edit_delete_time = 0,
-    experiment_edit_delete_data = {}
+    experiment_edit_list_delete_status = -1,
+    experiment_edit_list_delete_time = 0,
+    experiment_edit_list_delete_data = {}
   } = state["experiment_edit"];
 
-  (obj.experiment_edit_delete_status = experiment_edit_delete_status),
-    (obj.experiment_edit_delete_time = experiment_edit_delete_time),
-    (obj.experiment_edit_delete_data = experiment_edit_delete_data),
+  (obj.experiment_edit_list_delete_status = experiment_edit_list_delete_status),
+    (obj.experiment_edit_list_delete_time = experiment_edit_list_delete_time),
+    (obj.experiment_edit_list_delete_data = experiment_edit_list_delete_data),
     (obj.experiment_edit_status = experiment_edit_status),
     (obj.experiment_edit_time = experiment_edit_time),
     (obj.experiment_edit_data = experiment_edit_data);
@@ -165,14 +166,19 @@ class Experiment_edit extends React.Component {
 
       // 请求失败再次发起请求的尝试次数
       experiment_edit_false_time: 5,
-      search_text: "",
-      experiment_edit_table_columns: null,
+      experiment_edit_query_time: 0,
       // modal 配置
       modal_visible: false,
       drawer_visible: false,
       drawer_data: null,
       delete_experiment_edit_id: null,
+      // -1 默认不允许删除 0 允许删除
+      delete_experiment_edit_list_status: -1,
+      intercept: null,
+      slope: null,
+      description: null,
       features_arr: null,
+      features_str: null,
       features_source: null
     };
 
@@ -187,6 +193,12 @@ class Experiment_edit extends React.Component {
       duration: 2,
       maxCount: 5,
       getContainer: () => document.body
+    });
+    // 配置 notification
+    notification.config({
+      placement: "topRight",
+      bottom: 50,
+      duration: 4
     });
   }
 
@@ -505,6 +517,118 @@ class Experiment_edit extends React.Component {
     }, 150);
   };
 
+  delete_experiment_edit_list_by_id = () => {
+    this.setState({
+      modal_visible: true
+    });
+  };
+
+  delete_experiment_edit_list_by_id_confirm = () => {
+    this.setState({
+      modal_visible: false,
+      // 允许删除
+      delete_experiment_edit_list_status: 0
+    });
+    // 执行删除操作
+    let { language } = this.props;
+
+    setTimeout(() => {
+      message.loading(
+        Languages[language]["propro.experiment_edit_list_operation_delete"] +
+          " : " +
+          Languages[language]["propro.prompt_running"],
+        4
+      );
+    }, 30);
+
+    // 提供撤销操作
+    setTimeout(() => {
+      let btn_obj = (
+        <button
+          type="button"
+          className="btn btn-outline-primary"
+          style={{
+            fontWeight: 400,
+            fontSize: "12px",
+            margin: "5px 5px",
+            height: "30px",
+            lineHeight: "20px",
+            padding: "5px 10px",
+            letterSpacing: "1px"
+          }}
+          // 暂时还未实现
+          onClick={this.undo_delete_experiment_edit_list_by_id}
+        >
+          撤销
+        </button>
+      );
+      notification.warn({
+        message:
+          Languages[language]["propro.notification_operation_warn_title"],
+        description:
+          Languages[language][
+            "propro.experiment_edit_notification_operation_delete_description"
+          ] + " ...",
+        btn: btn_obj,
+        duration: 3
+      });
+    }, 300);
+
+    // // 故意延迟 供用户撤销
+    setTimeout(() => {
+      this.delete_experiment_edit_list_by_id_execute();
+    }, 3500);
+  };
+
+  delete_experiment_edit_list_by_id_cancel = () => {
+    this.setState({
+      modal_visible: false
+    });
+  };
+
+  // 执行删除 不可逆
+  delete_experiment_edit_list_by_id_execute = () => {
+    //
+    setTimeout(() => {
+      // 获取id
+      let {
+        experiment_edit_id,
+        delete_experiment_edit_list_status = -1
+      } = this.state;
+      if (0 == delete_experiment_edit_list_status) {
+        this.props.delete_experiment_edit({ id: experiment_edit_id });
+      } else {
+        tao.my_console("info", "tangtao : 撤销成功");
+        let { language } = this.props;
+
+        message.info(
+          Languages[language][
+            "propro.experiment_edit_list_operation_delete_undo"
+          ] +
+            " : " +
+            Languages[language]["propro.prompt_success"],
+          4
+        );
+
+        return -1;
+      }
+      // 重新置位
+      this.setState({
+        delete_experiment_edit_list_status: -1
+      });
+    }, 100);
+  };
+
+  // 撤销删除操作
+  undo_delete_experiment_edit_list_by_id = () => {
+    // 立即撤销
+    setTimeout(() => {
+      this.setState({
+        delete_experiment_edit_list_status: -1
+      });
+    }, 30);
+  };
+
   /**************************** render ****************************/
   /**************************** render ****************************/
   /**************************** render ****************************/
@@ -517,7 +641,7 @@ class Experiment_edit extends React.Component {
       this.handle_experiment_edit();
     }
 
-    if (10000 < this.props.experiment_edit_delete_time) {
+    if (10000 < this.props.experiment_edit_list_delete_time) {
       this.handle_delete_experiment_edit();
     }
 
@@ -751,14 +875,14 @@ class Experiment_edit extends React.Component {
             </b>
           }
           visible={this.state.modal_visible}
-          onOk={this.delete_experiment_edit_by_id_confirm}
-          onCancel={this.delete_experiment_edit_by_id_cancel}
+          onOk={this.delete_experiment_edit_list_by_id_confirm}
+          onCancel={this.delete_experiment_edit_list_by_id_cancel}
           maskClosable={true}
           okText={<FormattedHTMLMessage id="propro.modal_confirm" />}
           cancelText={<FormattedHTMLMessage id="propro.modal_cancel" />}
         >
           <div className={styles.font_red_color}>
-            <FormattedHTMLMessage id="propro.experiment_edit_delete_warning" />
+            <FormattedHTMLMessage id="propro.experiment_edit_list_delete_warning" />
           </div>
         </Modal>
 
@@ -1314,7 +1438,7 @@ class Experiment_edit extends React.Component {
                         letterSpacing: "1px"
                       }}
                       // 暂时还未实现
-                      // onClick={this.delete_analysis_xic_list_by_id}
+                      onClick={this.delete_experiment_edit_list_by_id}
                     >
                       删除
                     </button>

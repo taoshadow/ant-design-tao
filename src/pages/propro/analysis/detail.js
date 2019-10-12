@@ -203,7 +203,8 @@ class Analysis_detail extends React.Component {
       let { analysis_detail_false_time } = this.state;
       // 2-判断是否需要再次发起请求
       if (0 >= analysis_detail_false_time) {
-        console.error(
+        tao.my_console(
+          "error",
           "@Author:tangtao; 系统已终止运行,请重新刷新页面; ",
           "初步诊断:未能成功连接到 propro-server 的服务器或者未能成功解析返回的数据"
         );

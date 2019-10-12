@@ -54,6 +54,9 @@ let language_ch = {
   "propro.login_success": "登录成功",
   "propro.login_false": "用户名或密码错误",
 
+  // notification
+  "propro.notification_operation_warn_title": "操作警示",
+
   // basicLayout
   // 个人中心下面的弹窗
   "propro.personal_center": "个人中心",
@@ -675,6 +678,11 @@ let language_ch = {
   "propro.experiment_edit_intercept": "截距",
   "propro.experiment_edit_description": "详情描述",
   "propro.experiment_edit_features": "特征字段",
+  "propro.experiment_edit_list_delete_warning": "确定删除该实验数据?",
+  "propro.experiment_edit_list_operation_delete": "删除实验数据",
+  "propro.experiment_edit_list_operation_delete_undo": "撤销删除实验数据",
+  "propro.experiment_edit_notification_operation_delete_description":
+    "正在删除实验数据",
 
   "propro.end": "end"
 };
