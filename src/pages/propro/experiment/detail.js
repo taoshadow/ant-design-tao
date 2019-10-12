@@ -178,9 +178,6 @@ class Experiment_detail extends React.Component {
       maxCount: 5,
       getContainer: () => document.body
     });
-
-    // 配置表格列参数
-    this.config_table_columns();
   }
 
   // 查询数据接口
@@ -315,85 +312,6 @@ class Experiment_detail extends React.Component {
     });
 
     return 0;
-  };
-
-  get_column_search_props = dataIndex => ({
-    filterDropdown: ({
-      setSelectedKeys,
-      selectedKeys,
-      confirm,
-      clearFilters
-    }) => (
-      <div style={{ padding: 8 }}>
-        <Input
-          ref={node => {
-            this.searchInput = node;
-          }}
-          placeholder={`Search ${dataIndex}`}
-          value={selectedKeys[0]}
-          onChange={e =>
-            setSelectedKeys(e.target.value ? [e.target.value] : [])
-          }
-          onPressEnter={() => this.handle_table_search(selectedKeys, confirm)}
-          style={{ width: 188, marginBottom: 8, display: "block" }}
-        />
-        <Button
-          type="primary"
-          onClick={() => this.handle_table_search(selectedKeys, confirm)}
-          icon="search"
-          size="small"
-          style={{ width: 90, marginRight: 8 }}
-        >
-          <FormattedHTMLMessage id="propro.experiment_detail_search" />
-        </Button>
-        <Button
-          onClick={() => this.handle_table_reset(clearFilters)}
-          size="small"
-          style={{ width: 90 }}
-        >
-          <FormattedHTMLMessage id="propro.experiment_detail_reset" />
-        </Button>
-      </div>
-    ),
-    filterIcon: filtered => (
-      <Icon type="search" style={{ color: filtered ? "#1890ff" : undefined }} />
-    ),
-    onFilter: (value, record) =>
-      record[dataIndex]
-        .toString()
-        .toLowerCase()
-        .includes(value.toLowerCase()),
-    onFilterDropdownVisibleChange: visible => {
-      if (visible) {
-        setTimeout(() => this.searchInput.select());
-      }
-    },
-    render: text => (
-      <Highlighter
-        highlightStyle={{ backgroundColor: "#ffc069", padding: 0 }}
-        searchWords={[this.state.search_text]}
-        autoEscape
-        textToHighlight={text.toString()}
-      />
-    )
-  });
-
-  config_table_columns = () => {
-    setTimeout(() => {
-      this.setState({
-        // experiment_detail_table_columns: experiment_detail_table_columns
-      });
-    }, 40);
-  };
-
-  handle_table_search = (selectedKeys, confirm) => {
-    confirm();
-    this.setState({ search_text: selectedKeys[0] });
-  };
-
-  handle_table_reset = clearFilters => {
-    clearFilters();
-    this.setState({ search_text: "" });
   };
 
   delete_experiment_detail_by_id = id => {
@@ -563,6 +481,8 @@ class Experiment_detail extends React.Component {
 
     let { drawer_data, drawer_visible, experiment_detail_id } = this.state;
 
+    /***************  解析experiment_detail_data  ******************/
+    /***************  解析experiment_detail_data  ******************/
     let { experiment: detail_data } = this.props.experiment_detail_data;
     let {
       createDate = 0,
@@ -763,6 +683,9 @@ class Experiment_detail extends React.Component {
       }
     }
 
+    /***************  解析experiment_detail_data  ******************/
+    /***************  解析experiment_detail_data  ******************/
+
     return (
       <div>
         <div
@@ -872,7 +795,7 @@ class Experiment_detail extends React.Component {
                         </span>
                       </Col>
                       <Col lg={8}>
-                        <FormattedHTMLMessage id="propro.public_irt_standard_library_detail_create_time" />
+                        <FormattedHTMLMessage id="propro.experiment_detail_create_time" />
                         :&nbsp;
                         <span
                           className={"badge " + `${styles.bg_green_color}`}
@@ -883,7 +806,7 @@ class Experiment_detail extends React.Component {
                       </Col>
 
                       <Col lg={8}>
-                        <FormattedHTMLMessage id="propro.public_irt_standard_library_detail_last_modify_time" />
+                        <FormattedHTMLMessage id="propro.experiment_detail_last_modify_time" />
                         :&nbsp;
                         <span
                           className={"badge " + `${styles.bg_yellow_color}`}

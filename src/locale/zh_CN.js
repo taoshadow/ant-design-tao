@@ -662,7 +662,14 @@ let language_ch = {
 
   // 实验详情
   "propro.experiment_detail_title": "实验详情",
+  "propro.experiment_detail_create_time": "创建时间",
+  "propro.experiment_detail_create_time": "更新时间",
   "propro.experiment_detail_swtach_data_detail": "Swatch 窗口数据详情",
+
+  // 更新实验数据
+  "propro.experiment_update_title": "更新实验数据",
+  "propro.experiment_edit_create_time": "创建时间",
+  "propro.experiment_edit_last_modify_time": "更新时间",
 
   "propro.end": "end"
 };
