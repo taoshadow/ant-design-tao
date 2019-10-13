@@ -1544,7 +1544,7 @@ class Experiment_list extends React.Component {
             size={"middle"}
             columns={this.state.experiment_list_table_columns}
             pagination={{
-              position: "bottom",
+              position: "top",
               hideOnSinglePage: true,
               defaultPageSize: 100
             }}

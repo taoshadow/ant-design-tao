@@ -55,7 +55,7 @@ export function delete_analysis_list(data = "") {
 
   let { id = "" } = data;
   id += "";
-  if (-1 == token || "" == data || 0 >= id.length) {
+  if (-1 == token || "" == data || 3 >= id.length) {
     // 不存在 token
     return "error";
   }
@@ -66,6 +66,37 @@ export function delete_analysis_list(data = "") {
 
   // 请求 irt 库列表
   return request("/propro_server/analyse/delete", {
+    headers: {
+      // 'content-type': 'application/json',
+      // "X-Requested-With": "XMLHttpRequest",
+      token: token,
+      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+    },
+    method: "POST",
+    //   发送登录数据 注意 数据未加密
+    body: body_data
+  });
+}
+
+// 根据 expId 查询出project Name create by tangtao at 2019-10-13 17:47:53
+// https://www.promiselee.cn/tao
+export function query_project_name_by_exp_id(data = "") {
+  // 读取最新的 token
+  let token = tao.get_token();
+
+  let { exp_id: id = "" } = data;
+  id += "";
+  if (-1 == token || "" == data || 3 >= id.length) {
+    // 不存在 token
+    return "error";
+  }
+
+  let body_data = "";
+
+  body_data += "expId" + "=" + id + "&";
+
+  // 请求 irt 库列表
+  return request("/propro_server/experiment/listByExpId", {
     headers: {
       // 'content-type': 'application/json',
       // "X-Requested-With": "XMLHttpRequest",

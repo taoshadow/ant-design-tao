@@ -103,10 +103,16 @@ const analysis_state_to_props = state => {
     analysis_list_data = {},
     analysis_list_delete_status = -1,
     analysis_list_delete_time = 0,
-    analysis_list_delete_data = {}
+    analysis_list_delete_data = {},
+    analysis_list_query_project_name_status = -1,
+    analysis_list_query_project_name_time = 0,
+    analysis_list_query_project_name_data = {}
   } = state["analysis_list"];
 
-  (obj.analysis_list_delete_status = analysis_list_delete_status),
+  (obj.analysis_list_query_project_name_status = analysis_list_query_project_name_status),
+    (obj.analysis_list_query_project_name_time = analysis_list_query_project_name_time),
+    (obj.analysis_list_query_project_name_data = analysis_list_query_project_name_data),
+    (obj.analysis_list_delete_status = analysis_list_delete_status),
     (obj.analysis_list_delete_time = analysis_list_delete_time),
     (obj.analysis_list_delete_data = analysis_list_delete_data),
     (obj.analysis_list_status = analysis_list_status),
@@ -129,6 +135,13 @@ const analysis_dispatch_to_props = dispatch => {
     delete_analysis_list: data => {
       const action = {
         type: "analysis_list/delete_analysis_list",
+        payload: data
+      };
+      dispatch(action);
+    },
+    query_project_name_by_exp_id: data => {
+      const action = {
+        type: "analysis_list/query_project_name_by_exp_id",
         payload: data
       };
       dispatch(action);
@@ -532,6 +545,7 @@ class Analysis_list extends React.Component {
           </span>
         ),
         key: "exp_name",
+        width: 115,
         ...this.get_column_search_props("exp_name"),
         render: list => {
           return (
@@ -540,8 +554,9 @@ class Analysis_list extends React.Component {
                 fontSize: "8px",
                 wordWrap: "break-word",
                 wordBreak: "break-all",
-                minWidth: "80px",
-                maxWidth: "80px"
+                minWidth: "110px",
+                maxWidth: "110px",
+                fontWeight: "600"
               }}
             >
               <Tooltip
@@ -549,16 +564,21 @@ class Analysis_list extends React.Component {
                 title={
                   <FormattedHTMLMessage id="propro.analysis_list_view_experience" />
                 }
+                onClick={() => {
+                  // 传入expId
+                  this.query_project_name_by_exp_id(list.exp_id);
+                }}
               >
-                {/* 传入expId */}
-                <Link
-                  to={"/experiment/detail/" + list.exp_id}
+                <p
+                  className={"badge-light " + styles.font_blue_color}
                   style={{
-                    fontSize: "8px"
+                    fontWeight: "600",
+                    cursor: "pointer",
+                    padding: "5px 5px"
                   }}
                 >
                   {list.exp_name}
-                </Link>
+                </p>
               </Tooltip>
             </div>
           );
@@ -1192,6 +1212,75 @@ class Analysis_list extends React.Component {
       this.refresh_data();
     }, 500);
   };
+
+  query_project_name_by_exp_id = id => {
+    console.log("===", id);
+    this.props.query_project_name_by_exp_id({ exp_id: id });
+  };
+
+  handle_analysis_list_query_project_name = () => {
+    // 时间戳设置为 0
+    this.props.set_state_newvalue({
+      target: "analysis_list_query_project_name_time",
+      value: 0
+    });
+
+    let {
+      analysis_list_query_project_name_status,
+      analysis_list_query_project_name_data: data,
+      language
+    } = this.props;
+
+    let res = -1;
+    // 项目名称
+    let project_name = "";
+
+    do {
+      if (0 != analysis_list_query_project_name_status) {
+        break;
+      }
+      // 提取
+
+      project_name = data.projectName;
+      project_name += "";
+      if (0 < project_name.length) {
+        res = 0;
+        // 成功
+        break;
+      }
+    } while (false);
+
+    if (0 != res) {
+      // 查询失败
+      setTimeout(() => {
+        message.error(
+          Languages[language]["propro.analysis_list_query_project_name"] +
+            " : " +
+            Languages[language]["propro.prompt_failed"],
+          4
+        );
+      }, 200);
+      // 终止
+      return -1;
+    }
+
+    // 提示查询成功
+    setTimeout(() => {
+      message.success(
+        Languages[language]["propro.analysis_list_query_project_name"] +
+          " : " +
+          Languages[language]["propro.prompt_success"],
+        4
+      );
+    }, 200);
+
+    // 执行跳转
+    setTimeout(() => {
+      // 跳转到实验列表
+      this.props.history.push("/experiment/list_project_name/" + project_name);
+    }, 500);
+  };
+
   /**************************** render ****************************/
   /**************************** render ****************************/
   /**************************** render ****************************/
@@ -1206,6 +1295,10 @@ class Analysis_list extends React.Component {
 
     if (10000 < this.props.analysis_list_delete_time) {
       this.handle_delete_analysis_list();
+    }
+    // 查询 project name
+    if (10000 < this.props.analysis_list_query_project_name_time) {
+      this.handle_analysis_list_query_project_name();
     }
 
     if (0 != this.state.analysis_list_status) {

@@ -29,7 +29,10 @@ let model = {
     analysis_list_data: 0,
     analysis_list_delete_status: -1,
     analysis_list_delete_time: 0,
-    analysis_list_delete_data: null
+    analysis_list_delete_data: null,
+    analysis_list_query_project_name_status: -1,
+    analysis_list_query_project_name_time: 0,
+    analysis_list_query_project_name_data: null
   },
 
   effects: {
@@ -63,6 +66,24 @@ let model = {
       }
       yield put({
         type: "delete_analysis_list_result",
+        payload: result
+      });
+      return 0;
+    },
+    *query_project_name_by_exp_id({ payload }, sagaEffects) {
+      const { call, put } = sagaEffects;
+      let result = "";
+      try {
+        // 捕获异常
+        result = yield call(
+          analysis_list_service.query_project_name_by_exp_id,
+          payload
+        );
+      } catch (e) {
+        result = "";
+      }
+      yield put({
+        type: "query_project_name_by_exp_id_result",
         payload: result
       });
       return 0;
@@ -159,6 +180,46 @@ let model = {
 
       // 2 成功获取数据
       obj.analysis_list_delete_status = res_status;
+
+      return obj;
+    },
+
+    query_project_name_by_exp_id_result(state, { payload: result }) {
+      // @AUTHOR:tangtao HDU https://www.promiselee.cn/tao
+      // 尝试提取返回结果
+      let res_status = -1;
+      let obj = {};
+
+      for (let i in state) {
+        obj[i] = state[i];
+      }
+
+      if ("error" != result) {
+        try {
+          // 尝试提取 服务端返回数据 error_1 与 error 区分
+          let { status = "error_1" } = result;
+          // 尝试写入 data
+          obj.analysis_list_query_project_name_data = result.data;
+          // 如果提取到 status 那么就 把 status 返回
+          res_status = "error_1" == status ? -1 : status;
+        } catch (e) {
+          // 转换出错
+        }
+      } else {
+        // 这里本地出错 pass
+      }
+
+      obj.analysis_list_query_project_name_time = new Date().getTime();
+
+      // 1 检查 返回数据状态
+      if (-1 == res_status) {
+        // 发生严重错误
+        obj.analysis_list_query_project_name_status = res_status;
+        return obj;
+      }
+
+      // 2 成功获取数据
+      obj.analysis_list_query_project_name_status = res_status;
 
       return obj;
     }

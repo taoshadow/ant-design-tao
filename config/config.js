@@ -182,6 +182,12 @@ export default {
           component: "propro/experiment/list"
         },
         {
+          // 实验列表 查询指定的 project name
+          path: "/experiment/list_project_name/*",
+          component: "propro/experiment/list"
+        },
+
+        {
           // 实验列表详情
           path: "/experiment/detail/*",
           component: "propro/experiment/detail"

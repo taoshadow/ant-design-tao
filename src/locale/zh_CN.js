@@ -517,6 +517,7 @@ let language_ch = {
   "propro.analysis_list_search": "搜索",
   "propro.analysis_list_reset": "重置",
   "propro.analysis_list_delete_warning": "确认删除该条数据?",
+  "propro.analysis_list_query_project_name": "查询实验列表",
 
   // 分析详情
   "propro.analysis_detail_title": "分析报告",
