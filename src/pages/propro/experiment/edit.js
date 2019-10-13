@@ -1418,7 +1418,7 @@ class Experiment_edit extends React.Component {
                         className={styles.font_second_color}
                         style={{ fontSize: "14px", padding: "10px 0px" }}
                       >
-                        实际效果
+                        解析结果
                       </div>
 
                       {null != features_arr ? (

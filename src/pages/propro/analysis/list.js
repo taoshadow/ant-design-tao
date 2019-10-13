@@ -80,6 +80,7 @@ import export_svg from "../style/static/analysis/export.svg";
 import delete_svg from "../style/static/analysis/delete.svg";
 import return_svg from "../style/static/dashboard/return.svg";
 import preloader_svg from "../style/static/dashboard/preloader.svg";
+import { compose } from "redux";
 
 /****************  导入 styles end ***************************/
 
@@ -329,6 +330,7 @@ class Analysis_list extends React.Component {
 
           // 	实验名称
           expName: exp_name,
+          expId: exp_id = null,
 
           // 标准库名称
           libraryName: library_name,
@@ -378,6 +380,7 @@ class Analysis_list extends React.Component {
           (obj_temp.name = name),
           // 	实验名称
           (obj_temp.exp_name = exp_name),
+          (obj_temp.exp_id = exp_id),
           // 标准库名称
           (obj_temp.library_name = library_name),
           // 实验参数
@@ -547,8 +550,9 @@ class Analysis_list extends React.Component {
                   <FormattedHTMLMessage id="propro.analysis_list_view_experience" />
                 }
               >
+                {/* 传入expId */}
                 <Link
-                  to={"/library/analysis/detail/" + list.id}
+                  to={"/experiment/detail/" + list.exp_id}
                   style={{
                     fontSize: "8px"
                   }}
