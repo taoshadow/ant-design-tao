@@ -56,6 +56,7 @@ let language_ch = {
 
   // notification
   "propro.notification_operation_warn_title": "操作警示",
+  "propro.notification_warn_title": "警告",
 
   // basicLayout
   // 个人中心下面的弹窗
@@ -713,6 +714,7 @@ let language_ch = {
   "propro.project_list_table_operation_view_result": "查看结果",
   "propro.project_list_table_operation_output_file": "下载结果",
   "propro.project_list_table_operation_delete": "删除",
+  "propro.project_list_scanning_update_is_null": "没有扫描到新实验",
 
   "propro.end": "end"
 };

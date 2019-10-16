@@ -8,7 +8,7 @@
  * @GitHub              https://github.com/tangtaoshadow
  * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
  * @CreateTime          2019-10-13 18:40:28
- * @UpdateTime          2019-10-7 21:32:51
+ * @UpdateTime          2019-10-16 15:56:30
  * @Archive             项目数据列表
  */
 
@@ -34,6 +34,7 @@ import {
   Select,
   Popconfirm,
   message,
+  notification,
   Tabs,
   Input,
   Modal,
@@ -79,6 +80,7 @@ import process_svg from "../style/static/experiment/process.svg";
 import arrow_up_svg from "../style/static/analysis/arrow_up.svg";
 import return_svg from "../style/static/dashboard/return.svg";
 import preloader_svg from "../style/static/dashboard/preloader.svg";
+import { project_list_scanning_update } from "../../../service/project_list";
 
 /****************  导入 styles end ***************************/
 
@@ -101,10 +103,16 @@ const project_state_to_props = state => {
     project_list_data = {},
     project_list_delete_status = -1,
     project_list_delete_time = 0,
-    project_list_delete_data = {}
+    project_list_delete_data = {},
+    project_list_scanning_update_status = -1,
+    project_list_scanning_update_time = 0,
+    project_list_scanning_update_data = {}
   } = state["project_list"];
 
-  (obj.project_list_delete_status = project_list_delete_status),
+  (obj.project_list_scanning_update_status = project_list_scanning_update_status),
+    (obj.project_list_scanning_update_time = project_list_scanning_update_time),
+    (obj.project_list_scanning_update_data = project_list_scanning_update_data),
+    (obj.project_list_delete_status = project_list_delete_status),
     (obj.project_list_delete_time = project_list_delete_time),
     (obj.project_list_delete_data = project_list_delete_data),
     (obj.project_list_status = project_list_status),
@@ -131,6 +139,14 @@ const project_dispatch_to_props = dispatch => {
       };
       dispatch(action);
     },
+    project_list_scanning_update: data => {
+      const action = {
+        type: "project_list/project_list_scanning_update",
+        payload: data
+      };
+      dispatch(action);
+    },
+
     set_state_newvalue: data => {
       const action = {
         type: "project_list/set_state_newvalue",
@@ -180,6 +196,11 @@ class Experiment_list extends React.Component {
       duration: 2,
       maxCount: 5,
       getContainer: () => document.body
+    });
+
+    notification.config({
+      placement: "topRight",
+      duration: 4.5
     });
 
     // 配置表格列参数
@@ -331,6 +352,7 @@ class Experiment_list extends React.Component {
         (obj_temp.index = i + 1),
           (obj_temp.key = "projects_arr_" + i),
           (obj_temp.create_date = tao.format_time(create_date)),
+          (obj_temp.id = id),
           // 项目名称
           (obj_temp.project_name = project_name),
           (obj_temp.type = type),
@@ -759,23 +781,24 @@ class Experiment_list extends React.Component {
                   <FormattedHTMLMessage id="propro.project_list_table_operation_scanning_update" />
                 }
               >
-                <Link to={"/experiment/edit/" + list.id}>
-                  <div
-                    className={"badge " + styles.bg_green_color}
+                <div
+                  className={"badge " + styles.bg_green_color}
+                  style={{
+                    padding: "4px 4px",
+                    margin: "3px",
+                    cursor: "pointer"
+                  }}
+                  onClick={() => {
+                    this.click_scanning_update(list.id);
+                  }}
+                >
+                  <img
+                    src={scanning_svg}
                     style={{
-                      padding: "4px 4px",
-                      margin: "3px",
-                      cursor: "pointer"
+                      width: "20px"
                     }}
-                  >
-                    <img
-                      src={scanning_svg}
-                      style={{
-                        width: "20px"
-                      }}
-                    />
-                  </div>
-                </Link>
+                  />
+                </div>
               </Tooltip>
 
               {/* 文件管理 */}
@@ -983,6 +1006,36 @@ class Experiment_list extends React.Component {
     this.setState({ search_text: "" });
   };
 
+  /***************** operation  ****************/
+  /***************** operation  ****************/
+  /***************** operation  ****************/
+
+  click_scanning_update = id => {
+    console.log(id);
+    id += "";
+    if (3 < id.length) {
+      // 正常
+    } else {
+      // 异常
+      tao.my_console("warn", "扫描并更新执行失败,参数异常");
+      return -1;
+    }
+
+    let { language } = this.props;
+    message.loading(
+      Languages[language][
+        "propro.project_list_table_operation_scanning_update"
+      ] +
+        " : " +
+        Languages[language]["propro.prompt_running"],
+      2
+    );
+
+    setTimeout(() => {
+      this.props.project_list_scanning_update({ id: id });
+    }, 300);
+  };
+
   delete_project_list_by_id = id => {
     // 调用删除对话框
     this.setState({
@@ -1016,6 +1069,75 @@ class Experiment_list extends React.Component {
     this.setState({
       modal_visible: false
     });
+  };
+
+  show_drawer_data = data => {
+    // this.setState({
+    //   drawer_data: drawer_data,
+    //   drawer_visible: true
+    // });
+  };
+
+  drawer_close = () => {
+    // 关闭抽屉
+    this.setState({
+      drawer_visible: false
+    });
+  };
+
+  /*************  handle  *********************/
+  /*************  handle  *********************/
+  /*************  handle  *********************/
+
+  handle_project_list_scanning_update = () => {
+    //
+    // 时间戳设置为 0
+    this.props.set_state_newvalue({
+      target: "project_list_scanning_update_time",
+      value: 0
+    });
+
+    //
+    let {
+      project_list_scanning_update_status,
+      project_list_scanning_update_data: data,
+      language
+    } = this.props;
+    if (0 == project_list_scanning_update_status) {
+      // 删除成功
+      setTimeout(() => {
+        message.success(
+          Languages[language]["propro.project_list_delete_tip"] +
+            " : " +
+            Languages[language]["propro.prompt_success"],
+          4
+        );
+      }, 200);
+    } else if (-2 == project_list_scanning_update_status) {
+      setTimeout(() => {
+        notification.warn({
+          message: Languages[language]["propro.notification_warn_title"],
+          description:
+            Languages[language]["propro.project_list_scanning_update_is_null"] +
+            " ...",
+          duration: 3
+        });
+      }, 300);
+    } else {
+      // 删除失败 可能出在网络
+      setTimeout(() => {
+        message.error(
+          Languages[language]["propro.project_list_delete_tip"] +
+            " : " +
+            Languages[language]["propro.prompt_failed"],
+          4
+        );
+      }, 200);
+
+      return -1;
+    }
+
+    console.log(data);
   };
 
   handle_delete_project_list = () => {
@@ -1057,24 +1179,6 @@ class Experiment_list extends React.Component {
     }, 500);
   };
 
-  /************   operation  *****************/
-  /************   operation  *****************/
-  /************   operation  *****************/
-
-  show_drawer_data = data => {
-    // this.setState({
-    //   drawer_data: drawer_data,
-    //   drawer_visible: true
-    // });
-  };
-
-  drawer_close = () => {
-    // 关闭抽屉
-    this.setState({
-      drawer_visible: false
-    });
-  };
-
   /**************************** render ****************************/
   /**************************** render ****************************/
   /**************************** render ****************************/
@@ -1089,6 +1193,10 @@ class Experiment_list extends React.Component {
 
     if (10000 < this.props.project_list_delete_time) {
       this.handle_delete_project_list();
+    }
+
+    if (10000 < this.props.project_list_scanning_update_time) {
+      this.handle_project_list_scanning_update();
     }
 
     if (0 != this.state.project_list_status) {
