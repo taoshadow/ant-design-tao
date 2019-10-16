@@ -342,6 +342,7 @@ class Experiment_list extends React.Component {
           (obj_temp.library_name = library_name),
           // labels 标签 数组
           (obj_temp.labels = labels),
+          (obj_temp.last_modified_date = tao.format_time(last_modified_date)),
           (projects_arr[i] = obj_temp),
           (obj_temp = {});
       }
@@ -433,7 +434,7 @@ class Experiment_list extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.project_list_index" />
+            <FormattedHTMLMessage id="propro.project_list_table_index" />
           </span>
         ),
         dataIndex: "index",
@@ -484,11 +485,11 @@ class Experiment_list extends React.Component {
               <Tooltip
                 placement="topLeft"
                 title={
-                  <FormattedHTMLMessage id="propro.project_list_view_experience" />
+                  <FormattedHTMLMessage id="propro.project_list_table_view_experiment" />
                 }
               >
                 <Link
-                  to={"/library/analysis/detail/" + list.project_name}
+                  to={"/experiment/list_project_name/" + list.project_name}
                   style={{
                     fontSize: "8px"
                   }}
@@ -510,7 +511,7 @@ class Experiment_list extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.project_list_project_name" />
+            <FormattedHTMLMessage id="propro.project_list_table_experiment_type" />
           </span>
         ),
         key: "type",
@@ -543,7 +544,7 @@ class Experiment_list extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.project_list_project_name" />
+            <FormattedHTMLMessage id="propro.project_list_table_project_repository" />
           </span>
         ),
         key: "repository_path",
@@ -576,7 +577,7 @@ class Experiment_list extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.project_list_project_name" />
+            <FormattedHTMLMessage id="propro.project_list_table_owner_name" />
           </span>
         ),
         key: "owner_name",
@@ -609,12 +610,12 @@ class Experiment_list extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.project_list_project_name" />
+            <FormattedHTMLMessage id="propro.project_list_table_default_irt_library" />
           </span>
         ),
         key: "irt_library_name",
         dataIndex: "irt_library_name",
-        width: 90,
+        width: 110,
         ...this.get_column_search_props("irt_library_name"),
         render: text => {
           return (
@@ -623,8 +624,8 @@ class Experiment_list extends React.Component {
                 fontSize: "8px",
                 wordWrap: "break-word",
                 wordBreak: "break-all",
-                minWidth: "90px",
-                maxWidth: "90px"
+                minWidth: "110px",
+                maxWidth: "110px"
               }}
             >
               {text}
@@ -642,7 +643,7 @@ class Experiment_list extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.project_list_project_name" />
+            <FormattedHTMLMessage id="propro.project_list_table_create_time" />
           </span>
         ),
         key: "create_date",

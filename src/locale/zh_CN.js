@@ -692,10 +692,18 @@ let language_ch = {
 
   // 项目列表
   "propro.project_list_title": "项目列表",
-  "propro.project_list_index": "No.",
+  "propro.project_list_table_index": "No.",
   "propro.project_list_project_name": "项目名称",
   "propro.project_list_search": "搜索",
   "propro.project_list_reset": "重置",
+  "propro.project_list_table_project_name": "项目名称",
+  "propro.project_list_table_view_experiment": "查看实验",
+  "propro.project_list_table_experiment_type": "实验类型",
+  "propro.project_list_table_project_repository": "项目仓库",
+  "propro.project_list_table_owner_name": "负责人",
+  "propro.project_list_table_default_irt_library": "默认irt校准库",
+  "propro.project_list_table_update_time": "更新时间",
+  "propro.project_list_table_create_time": "创建时间",
   "propro.project_list_table_operation": "操作",
 
   "propro.end": "end"
