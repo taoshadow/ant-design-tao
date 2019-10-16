@@ -70,6 +70,9 @@ import "../../../layout/Common.css";
 
 import scanning_svg from "../style/static/project/scanning.svg";
 import upload_svg from "../style/static/project/upload.svg";
+import result_svg from "../style/static/project/result.svg";
+import file_svg from "../style/static/project/file.svg";
+import delete_svg from "../style/static/project/delete.svg";
 import modify_svg from "../style/static/experiment/modify.svg";
 import chart_svg from "../style/static/experiment/chart.svg";
 import process_svg from "../style/static/experiment/process.svg";
@@ -745,8 +748,8 @@ class Experiment_list extends React.Component {
                 fontSize: "8px",
                 wordWrap: "break-word",
                 wordBreak: "break-all",
-                minWidth: "120px",
-                maxWidth: "120px"
+                minWidth: "150px",
+                maxWidth: "150px"
               }}
             >
               {/* 扫描 更新 */}
@@ -779,12 +782,12 @@ class Experiment_list extends React.Component {
               <Tooltip
                 placement="topLeft"
                 title={
-                  <FormattedHTMLMessage id="propro.project_list_table_operation_scanning_update" />
+                  <FormattedHTMLMessage id="propro.project_list_table_operation_file_management" />
                 }
               >
                 <Link to={"/experiment/edit/" + list.id}>
                   <div
-                    className={"badge " + styles.bg_green_color}
+                    className={"badge " + styles.bg_primary_color}
                     style={{
                       padding: "4px 4px",
                       margin: "3px",
@@ -805,12 +808,12 @@ class Experiment_list extends React.Component {
               <Tooltip
                 placement="topLeft"
                 title={
-                  <FormattedHTMLMessage id="propro.project_list_table_operation_scanning_update" />
+                  <FormattedHTMLMessage id="propro.project_list_table_operation_modify" />
                 }
               >
                 <Link to={"/experiment/edit/" + list.id}>
                   <div
-                    className={"badge " + styles.bg_green_color}
+                    className={"badge " + styles.bg_blue_color}
                     style={{
                       padding: "4px 4px",
                       margin: "3px",
@@ -831,12 +834,12 @@ class Experiment_list extends React.Component {
               <Tooltip
                 placement="topLeft"
                 title={
-                  <FormattedHTMLMessage id="propro.project_list_table_operation_scanning_update" />
+                  <FormattedHTMLMessage id="propro.project_list_table_operation_irt" />
                 }
               >
                 <Link to={"/experiment/edit/" + list.id}>
                   <div
-                    className={"badge " + styles.bg_green_color}
+                    className={"badge " + styles.bg_yellow_color}
                     style={{
                       padding: "4px 4px",
                       margin: "3px",
@@ -857,12 +860,12 @@ class Experiment_list extends React.Component {
               <Tooltip
                 placement="topLeft"
                 title={
-                  <FormattedHTMLMessage id="propro.project_list_table_operation_scanning_update" />
+                  <FormattedHTMLMessage id="propro.project_list_table_operation_process" />
                 }
               >
                 <Link to={"/experiment/edit/" + list.id}>
                   <div
-                    className={"badge " + styles.bg_green_color}
+                    className={"badge " + styles.bg_orange_color}
                     style={{
                       padding: "4px 4px",
                       margin: "3px",
@@ -878,6 +881,86 @@ class Experiment_list extends React.Component {
                   </div>
                 </Link>
               </Tooltip>
+
+              {/* 查看结果 */}
+              <Tooltip
+                placement="topLeft"
+                title={
+                  <FormattedHTMLMessage id="propro.project_list_table_operation_view_result" />
+                }
+              >
+                <Link to={"/experiment/edit/" + list.id}>
+                  <div
+                    className={"badge " + styles.bg_second_color}
+                    style={{
+                      padding: "4px 4px",
+                      margin: "3px",
+                      cursor: "pointer"
+                    }}
+                  >
+                    <img
+                      src={result_svg}
+                      style={{
+                        width: "20px"
+                      }}
+                    />
+                  </div>
+                </Link>
+              </Tooltip>
+
+              {/* 输出结果到文件 下载结果 */}
+              <Tooltip
+                placement="topLeft"
+                title={
+                  <FormattedHTMLMessage id="propro.project_list_table_operation_output_file" />
+                }
+              >
+                <Link to={"/experiment/edit/" + list.id}>
+                  <div
+                    className={"badge badge-info"}
+                    style={{
+                      padding: "4px 4px",
+                      margin: "3px",
+                      cursor: "pointer"
+                    }}
+                  >
+                    <img
+                      src={file_svg}
+                      style={{
+                        width: "20px"
+                      }}
+                    />
+                  </div>
+                </Link>
+              </Tooltip>
+
+              {/* 删除 */}
+              <Tooltip
+                placement="topLeft"
+                title={
+                  <FormattedHTMLMessage id="propro.project_list_table_operation_delete" />
+                }
+              >
+                <Link to={"/experiment/edit/" + list.id}>
+                  <div
+                    className={"badge " + styles.bg_red_color}
+                    style={{
+                      padding: "4px 4px",
+                      margin: "3px",
+                      cursor: "pointer"
+                    }}
+                  >
+                    <img
+                      src={delete_svg}
+                      style={{
+                        width: "20px"
+                      }}
+                    />
+                  </div>
+                </Link>
+              </Tooltip>
+
+              {/*  */}
             </div>
           );
         }

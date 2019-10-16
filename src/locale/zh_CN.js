@@ -706,6 +706,13 @@ let language_ch = {
   "propro.project_list_table_create_time": "创建时间",
   "propro.project_list_table_operation": "操作",
   "propro.project_list_table_operation_scanning_update": "扫描更新",
+  "propro.project_list_table_operation_file_management": "文件管理",
+  "propro.project_list_table_operation_modify": "修改",
+  "propro.project_list_table_operation_irt": "计算irt",
+  "propro.project_list_table_operation_process": "批量执行",
+  "propro.project_list_table_operation_view_result": "查看结果",
+  "propro.project_list_table_operation_output_file": "下载结果",
+  "propro.project_list_table_operation_delete": "删除",
 
   "propro.end": "end"
 };
