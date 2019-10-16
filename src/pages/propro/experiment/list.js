@@ -191,7 +191,7 @@ class Experiment_list extends React.Component {
   query_experiment_list = () => {
     let url = this.props.history.location.pathname;
     let obj = {};
-    /****************************/
+    /************   list_project_name  ****************/
     let find_str = "/list_project_name/";
     let index = url.lastIndexOf(find_str);
     let project_name = url.substring(index + find_str.length);
@@ -200,7 +200,7 @@ class Experiment_list extends React.Component {
       obj.project_name = project_name;
     }
 
-    /***************/
+    /********  list_type  *******/
     find_str = "/list_type/";
     index = url.lastIndexOf(find_str);
     let type = url.substring(index + find_str.length);
@@ -666,22 +666,20 @@ class Experiment_list extends React.Component {
                 maxWidth: "90px"
               }}
             >
-              <span className={styles.font_primary_color}>
-                <span
-                  className={
-                    "badge " +
-                    styles.font_white_color +
-                    " " +
-                    styles.bg_primary_color
-                  }
-                  style={{
-                    padding: "5px",
-                    fontSize: "8px",
-                    fontWeight: "600"
-                  }}
-                >
-                  {text}
-                </span>
+              <span
+                className={
+                  "badge " +
+                  styles.font_white_color +
+                  " " +
+                  styles.bg_primary_color
+                }
+                style={{
+                  padding: "5px",
+                  fontSize: "8px",
+                  fontWeight: "600"
+                }}
+              >
+                {text}
               </span>
             </div>
           );

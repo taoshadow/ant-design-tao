@@ -705,6 +705,7 @@ let language_ch = {
   "propro.project_list_table_update_time": "更新时间",
   "propro.project_list_table_create_time": "创建时间",
   "propro.project_list_table_operation": "操作",
+  "propro.project_list_table_operation_scanning_update": "扫描更新",
 
   "propro.end": "end"
 };

@@ -68,18 +68,14 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import styles from "../style/dashboard/console.less";
 import "../../../layout/Common.css";
 
-import proteins_list_svg from "../style/static/library/list.svg";
-import unordered_list_svg from "../style/static/dashboard/unordered_list.svg";
-import public_library_scg from "../style/static/library/public.svg";
-import update_library_svg from "../style/static/library/update.svg";
-import arrow_up_svg from "../style/static/analysis/arrow_up.svg";
-import return_svg from "../style/static/dashboard/return.svg";
-import preloader_svg from "../style/static/dashboard/preloader.svg";
-import detail_svg from "../style/static/experiment/detail.svg";
-import list_svg from "../style/static/experiment/list.svg";
+import scanning_svg from "../style/static/project/scanning.svg";
+import upload_svg from "../style/static/project/upload.svg";
 import modify_svg from "../style/static/experiment/modify.svg";
 import chart_svg from "../style/static/experiment/chart.svg";
 import process_svg from "../style/static/experiment/process.svg";
+import arrow_up_svg from "../style/static/analysis/arrow_up.svg";
+import return_svg from "../style/static/dashboard/return.svg";
+import preloader_svg from "../style/static/dashboard/preloader.svg";
 
 /****************  导入 styles end ***************************/
 
@@ -494,7 +490,17 @@ class Experiment_list extends React.Component {
                     fontSize: "8px"
                   }}
                 >
-                  {list.project_name}
+                  <p
+                    className={"badge-light " + styles.font_blue_color}
+                    style={{
+                      padding: "5px",
+                      fontSize: "8px",
+                      fontWeight: "600",
+                      cursor: "pointer"
+                    }}
+                  >
+                    {list.project_name}
+                  </p>
                 </Link>
               </Tooltip>
             </div>
@@ -529,7 +535,21 @@ class Experiment_list extends React.Component {
                 maxWidth: "110px"
               }}
             >
-              {text}
+              <span
+                className={
+                  "badge " +
+                  styles.font_white_color +
+                  " " +
+                  styles.bg_primary_color
+                }
+                style={{
+                  padding: "5px",
+                  fontSize: "8px",
+                  fontWeight: "600"
+                }}
+              >
+                {text}
+              </span>
             </div>
           );
         }
@@ -595,7 +615,21 @@ class Experiment_list extends React.Component {
                 maxWidth: "90px"
               }}
             >
-              {text}
+              <span
+                className={
+                  "badge " +
+                  styles.font_white_color +
+                  " " +
+                  styles.bg_second_color
+                }
+                style={{
+                  padding: "5px",
+                  fontSize: "8px",
+                  fontWeight: "600"
+                }}
+              >
+                {text}
+              </span>
             </div>
           );
         }
@@ -615,7 +649,7 @@ class Experiment_list extends React.Component {
         ),
         key: "irt_library_name",
         dataIndex: "irt_library_name",
-        width: 110,
+        width: 120,
         ...this.get_column_search_props("irt_library_name"),
         render: text => {
           return (
@@ -624,8 +658,8 @@ class Experiment_list extends React.Component {
                 fontSize: "8px",
                 wordWrap: "break-word",
                 wordBreak: "break-all",
-                minWidth: "110px",
-                maxWidth: "110px"
+                minWidth: "120px",
+                maxWidth: "120px"
               }}
             >
               {text}
@@ -643,25 +677,48 @@ class Experiment_list extends React.Component {
               letterSpacing: "1px"
             }}
           >
-            <FormattedHTMLMessage id="propro.project_list_table_create_time" />
+            <span className={styles.font_primary_color}>
+              <FormattedHTMLMessage id="propro.project_list_table_create_time" />
+            </span>
+            <br />
+            <span className={styles.font_green_color}>
+              <FormattedHTMLMessage id="propro.project_list_table_update_time" />
+            </span>
           </span>
         ),
         key: "create_date",
         dataIndex: "create_date",
-        width: 90,
+        width: 120,
         ...this.get_column_search_props("create_date"),
-        render: text => {
+        render: (text, list) => {
+          let create_time_span = (
+            <span className={styles.font_primary_color}>{text}</span>
+          );
+          let update_time_span = (
+            <span className={styles.font_green_color}>
+              {list.last_modified_date}
+            </span>
+          );
+
           return (
             <div
               style={{
                 fontSize: "8px",
                 wordWrap: "break-word",
                 wordBreak: "break-all",
-                minWidth: "90px",
-                maxWidth: "90px"
+                minWidth: "120px",
+                maxWidth: "120px"
               }}
             >
-              {text}
+              {create_time_span}
+              <div
+                style={{
+                  height: "5px"
+                }}
+              >
+                &nbsp;
+              </div>
+              {update_time_span}
             </div>
           );
         }
@@ -692,8 +749,135 @@ class Experiment_list extends React.Component {
                 maxWidth: "120px"
               }}
             >
-              1111
-              {/* {text} */}
+              {/* 扫描 更新 */}
+              <Tooltip
+                placement="topLeft"
+                title={
+                  <FormattedHTMLMessage id="propro.project_list_table_operation_scanning_update" />
+                }
+              >
+                <Link to={"/experiment/edit/" + list.id}>
+                  <div
+                    className={"badge " + styles.bg_green_color}
+                    style={{
+                      padding: "4px 4px",
+                      margin: "3px",
+                      cursor: "pointer"
+                    }}
+                  >
+                    <img
+                      src={scanning_svg}
+                      style={{
+                        width: "20px"
+                      }}
+                    />
+                  </div>
+                </Link>
+              </Tooltip>
+
+              {/* 文件管理 */}
+              <Tooltip
+                placement="topLeft"
+                title={
+                  <FormattedHTMLMessage id="propro.project_list_table_operation_scanning_update" />
+                }
+              >
+                <Link to={"/experiment/edit/" + list.id}>
+                  <div
+                    className={"badge " + styles.bg_green_color}
+                    style={{
+                      padding: "4px 4px",
+                      margin: "3px",
+                      cursor: "pointer"
+                    }}
+                  >
+                    <img
+                      src={upload_svg}
+                      style={{
+                        width: "20px"
+                      }}
+                    />
+                  </div>
+                </Link>
+              </Tooltip>
+
+              {/* 修改数据 */}
+              <Tooltip
+                placement="topLeft"
+                title={
+                  <FormattedHTMLMessage id="propro.project_list_table_operation_scanning_update" />
+                }
+              >
+                <Link to={"/experiment/edit/" + list.id}>
+                  <div
+                    className={"badge " + styles.bg_green_color}
+                    style={{
+                      padding: "4px 4px",
+                      margin: "3px",
+                      cursor: "pointer"
+                    }}
+                  >
+                    <img
+                      src={modify_svg}
+                      style={{
+                        width: "20px"
+                      }}
+                    />
+                  </div>
+                </Link>
+              </Tooltip>
+
+              {/* 批量 irt 计算 */}
+              <Tooltip
+                placement="topLeft"
+                title={
+                  <FormattedHTMLMessage id="propro.project_list_table_operation_scanning_update" />
+                }
+              >
+                <Link to={"/experiment/edit/" + list.id}>
+                  <div
+                    className={"badge " + styles.bg_green_color}
+                    style={{
+                      padding: "4px 4px",
+                      margin: "3px",
+                      cursor: "pointer"
+                    }}
+                  >
+                    <img
+                      src={chart_svg}
+                      style={{
+                        width: "20px"
+                      }}
+                    />
+                  </div>
+                </Link>
+              </Tooltip>
+
+              {/* 批量 执行完整流程 */}
+              <Tooltip
+                placement="topLeft"
+                title={
+                  <FormattedHTMLMessage id="propro.project_list_table_operation_scanning_update" />
+                }
+              >
+                <Link to={"/experiment/edit/" + list.id}>
+                  <div
+                    className={"badge " + styles.bg_green_color}
+                    style={{
+                      padding: "4px 4px",
+                      margin: "3px",
+                      cursor: "pointer"
+                    }}
+                  >
+                    <img
+                      src={process_svg}
+                      style={{
+                        width: "20px"
+                      }}
+                    />
+                  </div>
+                </Link>
+              </Tooltip>
             </div>
           );
         }
