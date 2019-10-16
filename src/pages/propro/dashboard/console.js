@@ -258,7 +258,7 @@ class Console extends React.Component {
           number: exp_swath_count,
           name_link: "library/public_library",
           add: "home",
-          list: "home"
+          list: "experiment/list_type/DIA_SWATH"
         },
         {
           key: "exp_prm_count",
@@ -274,7 +274,7 @@ class Console extends React.Component {
           number: project_count,
           name_link: "library/public_library",
           add: "",
-          list: "home"
+          list: "project/list"
         },
         {
           key: "overview_count",

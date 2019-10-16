@@ -186,7 +186,11 @@ export default {
           path: "/experiment/list_project_name/*",
           component: "propro/experiment/list"
         },
-
+        {
+          // 实验列表 查询指定的 type
+          path: "/experiment/list_type/*",
+          component: "propro/experiment/list"
+        },
         {
           // 实验列表详情
           path: "/experiment/detail/*",
@@ -196,6 +200,11 @@ export default {
           // 编辑实验列表
           path: "/experiment/edit/*",
           component: "propro/experiment/edit"
+        },
+        {
+          // 查看 项目列表
+          path: "/project/list",
+          component: "propro/project/list"
         },
         {
           path: "/test",

@@ -172,7 +172,7 @@ class Experiment_list extends React.Component {
     // 查询 experiment_list 列表
     setTimeout(() => {
       // 默认获取全部
-      this.props.get_experiment_list();
+      this.query_experiment_list();
     }, 100);
 
     // 配置 message
@@ -187,6 +187,32 @@ class Experiment_list extends React.Component {
     this.config_table_columns();
   }
 
+  // 查询 experiment_list 列表
+  query_experiment_list = () => {
+    let url = this.props.history.location.pathname;
+    let obj = {};
+    /****************************/
+    let find_str = "/list_project_name/";
+    let index = url.lastIndexOf(find_str);
+    let project_name = url.substring(index + find_str.length);
+    if (3 < index) {
+      // 找到 project_name 发起查询
+      obj.project_name = project_name;
+    }
+
+    /***************/
+    find_str = "/list_type/";
+    index = url.lastIndexOf(find_str);
+    let type = url.substring(index + find_str.length);
+
+    if (3 < index) {
+      // 找到 type 发起查询
+      obj.type = type;
+    }
+
+    this.props.get_experiment_list(obj);
+  };
+
   refresh_data = () => {
     setTimeout(() => {
       // 显示加载界面
@@ -194,7 +220,7 @@ class Experiment_list extends React.Component {
         experiment_list_status: -1
       });
       // 立即重新发起查询
-      this.props.get_experiment_list();
+      this.query_experiment_list();
     }, 800);
   };
 

@@ -690,6 +690,14 @@ let language_ch = {
   "propro.experiment_edit_notification_operation_delete_description":
     "正在删除实验数据",
 
+  // 项目列表
+  "propro.project_list_title": "项目列表",
+  "propro.project_list_index": "No.",
+  "propro.project_list_project_name": "项目名称",
+  "propro.project_list_search": "搜索",
+  "propro.project_list_reset": "重置",
+  "propro.project_list_table_operation": "操作",
+
   "propro.end": "end"
 };
 

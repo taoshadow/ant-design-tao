@@ -18,13 +18,13 @@ import tao from "../utils/common";
 export function get_analysis_list(data = "") {
   // 读取最新的 token
   let token = tao.get_token();
-  console.log(data);
   let { exp_id = "" } = data;
 
   if (-1 == token) {
     // 不存在 token
     return "error";
   }
+
   let body_data = "";
 
   if ("" != exp_id && 4 < exp_id.length) {
