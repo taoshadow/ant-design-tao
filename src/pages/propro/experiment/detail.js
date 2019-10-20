@@ -916,7 +916,7 @@ class Experiment_detail extends React.Component {
                         <FormattedHTMLMessage id="propro.experiment_detail_create_time" />
                         :&nbsp;
                         <span
-                          className={"badge " + `${styles.bg_green_color}`}
+                          className={"badge " + `${styles.bg_yellow_color}`}
                           style={{ padding: "5px 10px", color: "#FFFFFF" }}
                         >
                           {create_date}
@@ -927,7 +927,7 @@ class Experiment_detail extends React.Component {
                         <FormattedHTMLMessage id="propro.experiment_detail_last_modify_time" />
                         :&nbsp;
                         <span
-                          className={"badge " + `${styles.bg_yellow_color}`}
+                          className={"badge " + `${styles.bg_green_color}`}
                           style={{ padding: "5px 10px", color: "#FFFFFF" }}
                         >
                           {last_modified_date}

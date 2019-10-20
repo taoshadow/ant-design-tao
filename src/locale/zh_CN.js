@@ -716,6 +716,12 @@ let language_ch = {
   "propro.project_list_table_operation_delete": "删除",
   "propro.project_list_scanning_update_is_null": "没有扫描到新实验",
 
+  // filemanager 文件管理
+  "propro.project_filemanager_title": "文件管理",
+
+  // project_modify
+  "propro.project_modify_title": "更新项目",
+
   "propro.end": "end"
 };
 

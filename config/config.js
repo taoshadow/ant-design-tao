@@ -207,6 +207,16 @@ export default {
           component: "propro/project/list"
         },
         {
+          // 修改 项目列表 modify * id
+          path: "/project/modify/*",
+          component: "propro/project/modify"
+        },
+        {
+          // 查看 项目列表 文件管理 * 项目名称
+          path: "/project/filemanager/*",
+          component: "propro/project/filemanager"
+        },
+        {
           path: "/test",
           component: "propro/test"
         },

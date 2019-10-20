@@ -80,7 +80,6 @@ import process_svg from "../style/static/experiment/process.svg";
 import arrow_up_svg from "../style/static/analysis/arrow_up.svg";
 import return_svg from "../style/static/dashboard/return.svg";
 import preloader_svg from "../style/static/dashboard/preloader.svg";
-import { project_list_scanning_update } from "../../../service/project_list";
 
 /****************  导入 styles end ***************************/
 
@@ -163,7 +162,7 @@ const project_dispatch_to_props = dispatch => {
   project_state_to_props,
   project_dispatch_to_props
 )
-class Experiment_list extends React.Component {
+class Project_list extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -179,9 +178,7 @@ class Experiment_list extends React.Component {
       modal_visible: false,
       drawer_visible: false,
       drawer_data: null,
-      delete_project_list_id: null,
-      analyse_overview_do_map: null
-      //   language: this.props.language
+      delete_project_list_id: null
     };
 
     // 查询 project_list 列表
@@ -808,7 +805,7 @@ class Experiment_list extends React.Component {
                   <FormattedHTMLMessage id="propro.project_list_table_operation_file_management" />
                 }
               >
-                <Link to={"/experiment/edit/" + list.id}>
+                <Link to={"/project/filemanager/" + list.project_name}>
                   <div
                     className={"badge " + styles.bg_primary_color}
                     style={{
@@ -834,7 +831,7 @@ class Experiment_list extends React.Component {
                   <FormattedHTMLMessage id="propro.project_list_table_operation_modify" />
                 }
               >
-                <Link to={"/experiment/edit/" + list.id}>
+                <Link to={"/project/modify/" + list.id}>
                   <div
                     className={"badge " + styles.bg_blue_color}
                     style={{
@@ -1321,4 +1318,4 @@ class Experiment_list extends React.Component {
   }
 }
 
-export default Experiment_list;
+export default Project_list;
