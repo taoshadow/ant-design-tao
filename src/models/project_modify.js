@@ -46,6 +46,22 @@ let model = {
         payload: result
       });
       return 0;
+    },
+    // 获取资源列表 由用户切换到指定界面才会发起请求 节省资源
+    *update_project_modify_data({ payload }, sagaEffects) {
+      const { call, put } = sagaEffects;
+      let result = "";
+      try {
+        // 捕获异常
+        result = yield call(project_modify_service.get_project_modify, payload);
+      } catch (e) {
+        result = "";
+      }
+      yield put({
+        type: "get_update_project_modify_data",
+        payload: result
+      });
+      return 0;
     }
   },
 

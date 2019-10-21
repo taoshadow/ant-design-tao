@@ -9,7 +9,7 @@
   "main": "index.js",
   "scripts": {
     "build": "echo Ant-design-tao && echo Author:TangTao && echo Github:https://github.com/tangtaoshadow  && DATE /T && TIME /T && echo Running && umi build  ",
-    "tao": "echo Ant-design-tao && echo Author:TangTao && echo Github:https://github.com/tangtaoshadow  && DATE /T && TIME /T && echo Running && umi dev  ",
+    "propro": "echo Ant-design-tao && echo Author:TangTao && echo Github:https://github.com/tangtaoshadow  && DATE /T && TIME /T && echo Running && umi dev  ",
     "test": "echo \"Error: Tangtao : no test specified\" && exit 1"
   },
   "keywords": [
@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "@antv/g2": "^3.5.8-beta.3",
-    "antd": "^3.20.6",
+    "antd": "^3.24.2",
     "bootstrap": "4.3.1",
     "jquery": "^3.4.1",
     "react-highlight-words": "^0.16.0",

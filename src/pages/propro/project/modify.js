@@ -8,7 +8,7 @@
  * @GitHub              https://github.com/tangtaoshadow
  * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
  * @CreateTime          2019-10-18 13:30:58
- * @UpdateTime          2019-10-20 12:25:02
+ * @UpdateTime          2019-10-21 21:52:15
  * @Archive             项目数据列表
  */
 
@@ -119,6 +119,14 @@ const project_dispatch_to_props = dispatch => {
     get_project_modify: (data = null) => {
       const action = {
         type: "project_modify/get_project_modify",
+        payload: data
+      };
+      dispatch(action);
+    },
+    // 更新触发器
+    update_project_modify_data: (data = null) => {
+      const action = {
+        type: "project_modify/update_project_modify_data",
         payload: data
       };
       dispatch(action);
@@ -424,19 +432,38 @@ class Project_modify extends React.Component {
   };
 
   set_project_data_default_library_select = e => {
-    console.log(e);
     this.setState({
       project_data_default_library_select: e
     });
   };
 
   set_project_data_description = e => {
-    console.log(e.target.value);
     this.setState({
       project_data_description: e.target.value
     });
   };
 
+  update_project_data = () => {
+    // 获取到需要更新的值
+    let {
+      project_modify_id = "",
+      project_data_default_library_select,
+      project_data_default_irt_library_select,
+      project_data_experiment_type_select,
+      project_data_description
+    } = this.state;
+
+    let obj = {};
+    obj.project_modify_id = project_modify_id;
+    obj.project_data_default_library_select = project_data_default_library_select;
+    obj.project_data_default_irt_library_select = project_data_default_irt_library_select;
+    obj.project_data_experiment_type_select = project_data_experiment_type_select;
+    obj.project_data_description = project_data_description;
+
+    this.props.update_project_modify_data(obj);
+
+    //
+  };
   /**************************** render ****************************/
   /**************************** render ****************************/
   /**************************** render ****************************/
@@ -731,9 +758,39 @@ class Project_modify extends React.Component {
                   <TextArea
                     value={this.state.project_data_description}
                     onChange={this.set_project_data_description}
-                    placeholder="Controlled autosize"
+                    placeholder="请输入"
                     autoSize={{ minRows: 3, maxRows: 10 }}
                   />
+                </div>
+              </Descriptions.Item>
+
+              {/* 操作 */}
+              <Descriptions.Item span={4} label={<span>操作</span>}>
+                <div
+                  style={{
+                    wordWrap: "break-word",
+                    wordBreak: "break-all",
+                    padding: "5px"
+                  }}
+                  className={styles.font_second_color}
+                >
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary"
+                    style={{
+                      fontWeight: 400,
+                      fontSize: "12px",
+                      margin: "5px 5px",
+                      height: "30px",
+                      lineHeight: "20px",
+                      padding: "5px 10px",
+                      letterSpacing: "1px"
+                    }}
+                    // 暂时还未实现
+                    onClick={this.update_project_data}
+                  >
+                    更新
+                  </button>
                 </div>
               </Descriptions.Item>
             </Descriptions>
