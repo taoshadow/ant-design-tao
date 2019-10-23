@@ -50,7 +50,7 @@ export function update_project_modify_data(data = "") {
   // 读取最新的 token
   let token = tao.get_token();
   let { id = "", type = "" } = data;
-
+  console.log("data", data);
   id += "";
   type += "";
 
@@ -70,6 +70,8 @@ export function update_project_modify_data(data = "") {
   body_data += "id" + "=" + id + "&";
   body_data += "type" + "=" + type + "&";
 
+  console.log(body_data);
+  return "error";
   // 请求 实验数据 列表
   return request("/propro_server/project/edit", {
     headers: {

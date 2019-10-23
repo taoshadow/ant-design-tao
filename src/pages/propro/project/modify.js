@@ -464,15 +464,23 @@ class Project_modify extends React.Component {
       project_data_description
     } = this.state;
 
+    // 重新解析 得出id
+    project_data_default_library_select = project_data_default_library_select.split(
+      " "
+    )[1];
+    // 重新解析 得出id
+    project_data_default_irt_library_select = project_data_default_irt_library_select.split(
+      " "
+    )[1];
     let obj = {};
-    obj.project_modify_id = project_modify_id;
-    obj.project_data_default_library_select = project_data_default_library_select;
-    obj.project_data_default_irt_library_select = project_data_default_irt_library_select;
-    obj.project_data_experiment_type_select = project_data_experiment_type_select;
-    obj.project_data_description = project_data_description;
+    obj.id = project_modify_id;
+    obj.default_library_select = project_data_default_library_select;
+    obj.default_irt_library_select = project_data_default_irt_library_select;
+    obj.type = project_data_experiment_type_select;
+    obj.description = project_data_description;
 
     console.log(obj);
-    // this.props.update_project_modify_data(obj);
+    this.props.update_project_modify_data(obj);
 
     //
   };
