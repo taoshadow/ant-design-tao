@@ -7,7 +7,7 @@
  * @GitHub              https://github.com/tangtaoshadow
  * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
  * @CreateTime          2019-10-23 13:19:32
- * @UpdateTime          2019-10-23 13:28:41
+ * @UpdateTime          2019-10-23 13:32:38
  * @Archive             项目 计算irt
  */
 
@@ -32,7 +32,7 @@ export function get_project_irt(data = "") {
   body_data += "id" + "=" + id + "&";
 
   // 请求 实验数据 列表
-  return request("/propro_server/project/edit", {
+  return request("/propro_server/project/irt", {
     headers: {
       // 'content-type': 'application/json',
       // "X-Requested-With": "XMLHttpRequest",
