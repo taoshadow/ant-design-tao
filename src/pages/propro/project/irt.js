@@ -8,7 +8,7 @@
  * @GitHub              https://github.com/tangtaoshadow
  * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
  * @CreateTime          2019-10-23 13:06:03
- * @UpdateTime          2019-10-23 13:44:52
+ * @UpdateTime          2019-10-23 16:50:33
  * @Archive             项目数据列表
  */
 
@@ -51,6 +51,7 @@ const { Option } = Select;
 const { TextArea } = Input;
 
 import Highlighter from "react-highlight-words";
+import ReactJson from "react-json-view";
 
 import tao from "../../../utils/common";
 /****************  导入组件 end ***************************/
@@ -367,9 +368,6 @@ class Project_irt extends React.Component {
     if (0 < len1) {
       exps_arr = new Array(len1);
       for (let i = 0; i < len1; i++) {
-        // obj_temp.index = i + 1;
-        // obj_temp.key = i + 1;
-
         exps_arr[i] = (
           <div
             key={"exps_arr_" + i}
@@ -379,7 +377,7 @@ class Project_irt extends React.Component {
             }}
           >
             <Tooltip
-              placement="topLeft"
+              placement="top"
               title={
                 <FormattedHTMLMessage id="propro.project_irt_view_experiment" />
               }
@@ -402,15 +400,6 @@ class Project_irt extends React.Component {
                 {i + 1}&nbsp;:&nbsp;{exps[i].name}
               </span>
             </Tooltip>
-
-            {/* <span
-              className={styles.font_gray_color}
-              style={{
-                padding: "5px 10px"
-              }}
-            >
-              {exps[i].id}
-            </span> */}
           </div>
         );
       }
@@ -446,11 +435,12 @@ class Project_irt extends React.Component {
   /***************** operation  ****************/
   /***************** operation  ****************/
 
+  // 显示侧边栏数据
   show_drawer_data = data => {
-    // this.setState({
-    //   drawer_data: drawer_data,
-    //   drawer_visible: true
-    // });
+    this.setState({
+      drawer_data: drawer_data,
+      drawer_visible: true
+    });
   };
 
   drawer_close = () => {
@@ -497,7 +487,40 @@ class Project_irt extends React.Component {
   };
 
   project_irt_view_experiment_by_index = index => {
-    console.log(index);
+    let { exps = [] } = this.props.project_irt_data;
+
+    console.log(exps[index]);
+    let view_data = null;
+    try {
+      view_data = exps[index];
+    } catch (e) {
+      view_data = null;
+      tao.my_console(
+        "warn",
+        "@Author:tangtao; 参数传入错误,请检查源代码; ",
+        "初步诊断:传入的数组是否合法,数组的索引似乎不正确"
+      );
+    }
+    let drawer_data = (
+      <ReactJson
+        name={"PROPRO"}
+        theme={"summerfruit:inverted"}
+        iconStyle={"circle"}
+        style={{
+          fontSize: "16px",
+          fontWeight: "600"
+        }}
+        collapsed={2}
+        displayDataTypes={false}
+        collapseStringsAfterLength={140}
+        src={view_data}
+      />
+    );
+
+    this.setState({
+      drawer_data: drawer_data,
+      drawer_visible: true
+    });
   };
 
   /**************************** render ****************************/
@@ -593,11 +616,11 @@ class Project_irt extends React.Component {
         {true == drawer_visible && (
           <Drawer
             title={
-              <FormattedHTMLMessage id="propro.analysis_score_irt_data_detail" />
+              <FormattedHTMLMessage id="propro.project_irt_experiment_detail" />
             }
             placement="left"
             closable={true}
-            width={400}
+            width={600}
             style={{
               wordWrap: "break-word",
               wordBreak: "break-all",
@@ -884,7 +907,7 @@ class Project_irt extends React.Component {
                     // 暂时还未实现
                     onClick={this.update_project_data}
                   >
-                    <FormattedHTMLMessage id="propro.project_modify_update" />
+                    <FormattedHTMLMessage id="propro.project_irt_calculate" />
                   </button>
                 </div>
               </Descriptions.Item>
