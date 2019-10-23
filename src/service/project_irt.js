@@ -19,6 +19,7 @@ export function get_project_irt(data = "") {
   // 读取最新的 token
   let token = tao.get_token();
   let { id = "" } = data;
+  console.log(data);
 
   id += "";
 

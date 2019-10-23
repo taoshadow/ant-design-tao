@@ -212,6 +212,11 @@ export default {
           // 查看 项目列表 文件管理 * 项目名称
           path: "/project/filemanager/*",
           component: "propro/project/filemanager"
+        },
+        {
+          // 项目 计算irt * id
+          path: "/project/irt/*",
+          component: "propro/project/irt"
         }
       ]
     }

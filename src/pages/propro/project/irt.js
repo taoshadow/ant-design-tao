@@ -8,7 +8,7 @@
  * @GitHub              https://github.com/tangtaoshadow
  * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
  * @CreateTime          2019-10-23 13:06:03
- * @UpdateTime          2019-10-16 15:56:30
+ * @UpdateTime          2019-10-23 13:44:52
  * @Archive             项目数据列表
  */
 
@@ -29,6 +29,7 @@ import {
   Row,
   Col,
   Drawer,
+  Descriptions,
   Button,
   Dropdown,
   Select,
@@ -44,6 +45,8 @@ import {
   Tag,
   BackTop
 } from "antd";
+const { Option } = Select;
+const { TextArea } = Input;
 
 import Highlighter from "react-highlight-words";
 
@@ -99,22 +102,10 @@ const project_state_to_props = state => {
   let {
     project_irt_status = -1,
     project_irt_time = 0,
-    project_irt_data = {},
-    project_irt_delete_status = -1,
-    project_irt_delete_time = 0,
-    project_irt_delete_data = {},
-    project_irt_scanning_update_status = -1,
-    project_irt_scanning_update_time = 0,
-    project_irt_scanning_update_data = {}
+    project_irt_data = {}
   } = state["project_irt"];
 
-  (obj.project_irt_scanning_update_status = project_irt_scanning_update_status),
-    (obj.project_irt_scanning_update_time = project_irt_scanning_update_time),
-    (obj.project_irt_scanning_update_data = project_irt_scanning_update_data),
-    (obj.project_irt_delete_status = project_irt_delete_status),
-    (obj.project_irt_delete_time = project_irt_delete_time),
-    (obj.project_irt_delete_data = project_irt_delete_data),
-    (obj.project_irt_status = project_irt_status),
+  (obj.project_irt_status = project_irt_status),
     (obj.project_irt_time = project_irt_time),
     (obj.project_irt_data = project_irt_data);
 
@@ -134,13 +125,6 @@ const project_dispatch_to_props = dispatch => {
     delete_project_irt: data => {
       const action = {
         type: "project_irt/delete_project_irt",
-        payload: data
-      };
-      dispatch(action);
-    },
-    project_irt_scanning_update: data => {
-      const action = {
-        type: "project_irt/project_irt_scanning_update",
         payload: data
       };
       dispatch(action);
@@ -168,17 +152,20 @@ class Project_irt extends React.Component {
     this.state = {
       //   查询到的标准库数据
       project_irt_data: [],
+      project_irt_id: null,
       // 默认没有数据 状态为 -1 这个变量 暂时用不着 但是后续扩展会用到
       project_irt_status: -1,
       // 请求失败再次发起请求的尝试次数
       project_irt_false_time: 5,
       search_text: "",
-      project_irt_table_columns: null,
+      //   前端格式化后的 project 数据
+      project_irt_project_data: [],
       // modal 配置
       modal_visible: false,
       drawer_visible: false,
-      drawer_data: null,
-      delete_project_irt_id: null
+      project_irt_default_irt_library_select: "",
+      project_data_sigma: "7.5",
+      drawer_data: null
     };
 
     // 查询 project_irt 列表
@@ -199,9 +186,6 @@ class Project_irt extends React.Component {
       placement: "topRight",
       duration: 4.5
     });
-
-    // 配置表格列参数
-    this.config_table_columns();
   }
 
   // 查询 project_irt 列表
@@ -209,25 +193,24 @@ class Project_irt extends React.Component {
     let url = this.props.history.location.pathname;
     let obj = {};
     /****************************/
-    let find_str = "/irt_project_name/";
+    let find_str = "/irt/";
     let index = url.lastIndexOf(find_str);
-    let project_name = url.substring(index + find_str.length);
+    let id = url.substring(index + find_str.length);
     if (3 < index) {
       // 找到 project_name 发起查询
-      obj.project_name = project_name;
+      obj.id = id;
     }
 
-    /***************/
-    find_str = "/irt_type/";
-    index = url.lastIndexOf(find_str);
-    let type = url.substring(index + find_str.length);
+    setTimeout(() => {
+      this.setState({
+        project_irt_id: id
+      });
+    }, 40);
 
-    if (3 < index) {
-      // 找到 type 发起查询
-      obj.type = type;
-    }
-
-    this.props.get_project_irt(obj);
+    setTimeout(() => {
+      //   开始查询
+      this.props.get_project_irt(obj);
+    }, 100);
   };
 
   refresh_data = () => {
@@ -295,84 +278,92 @@ class Project_irt extends React.Component {
     console.log(this.props.project_irt_data);
 
     /*
-      currentPage: 1
-      pageSize: 500
-      projectList: (8) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
-      repository: "E:\data\"
-      totalNumbers: 8
-      totalPage: 1
+    exps: (6) [{…}, {…}, {…}, {…}, {…}, {…}]
+    iRtLibraries: (77) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+    iRtLibraryId: "5c6d2ec7dfdfdd2f947c6f39"
+    project:
+        createDate: 1562567897630
+        doPublic: false
+        iRtLibraryId: "5c6d2ec7dfdfdd2f947c6f39"
+        iRtLibraryName: "商业iRT"
+        id: "5d22e4d9a1eaff5cabc0fa37"
+        labels: []
+        lastModifiedDate: 1571806369566
+        libraryId: "5c9c2407dfdfdd356072c113"
+        libraryName: "HYE-64var"
+        name: "HYE110_6600_64_Var"
+        ownerName: "lms"
+        type: "DIA_SWATH"
     */
 
     let {
-      projectList: project_irt,
-      totalNumbers: total_numbers,
-      pageSize: page_size,
-      repository = ""
+      project: project_data = {},
+      exps = [],
+      iRtLibraries: irt_libraries = []
     } = this.props.project_irt_data;
-    let { length: len0 } = project_irt;
-    let [load_percentage_value, projects_arr] = [0, null];
-    if (0 < len0) {
-      projects_arr = new Array(len0);
-      let obj_temp = {};
-      load_percentage_value = Math.ceil((len0 / total_numbers) * 100);
 
+    let {
+      createDate: create_date = 0,
+      description = "",
+      doPublic: do_public = false,
+      iRtLibraryId: irt_library_id = "",
+      iRtLibraryName: irt_library_name = "",
+      id = "",
+      labels = [],
+      lastModifiedDate: last_modified_date = 0,
+      libraryId: library_id = "",
+      libraryName: library_name = "",
+      name = "",
+      ownerName: owner_name = "",
+      type = ""
+    } = project_data;
+
+    // 写入 obj 格式化
+    let obj = {};
+    (obj.create_date = tao.format_time(create_date)),
+      (obj.description = description),
+      (obj.do_public = do_public),
+      (obj.irt_library_id = irt_library_id),
+      (obj.irt_library_name = irt_library_name),
+      (obj.id = id),
+      (obj.labels = labels),
+      (obj.last_modified_date = tao.format_time(last_modified_date)),
+      (obj.library_id = library_id),
+      (obj.library_name = library_name),
+      (obj.name = name),
+      (obj.owner_name = owner_name),
+      (obj.type = type);
+
+    let { length: len0 } = irt_libraries;
+
+    let default_irt_librarys_arr = null;
+    if (0 < len0) {
+      //
+      default_irt_librarys_arr = new Array(len0);
       for (let i = 0; i < len0; i++) {
-        // createDate: 1562567897630
-        // description: ""
-        // doPublic: false
-        // iRtLibraryId: "5c6d2ec7dfdfdd2f947c6f39"
-        // iRtLibraryName: "商业iRT"
-        // id: "5d22e4d9a1eaff5cabc0fa37"
-        // labels: []
-        // lastModifiedDate: 1562567897630
-        // libraryId: "5c9c2407dfdfdd356072c113"
-        // libraryName: "HYE-64var"
-        // name: "HYE110_6600_64_Var"
-        // ownerName: "lms"
-        // type: "DIA_SWATH"
-        let {
-          createDate: create_date,
-          description,
-          doPublic: do_public,
-          iRtLibraryId: irt_library_id,
-          iRtLibraryName: irt_library_name,
-          id,
-          labels,
-          lastModifiedDate: last_modified_date,
-          libraryId: library_id,
-          libraryName: library_name,
-          name: project_name,
-          ownerName: owner_name,
-          type
-        } = project_irt[i];
-        // 处理数据
-        (obj_temp.index = i + 1),
-          (obj_temp.key = "projects_arr_" + i),
-          (obj_temp.create_date = tao.format_time(create_date)),
-          (obj_temp.id = id),
-          // 项目名称
-          (obj_temp.project_name = project_name),
-          (obj_temp.type = type),
-          // 项目仓库路径
-          (obj_temp.repository_path = repository + project_name),
-          (obj_temp.owner_name = owner_name),
-          (obj_temp.irt_library_name = irt_library_name),
-          (obj_temp.library_name = library_name),
-          // labels 标签 数组
-          (obj_temp.labels = labels),
-          (obj_temp.last_modified_date = tao.format_time(last_modified_date)),
-          (projects_arr[i] = obj_temp),
-          (obj_temp = {});
+        let str = irt_libraries[i].name + " " + irt_libraries[i].id;
+        default_irt_librarys_arr[i] = (
+          <Option key={"default_irt_librarys_arr_" + i} value={str}>
+            <span style={{ fontWeight: "500" }}>
+              {i + 1} : {irt_libraries[i].name}&nbsp;
+            </span>
+            <span className={styles.font_green_color}>
+              {irt_libraries[i].id}
+            </span>
+          </Option>
+        );
       }
     }
+
     this.setState({
       // 标记 成功
       project_irt_false_time: 5,
-      load_percentage_value: load_percentage_value,
-      total_numbers: total_numbers,
+      project_irt_project_data: obj,
       project_irt_query_time: tao.current_format_time(),
-      project_irt_data: projects_arr,
-      // 标记数据为可用的状态
+      project_irt_default_irt_librarys_arr: default_irt_librarys_arr,
+      project_irt_default_irt_library_select:
+        irt_library_name + " " + irt_library_id,
+      //   // 标记数据为可用的状态
       project_irt_status: 0
     });
 
@@ -410,6 +401,22 @@ class Project_irt extends React.Component {
   /*************  handle  *********************/
   /*************  handle  *********************/
   /*************  handle  *********************/
+
+  set_project_irt_default_irt_library_select = e => {
+    //
+    this.setState({
+      project_irt_default_irt_library_select: e
+    });
+  };
+
+  set_project_data_sigma = e => {
+    //
+    console.log(e.target.value);
+    let val = parseFloat(e.target.value);
+    this.setState({
+      project_data_sigma: val
+    });
+  };
 
   /**************************** render ****************************/
   /**************************** render ****************************/
@@ -449,7 +456,11 @@ class Project_irt extends React.Component {
       );
     }
 
-    let { drawer_data, drawer_visible } = this.state;
+    let {
+      drawer_data,
+      drawer_visible,
+      project_irt_project_data: project_data = {}
+    } = this.state;
 
     return (
       <div>
@@ -518,25 +529,190 @@ class Project_irt extends React.Component {
           </Drawer>
         )}
 
-        <div
-          style={{
-            background: "#FFFFFF",
-            padding: "5px",
-            border: "1px solid #e5e9f2",
-            overflow: "auto"
-          }}
-        >
-          <Table
-            size={"middle"}
-            columns={this.state.project_irt_table_columns}
-            pagination={{
-              position: "top",
-              hideOnSinglePage: true,
-              defaultPageSize: 100
+        <Row>
+          <Col
+            lg={24}
+            xl={24}
+            xxl={20}
+            className={styles.font_primary_color}
+            style={{
+              textAlign: "left",
+              fontSize: "14px",
+              lineHeight: "30px"
             }}
-            dataSource={this.state.project_irt_data}
-          />
-        </div>
+          >
+            <Descriptions
+              bordered
+              size="middle"
+              column={4}
+              style={{
+                overflowX: "auto",
+                overflowY: "auto"
+              }}
+              title={
+                <Fragment>
+                  <Row>
+                    <Col lg={8}>
+                      负责人 :&nbsp;
+                      <span
+                        className={"badge " + `${styles.bg_second_color}`}
+                        style={{ padding: "5px 10px", color: "#ffffff" }}
+                      >
+                        {project_data.owner_name}
+                      </span>
+                    </Col>
+                    <Col lg={8}>
+                      创建时间 :&nbsp;
+                      <span
+                        className={"badge " + `${styles.bg_yellow_color}`}
+                        style={{ padding: "5px 10px", color: "#FFFFFF" }}
+                      >
+                        {project_data.create_date}
+                      </span>
+                    </Col>
+
+                    <Col lg={8}>
+                      更新时间 :&nbsp;
+                      <span
+                        className={"badge " + `${styles.bg_green_color}`}
+                        style={{ padding: "5px 10px", color: "#FFFFFF" }}
+                      >
+                        {project_data.last_modified_date}
+                      </span>
+                    </Col>
+                  </Row>
+                </Fragment>
+              }
+            >
+              <Descriptions.Item span={2} label="项目ID">
+                <div
+                  style={{
+                    wordWrap: "break-word",
+                    wordBreak: "break-all",
+                    padding: "5px"
+                  }}
+                  className={styles.font_primary_color}
+                >
+                  {project_data.id}
+                </div>
+              </Descriptions.Item>
+
+              {/* 实验名称 */}
+              <Descriptions.Item span={2} label="项目名称">
+                <div
+                  style={{
+                    wordWrap: "break-word",
+                    wordBreak: "break-all",
+                    padding: "5px"
+                  }}
+                  // className={styles.font_primary_color}
+                >
+                  {project_data.name}
+                </div>
+              </Descriptions.Item>
+
+              {/* 实验类型 */}
+              <Descriptions.Item span={4} label={<span>实验类型</span>}>
+                <div
+                  style={{
+                    wordWrap: "break-word",
+                    wordBreak: "break-all",
+                    padding: "5px"
+                  }}
+                  className={styles.font_second_color}
+                >
+                  {project_data.type}
+                </div>
+              </Descriptions.Item>
+
+              {/* 默认irt校准库 */}
+              <Descriptions.Item
+                span={4}
+                label={
+                  <span className={styles.font_second_color}>
+                    默认irt校准库
+                  </span>
+                }
+              >
+                <div
+                  style={{
+                    wordWrap: "break-word",
+                    wordBreak: "break-all",
+                    padding: "5px"
+                  }}
+                  className={styles.font_second_color}
+                >
+                  <Select
+                    style={{ width: 500 }}
+                    onChange={this.set_project_irt_default_irt_library_select}
+                    optionFilterProp="children"
+                    defaultValue={
+                      this.state.project_irt_default_irt_library_select
+                    }
+                    value={this.state.project_irt_default_irt_library_select}
+                    maxTagCount={40}
+                  >
+                    {this.state.project_irt_default_irt_librarys_arr}
+                  </Select>
+                </div>
+              </Descriptions.Item>
+
+              {/* 设定 sigma */}
+              <Descriptions.Item
+                span={4}
+                label={
+                  <span className={styles.font_second_color}>设定 sigma</span>
+                }
+              >
+                <div
+                  style={{
+                    wordWrap: "break-word",
+                    wordBreak: "break-all",
+                    padding: "5px"
+                  }}
+                  className={styles.font_second_color}
+                >
+                  <Input
+                    value={this.state.project_data_sigma}
+                    onChange={this.set_project_data_sigma}
+                    style={{ width: 200 }}
+                  />
+                  <span>&nbsp;&nbsp;默认值为7.5</span>
+                </div>
+              </Descriptions.Item>
+
+              {/* 操作 */}
+              <Descriptions.Item span={4} label={<span>操作</span>}>
+                <div
+                  style={{
+                    wordWrap: "break-word",
+                    wordBreak: "break-all",
+                    padding: "5px"
+                  }}
+                  className={styles.font_second_color}
+                >
+                  <button
+                    type="button"
+                    className="btn btn-outline-primary"
+                    style={{
+                      fontWeight: 400,
+                      fontSize: "12px",
+                      margin: "5px 5px",
+                      height: "30px",
+                      lineHeight: "20px",
+                      padding: "5px 10px",
+                      letterSpacing: "1px"
+                    }}
+                    // 暂时还未实现
+                    onClick={this.update_project_data}
+                  >
+                    <FormattedHTMLMessage id="propro.project_modify_update" />
+                  </button>
+                </div>
+              </Descriptions.Item>
+            </Descriptions>
+          </Col>
+        </Row>
         {/* Author: Tangtao HDU https://www.promiselee.cn/tao */}
         <BackTop visibilityHeight={600}>
           <div>

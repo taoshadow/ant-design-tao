@@ -19,7 +19,6 @@ export function get_project_modify(data = "") {
   // 读取最新的 token
   let token = tao.get_token();
   let { id = "" } = data;
-
   id += "";
 
   if (-1 == token || "" == id || 3 > id.length) {

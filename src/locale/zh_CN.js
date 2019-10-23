@@ -723,6 +723,9 @@ let language_ch = {
   "propro.project_modify_title": "更新项目",
   "propro.project_modify_update": "更新",
 
+  // project_irt_title
+  "propro.project_irt_title": "计算irt",
+
   "propro.end": "end"
 };
 
