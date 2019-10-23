@@ -10,7 +10,7 @@
 
 # PROPRO-前端（ant-design-tao）
 
-**Repository：** [Author: GitHub](https://github.com/tangtaoshadow/ant-design-tao) [Propro:Gitee](http://localhost:8001/)
+**Repository：** [Author: GitHub](https://github.com/tangtaoshadow/ant-design-tao)  [Propro:Gitee](https://gitee.com/ProproStudio/Propro-Server-Front) [Gitee](https://gitee.com/tangtao2099/ant-design-tao)
 
 **Introduction：** 集成当前流行框架，实现前后端分离，强调用户体验的一个国际化的蛋白质组学分析平台。
 
@@ -208,16 +208,16 @@ npm run propro
 ```json
 {
   "name": "ant-design-tao",
-  "version": "^2.2.3",
+  "version": "2.2.5",
   "create_time": "2019-7-24 12:10:03",
-  "update_time": "2019-10-4 00:26:23",
+  "update_time": "2019-10-23 10:54:03",
   "description": "基于ant-design开发,针对propro-server定制",
   "GitHub[Author]": "https://github.com/tangtaoshadow/ant-design-tao",
   "Repository[Author]": "https://github.com/tangtaoshadow/ant-design-tao",
   "main": "index.js",
   "scripts": {
     "build": "echo Ant-design-tao && echo Author:TangTao && echo Github:https://github.com/tangtaoshadow  && DATE /T && TIME /T && echo Running && umi build  ",
-    "tao": "echo Ant-design-tao && echo Author:TangTao && echo Github:https://github.com/tangtaoshadow  && DATE /T && TIME /T && echo Running && umi dev  ",
+    "propro": "echo Ant-design-tao && echo Author:TangTao && echo Github:https://github.com/tangtaoshadow  && DATE /T && TIME /T && echo Running && umi dev  ",
     "test": "echo \"Error: Tangtao : no test specified\" && exit 1"
   },
   "keywords": [
@@ -239,7 +239,7 @@ npm run propro
   },
   "dependencies": {
     "@antv/g2": "^3.5.8-beta.3",
-    "antd": "^3.20.6",
+    "antd": "^3.24.2",
     "bootstrap": "4.3.1",
     "jquery": "^3.4.1",
     "react-highlight-words": "^0.16.0",
@@ -367,3 +367,77 @@ npm run propro
 
 
 
+
+
+
+
+# 更新日志
+
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
+
+**创建**：`2019-10-23 10:53:13`
+
+**修改**：`2019-10-23 10:58:03`
+
+
+
+## antd 3.24.2
+
+3.24.2 • Public
+
+- [Readme](https://www.npmjs.com/package/antd?activeTab=readme)
+- [**53**Dependencies](https://www.npmjs.com/package/antd?activeTab=dependencies)
+- [**2,350**Dependents](https://www.npmjs.com/package/antd?activeTab=dependents)
+- [**454**Versions](https://www.npmjs.com/package/antd?activeTab=versions)
+
+[![img](https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg)](http://ant.design/)
+
+# Ant Design
+
+An enterprise-class UI design language and React UI library.
+
+[![CircleCI branch](https://img.shields.io/circleci/project/github/ant-design/ant-design/master.svg?style=flat-square)](https://circleci.com/gh/ant-design/ant-design) ![CI Status](https://github.com/ant-design/ant-design/workflows/Node%20CI/badge.svg) [![Codecov](https://img.shields.io/codecov/c/github/ant-design/ant-design/master.svg?style=flat-square)](https://codecov.io/gh/ant-design/ant-design/branch/master) [![img](https://flat.badgen.net/npm/v/antd?icon=npm)](https://www.npmjs.com/package/antd) [![img](https://badgen.net/npm/v/antd/next)](https://www.npmjs.com/package/antd) [![NPM downloads](http://img.shields.io/npm/dm/antd.svg?style=flat-square)](http://npmjs.com/antd)
+
+[![Dependencies](https://img.shields.io/david/ant-design/ant-design.svg?style=flat-square)](https://david-dm.org/ant-design/ant-design) [![DevDependencies](https://img.shields.io/david/dev/ant-design/ant-design.svg?style=flat-square)](https://david-dm.org/ant-design/ant-design?type=dev) [![Total alerts](https://flat.badgen.net/lgtm/alerts/g/ant-design/ant-design)](https://lgtm.com/projects/g/ant-design/ant-design/alerts/) [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fant-design%2Fant-design.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fant-design%2Fant-design?ref=badge_shield) [![Issues need help](https://flat.badgen.net/github/label-issues/ant-design/ant-design/help%20wanted/open)](https://github.com/ant-design/ant-design/issues?q=is%3Aopen+is%3Aissue+label%3A"help+wanted")
+
+[![img](https://img.shields.io/twitter/follow/AntDesignUI.svg?label=Ant%20Design&style=social)](https://twitter.com/AntDesignUI) [![Gitter](https://img.shields.io/gitter/room/ant-design/ant-design-english.svg?style=flat-square&logoWidth=20&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgd2lkdGg9IjEyMzUiIGhlaWdodD0iNjUwIiB2aWV3Qm94PSIwIDAgNzQxMCAzOTAwIj4NCjxyZWN0IHdpZHRoPSI3NDEwIiBoZWlnaHQ9IjM5MDAiIGZpbGw9IiNiMjIyMzQiLz4NCjxwYXRoIGQ9Ik0wLDQ1MEg3NDEwbTAsNjAwSDBtMCw2MDBINzQxMG0wLDYwMEgwbTAsNjAwSDc0MTBtMCw2MDBIMCIgc3Ryb2tlPSIjZmZmIiBzdHJva2Utd2lkdGg9IjMwMCIvPg0KPHJlY3Qgd2lkdGg9IjI5NjQiIGhlaWdodD0iMjEwMCIgZmlsbD0iIzNjM2I2ZSIvPg0KPGcgZmlsbD0iI2ZmZiI%2BDQo8ZyBpZD0iczE4Ij4NCjxnIGlkPSJzOSI%2BDQo8ZyBpZD0iczUiPg0KPGcgaWQ9InM0Ij4NCjxwYXRoIGlkPSJzIiBkPSJNMjQ3LDkwIDMxNy41MzQyMzAsMzA3LjA4MjAzOSAxMzIuODczMjE4LDE3Mi45MTc5NjFIMzYxLjEyNjc4MkwxNzYuNDY1NzcwLDMwNy4wODIwMzl6Ii8%2BDQo8dXNlIHhsaW5rOmhyZWY9IiNzIiB5PSI0MjAiLz4NCjx1c2UgeGxpbms6aHJlZj0iI3MiIHk9Ijg0MCIvPg0KPHVzZSB4bGluazpocmVmPSIjcyIgeT0iMTI2MCIvPg0KPC9nPg0KPHVzZSB4bGluazpocmVmPSIjcyIgeT0iMTY4MCIvPg0KPC9nPg0KPHVzZSB4bGluazpocmVmPSIjczQiIHg9IjI0NyIgeT0iMjEwIi8%2BDQo8L2c%2BDQo8dXNlIHhsaW5rOmhyZWY9IiNzOSIgeD0iNDk0Ii8%2BDQo8L2c%2BDQo8dXNlIHhsaW5rOmhyZWY9IiNzMTgiIHg9Ijk4OCIvPg0KPHVzZSB4bGluazpocmVmPSIjczkiIHg9IjE5NzYiLz4NCjx1c2UgeGxpbms6aHJlZj0iI3M1IiB4PSIyNDcwIi8%2BDQo8L2c%2BDQo8L3N2Zz4%3D)](https://gitter.im/ant-design/ant-design-english?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge) [![Join the chat at https://gitter.im/ant-design/ant-design](https://img.shields.io/gitter/room/ant-design/ant-design.svg?style=flat-square&logoWidth=20&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgd2lkdGg9IjkwMCIgaGVpZ2h0PSI2MDAiIHZpZXdCb3g9IjAgMCAzMCAyMCI%2BDQo8ZGVmcz4NCjxwYXRoIGlkPSJzIiBkPSJNMCwtMSAwLjU4Nzc4NSwwLjgwOTAxNyAtMC45NTEwNTcsLTAuMzA5MDE3SDAuOTUxMDU3TC0wLjU4Nzc4NSwwLjgwOTAxN3oiIGZpbGw9IiNmZmRlMDAiLz4NCjwvZGVmcz4NCjxyZWN0IHdpZHRoPSIzMCIgaGVpZ2h0PSIyMCIgZmlsbD0iI2RlMjkxMCIvPg0KPHVzZSB4bGluazpocmVmPSIjcyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoNSw1KSBzY2FsZSgzKSIvPg0KPHVzZSB4bGluazpocmVmPSIjcyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTAsMikgcm90YXRlKDIzLjAzNjI0MykiLz4NCjx1c2UgeGxpbms6aHJlZj0iI3MiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDEyLDQpIHJvdGF0ZSg0NS44Njk4OTgpIi8%2BDQo8dXNlIHhsaW5rOmhyZWY9IiNzIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxMiw3KSByb3RhdGUoNjkuOTQ1Mzk2KSIvPg0KPHVzZSB4bGluazpocmVmPSIjcyIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMTAsOSkgcm90YXRlKDIwLjY1OTgwOCkiLz4NCjwvc3ZnPg%3D%3D)](https://gitter.im/ant-design/ant-design?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
+[![img](https://cdn-images-1.medium.com/max/2000/1*NIlj0-TdLMbo_hzSBP8tmg.png)](http://ant.design/)
+
+English | [简体中文](https://github.com/ant-design/ant-design/blob/HEAD/README-zh_CN.md)
+
+## ✨ Features
+
+- An enterprise-class UI design system for web applications.
+- A set of high-quality React components out of the box.
+- Written in TypeScript with predictable static types.
+- The whole package of development and design resources and tools.
+
+## 🖥 Environment Support
+
+- Modern browsers and Internet Explorer 9+ (with [polyfills](https://ant.design/docs/react/getting-started#Compatibility))
+- Server-side Rendering
+- [Electron](http://electron.atom.io/)
+
+| [![IE / Edge](https://raw.githubusercontent.com/alrra/browser-logos/master/src/edge/edge_48x48.png)](http://godban.github.io/browsers-support-badges/) IE / Edge | [![Firefox](https://raw.githubusercontent.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png)](http://godban.github.io/browsers-support-badges/) Firefox | [![Chrome](https://raw.githubusercontent.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png)](http://godban.github.io/browsers-support-badges/) Chrome | [![Safari](https://raw.githubusercontent.com/alrra/browser-logos/master/src/safari/safari_48x48.png)](http://godban.github.io/browsers-support-badges/) Safari | [![Opera](https://raw.githubusercontent.com/alrra/browser-logos/master/src/opera/opera_48x48.png)](http://godban.github.io/browsers-support-badges/) Opera | [![Electron](https://raw.githubusercontent.com/alrra/browser-logos/master/src/electron/electron_48x48.png)](http://godban.github.io/browsers-support-badges/) Electron |
+| :----------------------------------------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- | :----------------------------------------------------------- |
+| IE9, IE10, IE11, Edge                                        | last 2 versions                                              | last 2 versions                                              | last 2 versions                                              | last 2 versions                                              | last 2 versions                                              |
+
+## 📦 Install
+
+```
+npm install antd
+yarn add antd
+```
+
+## 🔨 Usage
+
+```
+import { DatePicker } from 'antd';ReactDOM.render(<DatePicker />, mountNode);
+```
+
+And import style manually:
+
+```
+import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
+```
