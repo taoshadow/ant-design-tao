@@ -21,6 +21,7 @@ import { FormattedHTMLMessage } from "react-intl";
 import { Fragment } from "react";
 
 import {
+  Badge,
   Layout,
   Menu,
   Icon,
@@ -38,6 +39,7 @@ import {
   notification,
   Tabs,
   Input,
+  InputNumber,
   Modal,
   Tooltip,
   Table,
@@ -159,12 +161,15 @@ class Project_irt extends React.Component {
       project_irt_false_time: 5,
       search_text: "",
       //   前端格式化后的 project 数据
-      project_irt_project_data: [],
+      project_irt_project_data: null,
+      project_irt_exps_arr: null,
       // modal 配置
       modal_visible: false,
       drawer_visible: false,
       project_irt_default_irt_library_select: "",
-      project_data_sigma: "7.5",
+      project_data_sigma: 3.75,
+      project_data_spacing: 0.01,
+      project_data_mz: 0.05,
       drawer_data: null
     };
 
@@ -355,11 +360,68 @@ class Project_irt extends React.Component {
       }
     }
 
+    // 遍历实验数据
+
+    let { length: len1 } = exps;
+    let [exps_arr, obj_temp] = [null, {}];
+    if (0 < len1) {
+      exps_arr = new Array(len1);
+      for (let i = 0; i < len1; i++) {
+        // obj_temp.index = i + 1;
+        // obj_temp.key = i + 1;
+
+        exps_arr[i] = (
+          <div
+            key={"exps_arr_" + i}
+            style={{
+              padding: "5px 5px",
+              float: "left"
+            }}
+          >
+            <Tooltip
+              placement="topLeft"
+              title={
+                <FormattedHTMLMessage id="propro.project_irt_view_experiment" />
+              }
+              onClick={() => {
+                this.project_irt_view_experiment_by_index(i);
+              }}
+            >
+              <span
+                className={
+                  "badge " +
+                  styles.font_white_color +
+                  " " +
+                  styles.bg_green_color
+                }
+                style={{
+                  padding: "5px 10px",
+                  cursor: "pointer"
+                }}
+              >
+                {i + 1}&nbsp;:&nbsp;{exps[i].name}
+              </span>
+            </Tooltip>
+
+            {/* <span
+              className={styles.font_gray_color}
+              style={{
+                padding: "5px 10px"
+              }}
+            >
+              {exps[i].id}
+            </span> */}
+          </div>
+        );
+      }
+    }
+
     this.setState({
       // 标记 成功
       project_irt_false_time: 5,
       project_irt_project_data: obj,
       project_irt_query_time: tao.current_format_time(),
+      project_irt_exps_arr: exps_arr,
       project_irt_default_irt_librarys_arr: default_irt_librarys_arr,
       project_irt_default_irt_library_select:
         irt_library_name + " " + irt_library_id,
@@ -411,11 +473,31 @@ class Project_irt extends React.Component {
 
   set_project_data_sigma = e => {
     //
-    console.log(e.target.value);
-    let val = parseFloat(e.target.value);
+    let val = parseFloat(e);
     this.setState({
       project_data_sigma: val
     });
+  };
+
+  set_project_data_spacing = e => {
+    //
+    let val = parseFloat(e);
+    this.setState({
+      project_data_spacing: val
+    });
+  };
+
+  set_project_data_mz = e => {
+    //
+    let val = parseFloat(e);
+
+    this.setState({
+      project_data_mz: val
+    });
+  };
+
+  project_irt_view_experiment_by_index = index => {
+    console.log(index);
   };
 
   /**************************** render ****************************/
@@ -474,9 +556,9 @@ class Project_irt extends React.Component {
         >
           <Tooltip
             placement="topLeft"
-            title={<FormattedHTMLMessage id="propro.console" />}
+            title={<FormattedHTMLMessage id="propro.project_list_title" />}
           >
-            <Link to="/console">
+            <Link to="/project/list">
               <img
                 src={return_svg}
                 style={{
@@ -661,7 +743,7 @@ class Project_irt extends React.Component {
               <Descriptions.Item
                 span={4}
                 label={
-                  <span className={styles.font_second_color}>设定 sigma</span>
+                  <span className={styles.font_second_color}>设定 Sigma</span>
                 }
               >
                 <div
@@ -672,12 +754,108 @@ class Project_irt extends React.Component {
                   }}
                   className={styles.font_second_color}
                 >
-                  <Input
+                  <InputNumber
                     value={this.state.project_data_sigma}
                     onChange={this.set_project_data_sigma}
                     style={{ width: 200 }}
+                    step={0.1}
+                    maxLength={20}
                   />
-                  <span>&nbsp;&nbsp;默认值为7.5</span>
+                  <span
+                    className={styles.font_gray_color}
+                    style={{
+                      fontSize: "12px"
+                    }}
+                  >
+                    &nbsp;&nbsp;
+                    <FormattedHTMLMessage id="propro.project_irt_default_sigma" />
+                  </span>
+                </div>
+              </Descriptions.Item>
+
+              {/* 设定 Spacing */}
+              <Descriptions.Item
+                span={4}
+                label={
+                  <span className={styles.font_second_color}>设定 Spacing</span>
+                }
+              >
+                <div
+                  style={{
+                    wordWrap: "break-word",
+                    wordBreak: "break-all",
+                    padding: "5px"
+                  }}
+                  className={styles.font_second_color}
+                >
+                  <InputNumber
+                    value={this.state.project_data_spacing}
+                    onChange={this.set_project_data_spacing}
+                    style={{ width: 200 }}
+                    step={0.01}
+                    maxLength={20}
+                  />
+                  <span
+                    className={styles.font_gray_color}
+                    style={{
+                      fontSize: "12px"
+                    }}
+                  >
+                    &nbsp;&nbsp;
+                    <FormattedHTMLMessage id="propro.project_irt_default_spacing" />
+                  </span>
+                </div>
+              </Descriptions.Item>
+
+              {/* MZ数据提取窗口 */}
+              <Descriptions.Item
+                span={4}
+                label={
+                  <span className={styles.font_second_color}>
+                    MZ数据提取窗口
+                  </span>
+                }
+              >
+                <div
+                  style={{
+                    wordWrap: "break-word",
+                    wordBreak: "break-all",
+                    padding: "5px"
+                  }}
+                  className={styles.font_second_color}
+                >
+                  <InputNumber
+                    value={this.state.project_data_mz}
+                    onChange={this.set_project_data_mz}
+                    style={{ width: 200 }}
+                    step={0.01}
+                    maxLength={20}
+                  />
+                  <span
+                    className={styles.font_gray_color}
+                    style={{
+                      fontSize: "12px"
+                    }}
+                  >
+                    &nbsp;&nbsp;
+                    <FormattedHTMLMessage id="propro.project_irt_default_mz" />
+                  </span>
+                </div>
+              </Descriptions.Item>
+
+              {/* 实验数据 */}
+              <Descriptions.Item
+                span={4}
+                label={<span>实验数据</span>}
+                style={{}}
+              >
+                <div
+                  style={{
+                    padding: "5px"
+                  }}
+                  className={styles.font_second_color}
+                >
+                  {this.state.project_irt_exps_arr}
                 </div>
               </Descriptions.Item>
 

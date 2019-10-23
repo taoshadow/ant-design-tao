@@ -725,6 +725,10 @@ let language_ch = {
 
   // project_irt_title
   "propro.project_irt_title": "计算irt",
+  "propro.project_irt_default_sigma": "默认值: 3.75",
+  "propro.project_irt_default_spacing": "默认值: 0.01",
+  "propro.project_irt_default_mz": "默认值: 0.05",
+  "propro.project_irt_view_experiment": "查看实验",
 
   "propro.end": "end"
 };
