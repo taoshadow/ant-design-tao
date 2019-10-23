@@ -10,7 +10,7 @@
 
 # PROPRO-前端（ant-design-tao）
 
-**Repository：** [GitHub](https://github.com/tangtaoshadow/ant-design-tao)
+**Repository：** [Author: GitHub](https://github.com/tangtaoshadow/ant-design-tao) [Propro:Gitee](http://localhost:8001/)
 
 **Introduction：** 集成当前流行框架，实现前后端分离，强调用户体验的一个国际化的蛋白质组学分析平台。
 
@@ -185,12 +185,12 @@ This component provides a responsive interface for displaying arrays or JSON in 
 
 **创建**：`2019-8-3 14:40:56`
 
-**修改**：`2019-9-22 16:29:02`
+**修改**：`2019-10-23 10:48:03`
 
 ```bash
 tyarn global add umi
 tyarn install
-npm run tao
+npm run propro
 ```
 
 

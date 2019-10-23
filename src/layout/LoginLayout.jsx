@@ -56,14 +56,6 @@ addLocaleData([...locale_en, ...locale_zh]);
 /***********  自定义日志配置   ***************/
 /***********  自定义日志配置   ***************/
 
-// 正常模式
-let consolelog = function() {
-  let len = arguments.length;
-  for (let i = 0; i < len; i++) {
-    console.log(arguments[i]);
-  }
-};
-
 // 开发模式
 let dev_consolelog = function() {
   let len = arguments.length;

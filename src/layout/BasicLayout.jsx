@@ -2,6 +2,7 @@
 // 存放控制台界面的布局
 
 import {
+  ConfigProvider,
   Layout,
   Menu,
   Icon,
