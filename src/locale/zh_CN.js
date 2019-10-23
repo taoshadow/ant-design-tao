@@ -14,7 +14,7 @@
  * @Copyright           西湖大学 propro Tangtao
  * @GitHub              https://github.com/tangtaoshadow
  * @CreateTime          2019-7-12 19:18:52
- * @UpdateTime          2019-9-22 17:11:21
+ * @UpdateTime          2019-10-23 12:47:33
  * @Archive             国际化 中文 Chinese
  *
  */
@@ -721,6 +721,7 @@ let language_ch = {
 
   // project_modify
   "propro.project_modify_title": "更新项目",
+  "propro.project_modify_update": "更新",
 
   "propro.end": "end"
 };

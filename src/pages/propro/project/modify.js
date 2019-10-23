@@ -352,8 +352,16 @@ class Project_modify extends React.Component {
   };
 
   change_project_modify_update_data = () => {
-    //
-    console.log(this.props.project_modify_update_data);
+    // 暂时只处理显示成功结果
+    let { language } = this.props;
+    setTimeout(() => {
+      message.success(
+        Languages[language]["propro.project_modify_update"] +
+          " : " +
+          Languages[language]["propro.prompt_success"],
+        4
+      );
+    }, 300);
   };
 
   /***************** operation  ****************/
@@ -429,14 +437,12 @@ class Project_modify extends React.Component {
   };
 
   set_project_data_experiment_type_select = e => {
-    console.log(e);
     this.setState({
       project_data_experiment_type_select: e
     });
   };
 
   set_project_data_default_irt_library_select = e => {
-    console.log(e);
     this.setState({
       project_data_default_irt_library_select: e
     });
@@ -479,8 +485,21 @@ class Project_modify extends React.Component {
     obj.type = project_data_experiment_type_select;
     obj.description = project_data_description;
 
-    console.log(obj);
-    this.props.update_project_modify_data(obj);
+    let { language } = this.props;
+
+    setTimeout(() => {
+      message.loading(
+        Languages[language]["propro.project_modify_update"] +
+          " : " +
+          Languages[language]["propro.prompt_running"],
+        2
+      );
+    }, 300);
+
+    // 执行更新
+    setTimeout(() => {
+      this.props.update_project_modify_data(obj);
+    }, 500);
 
     //
   };
@@ -492,6 +511,7 @@ class Project_modify extends React.Component {
       value: 0
     });
 
+    let { language } = this.props;
     // 检查状态
     if (0 == this.props.project_modify_update_status) {
       // 数据获取成功
@@ -851,7 +871,7 @@ class Project_modify extends React.Component {
                     // 暂时还未实现
                     onClick={this.update_project_data}
                   >
-                    更新
+                    <FormattedHTMLMessage id="propro.project_modify_update" />
                   </button>
                 </div>
               </Descriptions.Item>

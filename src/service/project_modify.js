@@ -49,10 +49,20 @@ export function get_project_modify(data = "") {
 export function update_project_modify_data(data = "") {
   // 读取最新的 token
   let token = tao.get_token();
-  let { id = "", type = "" } = data;
+  let {
+    id = "",
+    type = "",
+    default_irt_library_select = "",
+    default_library_select = "",
+    description = ""
+  } = data;
   console.log("data", data);
   id += "";
   type += "";
+
+  default_irt_library_select += "";
+  default_library_select += "";
+  description += "";
 
   if (
     -1 == token ||
@@ -70,10 +80,25 @@ export function update_project_modify_data(data = "") {
   body_data += "id" + "=" + id + "&";
   body_data += "type" + "=" + type + "&";
 
-  console.log(body_data);
-  return "error";
+  let str = default_irt_library_select;
+  if (3 < str.length) {
+    body_data += "iRtLibraryId" + "=" + str + "&";
+  }
+
+  str = default_library_select;
+  if (3 < str.length) {
+    body_data += "libraryId" + "=" + str + "&";
+  }
+
+  str = description;
+  if (0 < str.length) {
+    body_data += "description" + "=" + str + "&";
+  }
+
+  // console.log(body_data);
+  // return "error";
   // 请求 实验数据 列表
-  return request("/propro_server/project/edit", {
+  return request("/propro_server/project/update", {
     headers: {
       // 'content-type': 'application/json',
       // "X-Requested-With": "XMLHttpRequest",
