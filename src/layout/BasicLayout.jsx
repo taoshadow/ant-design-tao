@@ -65,13 +65,6 @@ addLocaleData([...locale_en, ...locale_zh]);
 
 /***********  国际化配置 end  ***************/
 
-let consolelog = function() {
-  let len = arguments.length;
-  for (let i = 0; i < len; i++) {
-    console.log(arguments[i]);
-  }
-};
-
 // 开发模式
 let dev_consolelog = function() {
   let len = arguments.length;
@@ -150,24 +143,6 @@ const basicDispatchToProps = dispatch => {
   basicDispatchToProps
 )
 export default class BasicLayout extends React.Component {
-  // state = {
-  //   theme: 'dark',
-  //   current: '1',
-  // };
-
-  // changeTheme = value => {
-  //   this.setState({
-  //     theme: value ? 'dark' : 'light',
-  //   });
-  // };
-
-  // handleClick = e => {
-  //   console.log('click ', e);
-  //   this.setState({
-  //     current: e.key,
-  //   });
-  // };
-
   constructor(props) {
     super(props);
     dev_consolelog("Initializing ...");
