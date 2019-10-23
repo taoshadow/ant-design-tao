@@ -45,15 +45,22 @@ export function get_project_modify(data = "") {
   });
 }
 
-// 更新
+// 唐涛 更新 at 2019-10-23 10:01:58
 export function update_project_modify_data(data = "") {
   // 读取最新的 token
   let token = tao.get_token();
-  let { id = "" } = data;
+  let { id = "", type = "" } = data;
 
   id += "";
+  type += "";
 
-  if (-1 == token || "" == id || 3 > id.length) {
+  if (
+    -1 == token ||
+    "" == id ||
+    3 > id.length ||
+    "" == type ||
+    1 > type.length
+  ) {
     // 不存在 token
     return "error";
   }
@@ -61,6 +68,7 @@ export function update_project_modify_data(data = "") {
   let body_data = "";
 
   body_data += "id" + "=" + id + "&";
+  body_data += "type" + "=" + type + "&";
 
   // 请求 实验数据 列表
   return request("/propro_server/project/edit", {

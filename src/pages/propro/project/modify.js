@@ -8,7 +8,7 @@
  * @GitHub              https://github.com/tangtaoshadow
  * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
  * @CreateTime          2019-10-18 13:30:58
- * @UpdateTime          2019-10-21 21:52:15
+ * @UpdateTime          2019-10-23 09:53:50
  * @Archive             项目数据列表
  */
 
@@ -103,12 +103,18 @@ const project_state_to_props = state => {
   let {
     project_modify_status = -1,
     project_modify_time = 0,
-    project_modify_data = {}
+    project_modify_data = {},
+    project_modify_update_status = -1,
+    project_modify_update_time = 0,
+    project_modify_update_data = {}
   } = state["project_modify"];
 
   (obj.project_modify_status = project_modify_status),
     (obj.project_modify_time = project_modify_time),
-    (obj.project_modify_data = project_modify_data);
+    (obj.project_modify_data = project_modify_data),
+    (obj.project_modify_update_status = project_modify_update_status),
+    (obj.project_modify_update_time = project_modify_update_time),
+    (obj.project_modify_update_data = project_modify_update_data);
 
   return obj;
 };
@@ -345,6 +351,11 @@ class Project_modify extends React.Component {
     return 0;
   };
 
+  change_project_modify_update_data = () => {
+    //
+    console.log(this.props.project_modify_update_data);
+  };
+
   /***************** operation  ****************/
   /***************** operation  ****************/
   /***************** operation  ****************/
@@ -460,10 +471,48 @@ class Project_modify extends React.Component {
     obj.project_data_experiment_type_select = project_data_experiment_type_select;
     obj.project_data_description = project_data_description;
 
-    this.props.update_project_modify_data(obj);
+    console.log(obj);
+    // this.props.update_project_modify_data(obj);
 
     //
   };
+
+  handle_project_modify_update = () => {
+    // 时间戳设置为 0
+    this.props.set_state_newvalue({
+      target: "project_modify_update_time",
+      value: 0
+    });
+
+    // 检查状态
+    if (0 == this.props.project_modify_update_status) {
+      // 数据获取成功
+      setTimeout(() => {
+        // 调用 添加更新数据函数
+        this.change_project_modify_update_data();
+      }, 200);
+    } else {
+      // 数据获取失败
+      // 1-弹出警告
+      setTimeout(() => {
+        Modal.error({
+          title: "False",
+          content: Languages[this.props.language]["propro.network_error"],
+          okText: Languages[this.props.language]["propro.user_modal_know"]
+        });
+      }, 40);
+      tao.my_console(
+        "error",
+        "@Author:tangtao; 更新数据失败,请重新尝试; ",
+        "初步诊断:未能成功连接到 propro-server 的服务器或者未能成功解析返回的数据"
+      );
+
+      return -1;
+    }
+
+    return 0;
+  };
+
   /**************************** render ****************************/
   /**************************** render ****************************/
   /**************************** render ****************************/
@@ -474,6 +523,11 @@ class Project_modify extends React.Component {
     if (10000 < this.props.project_modify_time) {
       // 资源有更新
       this.handle_project_modify();
+    }
+    // 用户主动更新
+    if (10000 < this.props.project_modify_update_time) {
+      // 资源有更新
+      this.handle_project_modify_update();
     }
 
     if (0 != this.state.project_modify_status) {

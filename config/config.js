@@ -40,7 +40,6 @@ export default {
           path: "/home",
           component: "propro/dashboard/home"
         },
-
         {
           path: "/login",
           component: "propro/login"
@@ -215,18 +214,6 @@ export default {
           // 查看 项目列表 文件管理 * 项目名称
           path: "/project/filemanager/*",
           component: "propro/project/filemanager"
-        },
-        {
-          path: "/test",
-          component: "propro/test"
-        },
-        {
-          path: "/test1",
-          component: "propro/test1"
-        },
-        {
-          path: "/puzzlecards",
-          component: "propro/puzzlecards"
         }
       ]
     }
