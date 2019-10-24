@@ -729,6 +729,8 @@ let language_ch = {
   "propro.project_irt_default_spacing": "默认值: 0.01",
   "propro.project_irt_default_mz": "默认值: 0.05",
   "propro.project_irt_view_experiment": "查看实验",
+  "propro.project_irt_experiment_detail": "实验详情",
+  "propro.project_irt_calculate": "计算irt",
 
   "propro.end": "end"
 };

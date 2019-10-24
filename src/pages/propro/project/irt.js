@@ -523,6 +523,10 @@ class Project_irt extends React.Component {
     });
   };
 
+  project_irt_execute_calculate = () => {
+    //
+  };
+
   /**************************** render ****************************/
   /**************************** render ****************************/
   /**************************** render ****************************/
@@ -905,7 +909,7 @@ class Project_irt extends React.Component {
                       letterSpacing: "1px"
                     }}
                     // 暂时还未实现
-                    onClick={this.update_project_data}
+                    onClick={this.project_irt_execute_calculate}
                   >
                     <FormattedHTMLMessage id="propro.project_irt_calculate" />
                   </button>

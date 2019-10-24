@@ -1542,7 +1542,7 @@ class Experiment_list extends React.Component {
             }
             placement="left"
             closable={true}
-            width={400}
+            width={600}
             style={{
               wordWrap: "break-word",
               wordBreak: "break-all",
