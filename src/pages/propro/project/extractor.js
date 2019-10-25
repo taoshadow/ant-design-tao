@@ -1,5 +1,5 @@
-// src/pages/propro/project/irt.js
-// irt 项目 列表
+// src/pages/propro/project/extractor.js
+// extractor 项目 批量执行完整流程
 
 /***
  * @Author              TangTao https://www.promiselee.cn/tao
@@ -7,7 +7,7 @@
  * @Copyright           西湖大学 propro Tangtao
  * @GitHub              https://github.com/tangtaoshadow
  * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
- * @CreateTime          2019-10-23 13:06:03
+ * @CreateTime          2019-10-25 10:16:38
  * @UpdateTime          2019-10-23 16:50:33
  * @Archive             项目数据列表
  */
@@ -103,20 +103,20 @@ const project_state_to_props = state => {
   }
 
   let {
-    project_irt_status = -1,
-    project_irt_time = 0,
-    project_irt_data = {},
-    project_irt_calculate_time = 0,
-    project_irt_calculate_status = 0,
-    project_irt_calculate_data = {}
-  } = state["project_irt"];
+    project_extractor_status = -1,
+    project_extractor_time = 0,
+    project_extractor_data = {},
+    project_extractor_calculate_time = 0,
+    project_extractor_calculate_status = 0,
+    project_extractor_calculate_data = {}
+  } = state["project_extractor"];
 
-  (obj.project_irt_calculate_time = project_irt_calculate_time),
-    (obj.project_irt_calculate_status = project_irt_calculate_status),
-    (obj.project_irt_calculate_data = project_irt_calculate_data),
-    (obj.project_irt_status = project_irt_status),
-    (obj.project_irt_time = project_irt_time),
-    (obj.project_irt_data = project_irt_data);
+  (obj.project_extractor_calculate_time = project_extractor_calculate_time),
+    (obj.project_extractor_calculate_status = project_extractor_calculate_status),
+    (obj.project_extractor_calculate_data = project_extractor_calculate_data),
+    (obj.project_extractor_status = project_extractor_status),
+    (obj.project_extractor_time = project_extractor_time),
+    (obj.project_extractor_data = project_extractor_data);
 
   return obj;
 };
@@ -124,16 +124,16 @@ const project_state_to_props = state => {
 const project_dispatch_to_props = dispatch => {
   return {
     // 更新触发器
-    get_project_irt: (data = null) => {
+    get_project_extractor: (data = null) => {
       const action = {
-        type: "project_irt/get_project_irt",
+        type: "project_extractor/get_project_extractor",
         payload: data
       };
       dispatch(action);
     },
-    project_irt_calculate: data => {
+    project_extractor_calculate: data => {
       const action = {
-        type: "project_irt/project_irt_calculate",
+        type: "project_extractor/project_extractor_calculate",
         payload: data
       };
       dispatch(action);
@@ -141,7 +141,7 @@ const project_dispatch_to_props = dispatch => {
 
     set_state_newvalue: data => {
       const action = {
-        type: "project_irt/set_state_newvalue",
+        type: "project_extractor/set_state_newvalue",
         payload: data
       };
       dispatch(action);
@@ -155,37 +155,37 @@ const project_dispatch_to_props = dispatch => {
   project_state_to_props,
   project_dispatch_to_props
 )
-class Project_irt extends React.Component {
+class Project_extractor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       //   查询到的标准库数据
-      project_irt_data: [],
-      project_irt_id: null,
+      project_extractor_data: [],
+      project_extractor_id: null,
       // 默认没有数据 状态为 -1 这个变量 暂时用不着 但是后续扩展会用到
-      project_irt_status: -1,
+      project_extractor_status: -1,
       // 自动跳转标记
-      project_irt_jump_status: -1,
+      project_extractor_jump_status: -1,
       // 请求失败再次发起请求的尝试次数
-      project_irt_false_time: 5,
+      project_extractor_false_time: 5,
       search_text: "",
       //   前端格式化后的 project 数据
-      project_irt_project_data: null,
-      project_irt_exps_arr: null,
+      project_extractor_project_data: null,
+      project_extractor_exps_arr: null,
       // modal 配置
       modal_visible: false,
       drawer_visible: false,
-      project_irt_default_irt_library_select: "",
+      project_extractor_default_extractor_library_select: "",
       project_data_sigma: 3.75,
       project_data_spacing: 0.01,
       project_data_mz: 0.05,
       drawer_data: null
     };
 
-    // 查询 project_irt 列表
+    // 查询 project_extractor 列表
     setTimeout(() => {
       // 默认获取全部
-      this.query_project_irt();
+      this.query_project_extractor();
     }, 100);
 
     // 配置 message
@@ -202,12 +202,12 @@ class Project_irt extends React.Component {
     });
   }
 
-  // 查询 project_irt 列表
-  query_project_irt = () => {
+  // 查询 project_extractor 列表
+  query_project_extractor = () => {
     let url = this.props.history.location.pathname;
     let obj = {};
     /****************************/
-    let find_str = "/irt/";
+    let find_str = "/extractor/";
     let index = url.lastIndexOf(find_str);
     let id = url.substring(index + find_str.length);
     if (3 < index) {
@@ -217,13 +217,13 @@ class Project_irt extends React.Component {
 
     setTimeout(() => {
       this.setState({
-        project_irt_id: id
+        project_extractor_id: id
       });
     }, 40);
 
     setTimeout(() => {
       //   开始查询
-      this.props.get_project_irt(obj);
+      this.props.get_project_extractor(obj);
     }, 100);
   };
 
@@ -231,26 +231,26 @@ class Project_irt extends React.Component {
     setTimeout(() => {
       // 显示加载界面
       this.setState({
-        project_irt_status: -1
+        project_extractor_status: -1
       });
       // 立即重新发起查询
-      this.query_project_irt();
+      this.query_project_extractor();
     }, 800);
   };
 
-  handle_project_irt = () => {
+  handle_project_extractor = () => {
     // 时间戳设置为 0
     this.props.set_state_newvalue({
-      target: "project_irt_time",
+      target: "project_extractor_time",
       value: 0
     });
 
     // 检查状态
-    if (0 == this.props.project_irt_status) {
+    if (0 == this.props.project_extractor_status) {
       // 数据获取成功
       setTimeout(() => {
         // 调用 添加更新数据函数
-        this.change_project_irt_data();
+        this.change_project_extractor_data();
       }, 200);
     } else {
       // 数据获取失败
@@ -263,9 +263,9 @@ class Project_irt extends React.Component {
         });
       }, 40);
       // 过一段时间 尝试再次连接服务器 这个时间要稍微长一点 用户体验会比较好
-      let { project_irt_false_time } = this.state;
+      let { project_extractor_false_time } = this.state;
       // 2-判断是否需要再次发起请求
-      if (0 >= project_irt_false_time) {
+      if (0 >= project_extractor_false_time) {
         tao.my_console(
           "error",
           "@Author:tangtao; 系统已终止运行,请重新刷新页面; ",
@@ -278,7 +278,7 @@ class Project_irt extends React.Component {
       // 写入新的请求失败参数
       setTimeout(() => {
         this.setState({
-          project_irt_false_time: project_irt_false_time--
+          project_extractor_false_time: project_extractor_false_time--
         });
       }, 120);
 
@@ -288,8 +288,8 @@ class Project_irt extends React.Component {
     return 0;
   };
 
-  change_project_irt_data = () => {
-    console.log(this.props.project_irt_data);
+  change_project_extractor_data = () => {
+    console.log(this.props.project_extractor_data);
 
     /*
     exps: (6) [{…}, {…}, {…}, {…}, {…}, {…}]
@@ -313,15 +313,15 @@ class Project_irt extends React.Component {
     let {
       project: project_data = {},
       exps = [],
-      iRtLibraries: irt_libraries = []
-    } = this.props.project_irt_data;
+      iRtLibraries: extractor_libraries = []
+    } = this.props.project_extractor_data;
 
     let {
       createDate: create_date = 0,
       description = "",
       doPublic: do_public = false,
-      iRtLibraryId: irt_library_id = "",
-      iRtLibraryName: irt_library_name = "",
+      iRtLibraryId: extractor_library_id = "",
+      iRtLibraryName: extractor_library_name = "",
       id = "",
       labels = [],
       lastModifiedDate: last_modified_date = 0,
@@ -337,8 +337,8 @@ class Project_irt extends React.Component {
     (obj.create_date = tao.format_time(create_date)),
       (obj.description = description),
       (obj.do_public = do_public),
-      (obj.irt_library_id = irt_library_id),
-      (obj.irt_library_name = irt_library_name),
+      (obj.extractor_library_id = extractor_library_id),
+      (obj.extractor_library_name = extractor_library_name),
       (obj.id = id),
       (obj.labels = labels),
       (obj.last_modified_date = tao.format_time(last_modified_date)),
@@ -348,21 +348,21 @@ class Project_irt extends React.Component {
       (obj.owner_name = owner_name),
       (obj.type = type);
 
-    let { length: len0 } = irt_libraries;
+    let { length: len0 } = extractor_libraries;
 
-    let default_irt_librarys_arr = null;
+    let default_extractor_librarys_arr = null;
     if (0 < len0) {
       //
-      default_irt_librarys_arr = new Array(len0);
+      default_extractor_librarys_arr = new Array(len0);
       for (let i = 0; i < len0; i++) {
-        let str = irt_libraries[i].name + " " + irt_libraries[i].id;
-        default_irt_librarys_arr[i] = (
-          <Option key={"default_irt_librarys_arr_" + i} value={str}>
+        let str = extractor_libraries[i].name + " " + extractor_libraries[i].id;
+        default_extractor_librarys_arr[i] = (
+          <Option key={"default_extractor_librarys_arr_" + i} value={str}>
             <span style={{ fontWeight: "500" }}>
-              {i + 1} : {irt_libraries[i].name}&nbsp;
+              {i + 1} : {extractor_libraries[i].name}&nbsp;
             </span>
             <span className={styles.font_green_color}>
-              {irt_libraries[i].id}
+              {extractor_libraries[i].id}
             </span>
           </Option>
         );
@@ -387,10 +387,10 @@ class Project_irt extends React.Component {
             <Tooltip
               placement="top"
               title={
-                <FormattedHTMLMessage id="propro.project_irt_view_experiment" />
+                <FormattedHTMLMessage id="propro.project_extractor_view_experiment" />
               }
               onClick={() => {
-                this.project_irt_view_experiment_by_index(i);
+                this.project_extractor_view_experiment_by_index(i);
               }}
             >
               <span
@@ -415,15 +415,15 @@ class Project_irt extends React.Component {
 
     this.setState({
       // 标记 成功
-      project_irt_false_time: 5,
-      project_irt_project_data: obj,
-      project_irt_query_time: tao.current_format_time(),
-      project_irt_exps_arr: exps_arr,
-      project_irt_default_irt_librarys_arr: default_irt_librarys_arr,
-      project_irt_default_irt_library_select:
-        irt_library_name + " " + irt_library_id,
+      project_extractor_false_time: 5,
+      project_extractor_project_data: obj,
+      project_extractor_query_time: tao.current_format_time(),
+      project_extractor_exps_arr: exps_arr,
+      project_extractor_default_extractor_librarys_arr: default_extractor_librarys_arr,
+      project_extractor_default_extractor_library_select:
+        extractor_library_name + " " + extractor_library_id,
       //   // 标记数据为可用的状态
-      project_irt_status: 0
+      project_extractor_status: 0
     });
 
     return 0;
@@ -452,10 +452,10 @@ class Project_irt extends React.Component {
   /*************  handle  *********************/
   /*************  handle  *********************/
 
-  set_project_irt_default_irt_library_select = e => {
+  set_project_extractor_default_extractor_library_select = e => {
     //
     this.setState({
-      project_irt_default_irt_library_select: e
+      project_extractor_default_extractor_library_select: e
     });
   };
 
@@ -484,8 +484,8 @@ class Project_irt extends React.Component {
     });
   };
 
-  project_irt_view_experiment_by_index = index => {
-    let { exps = [] } = this.props.project_irt_data;
+  project_extractor_view_experiment_by_index = index => {
+    let { exps = [] } = this.props.project_extractor_data;
 
     let view_data = null;
     try {
@@ -521,12 +521,12 @@ class Project_irt extends React.Component {
     });
   };
 
-  // 开始计算 irt
-  project_irt_calculate = () => {
+  // 开始计算 extractor
+  project_extractor_calculate = () => {
     //
     let {
-      project_irt_id = null,
-      project_irt_default_irt_library_select = "",
+      project_extractor_id = null,
+      project_extractor_default_extractor_library_select = "",
       project_data_sigma = 3.75,
       project_data_spacing = 0.01,
       project_data_mz = 0.05
@@ -534,30 +534,30 @@ class Project_irt extends React.Component {
     //
     let obj = {};
     obj.mz = project_data_mz;
-    obj.id = project_irt_id;
+    obj.id = project_extractor_id;
     obj.sigma = project_data_sigma;
     obj.spacing = project_data_spacing;
 
-    if ("" != project_irt_default_irt_library_select) {
+    if ("" != project_extractor_default_extractor_library_select) {
       try {
-        obj.irt_library_id = project_irt_default_irt_library_select.split(
+        obj.extractor_library_id = project_extractor_default_extractor_library_select.split(
           " "
         )[1];
       } catch (e) {
-        obj.irt_library_id = null;
+        obj.extractor_library_id = null;
         tao.my_console(
           "error",
-          "@Author:tangtao; irt校准库参数错误; ",
-          "初步诊断:请检查代码,irt由名称和空格和id拼接组成"
+          "@Author:tangtao; extractor校准库参数错误; ",
+          "初步诊断:请检查代码,extractor由名称和空格和id拼接组成"
         );
       }
     } else {
       tao.my_console(
         "warn",
-        "@Author:tangtao; 未传入irt校准库; ",
-        "初步诊断:irt库有错误或者没有选中irt校准库"
+        "@Author:tangtao; 未传入extractor校准库; ",
+        "初步诊断:extractor库有错误或者没有选中extractor校准库"
       );
-      obj.irt_library_id = null;
+      obj.extractor_library_id = null;
     }
 
     let { language } = this.props;
@@ -565,7 +565,7 @@ class Project_irt extends React.Component {
     // 弹出提示
     setTimeout(() => {
       message.loading(
-        Languages[language]["propro.project_irt_calculate"] +
+        Languages[language]["propro.project_extractor_calculate"] +
           " : " +
           Languages[language]["propro.prompt_running"],
         2
@@ -574,43 +574,43 @@ class Project_irt extends React.Component {
 
     // 执行更新
     setTimeout(() => {
-      this.props.project_irt_calculate(obj);
+      this.props.project_extractor_calculate(obj);
     }, 500);
 
     console.log(obj);
   };
 
-  handle_project_irt_calculate = () => {
+  handle_project_extractor_calculate = () => {
     //
 
     // 时间戳设置为 0
     this.props.set_state_newvalue({
-      target: "project_irt_calculate_time",
+      target: "project_extractor_calculate_time",
       value: 0
     });
 
     const { language } = this.props;
 
     // 检查状态
-    if (0 == this.props.project_irt_status) {
-      // irt 计算成功 提示可以去任务列表
+    if (0 == this.props.project_extractor_status) {
+      // extractor 计算成功 提示可以去任务列表
       setTimeout(() => {
         message.success(
-          Languages[language]["propro.project_irt_calculate"] +
+          Languages[language]["propro.project_extractor_calculate"] +
             " : " +
             Languages[language]["propro.prompt_success"],
           4
         );
       }, 300);
       // 继续往下跳出条件 执行后续逻辑
-    } else if (-3 == this.props.project_irt_status) {
+    } else if (-3 == this.props.project_extractor_status) {
       // 该项目下对应的实验为空
       setTimeout(() => {
         message.error(
-          Languages[language]["propro.project_irt_calculate"] +
+          Languages[language]["propro.project_extractor_calculate"] +
             " : " +
             Languages[language][
-              "propro.project_irt_calculate_experiment_is_null"
+              "propro.project_extractor_calculate_experiment_is_null"
             ],
           4
         );
@@ -619,7 +619,7 @@ class Project_irt extends React.Component {
     } else {
       // 计算失败
       message.error(
-        Languages[language]["propro.project_irt_calculate"] +
+        Languages[language]["propro.project_extractor_calculate"] +
           " : " +
           Languages[language]["propro.prompt_failed"],
         4
@@ -631,19 +631,19 @@ class Project_irt extends React.Component {
     setTimeout(() => {
       this.setState({
         // 允许跳转
-        project_irt_jump_status: 0
+        project_extractor_jump_status: 0
       });
     }, 80);
     // 创建定时器 回调跳转
     setTimeout(() => {
-      this.project_irt_jump_to_task_list();
+      this.project_extractor_jump_to_task_list();
     }, 4000);
 
     // 弹出即将跳转提示
 
     setTimeout(() => {
       const { language } = this.props;
-      let [key] = ["notification_project_irt_0"];
+      let [key] = ["notification_project_extractor_0"];
       let btn = (
         <div>
           <button
@@ -660,14 +660,14 @@ class Project_irt extends React.Component {
             }}
             // 执行立即跳转
             onClick={() => {
-              this.project_irt_jump_to_task_list(0);
+              this.project_extractor_jump_to_task_list(0);
               // 延迟关闭 通知框
               setTimeout(() => {
                 notification.close(key);
               }, 300);
             }}
           >
-            {Languages[language]["propro.project_irt_jump_immediately"]}
+            {Languages[language]["propro.project_extractor_jump_immediately"]}
           </button>
           <button
             type="button"
@@ -683,14 +683,14 @@ class Project_irt extends React.Component {
             }}
             // 暂时还未实现
             onClick={() => {
-              this.setState({ project_irt_jump_status: -1 });
+              this.setState({ project_extractor_jump_status: -1 });
               // 延迟关闭 通知框
               setTimeout(() => {
                 notification.close(key);
               }, 300);
             }}
           >
-            {Languages[language]["propro.project_irt_jump_cancel"]}
+            {Languages[language]["propro.project_extractor_jump_cancel"]}
           </button>
         </div>
       );
@@ -698,8 +698,9 @@ class Project_irt extends React.Component {
       notification.info({
         message: Languages[language]["propro.notification_info_title"],
         description:
-          Languages[language]["propro.project_irt_prompt_jump_task_list"] +
-          " ...",
+          Languages[language][
+            "propro.project_extractor_prompt_jump_task_list"
+          ] + " ...",
         btn,
         key,
         duration: 4
@@ -709,14 +710,14 @@ class Project_irt extends React.Component {
     return 0;
   };
 
-  project_irt_jump_to_task_list = (status = -1) => {
-    let { project_irt_jump_status } = this.state;
-    if (0 == status || 0 == project_irt_jump_status) {
+  project_extractor_jump_to_task_list = (status = -1) => {
+    let { project_extractor_jump_status } = this.state;
+    if (0 == status || 0 == project_extractor_jump_status) {
       // 立即跳转
       setTimeout(() => {
         // 立即锁住 不允许再次发起跳转
         this.setState({
-          project_irt_jump_status: -1
+          project_extractor_jump_status: -1
         });
       }, 30);
       // 延迟跳转
@@ -735,21 +736,21 @@ class Project_irt extends React.Component {
   /**************************** render ****************************/
 
   render() {
-    // 监控 project_irt 数据变化
-    if (10000 < this.props.project_irt_time) {
+    // 监控 project_extractor 数据变化
+    if (10000 < this.props.project_extractor_time) {
       // 资源有更新
-      this.handle_project_irt();
+      this.handle_project_extractor();
     }
 
-    if (10000 < this.props.project_irt_calculate_time) {
-      this.handle_project_irt_calculate();
+    if (10000 < this.props.project_extractor_calculate_time) {
+      this.handle_project_extractor_calculate();
     }
 
-    if (10000 < this.props.project_irt_scanning_update_time) {
-      this.handle_project_irt_scanning_update();
+    if (10000 < this.props.project_extractor_scanning_update_time) {
+      this.handle_project_extractor_scanning_update();
     }
 
-    if (0 != this.state.project_irt_status) {
+    if (0 != this.state.project_extractor_status) {
       return (
         <Fragment>
           <Row>
@@ -770,7 +771,7 @@ class Project_irt extends React.Component {
     let {
       drawer_data,
       drawer_visible,
-      project_irt_project_data: project_data = {}
+      project_extractor_project_data: project_data = {}
     } = this.state;
 
     return (
@@ -797,7 +798,7 @@ class Project_irt extends React.Component {
               />
             </Link>
           </Tooltip>
-          <FormattedHTMLMessage id="propro.project_irt_title" />
+          <FormattedHTMLMessage id="propro.project_extractor_title" />
         </div>
 
         {/* 提示用户 删除 警告信息 */}
@@ -808,21 +809,21 @@ class Project_irt extends React.Component {
             </b>
           }
           visible={this.state.modal_visible}
-          onOk={this.delete_project_irt_by_id_confirm}
-          onCancel={this.delete_project_irt_by_id_cancel}
+          onOk={this.delete_project_extractor_by_id_confirm}
+          onCancel={this.delete_project_extractor_by_id_cancel}
           maskClosable={true}
           okText={<FormattedHTMLMessage id="propro.modal_confirm" />}
           cancelText={<FormattedHTMLMessage id="propro.modal_cancel" />}
         >
           <div className={styles.font_red_color}>
-            <FormattedHTMLMessage id="propro.project_irt_delete_warning" />
+            <FormattedHTMLMessage id="propro.project_extractor_delete_warning" />
           </div>
         </Modal>
 
         {true == drawer_visible && (
           <Drawer
             title={
-              <FormattedHTMLMessage id="propro.project_irt_experiment_detail" />
+              <FormattedHTMLMessage id="propro.project_extractor_experiment_detail" />
             }
             placement="left"
             closable={true}
@@ -936,12 +937,12 @@ class Project_irt extends React.Component {
                 </div>
               </Descriptions.Item>
 
-              {/* 默认irt校准库 */}
+              {/* 默认extractor校准库 */}
               <Descriptions.Item
                 span={4}
                 label={
                   <span className={styles.font_second_color}>
-                    默认irt校准库
+                    默认extractor校准库
                   </span>
                 }
               >
@@ -955,15 +956,25 @@ class Project_irt extends React.Component {
                 >
                   <Select
                     style={{ width: 500 }}
-                    onChange={this.set_project_irt_default_irt_library_select}
+                    onChange={
+                      this
+                        .set_project_extractor_default_extractor_library_select
+                    }
                     optionFilterProp="children"
                     defaultValue={
-                      this.state.project_irt_default_irt_library_select
+                      this.state
+                        .project_extractor_default_extractor_library_select
                     }
-                    value={this.state.project_irt_default_irt_library_select}
+                    value={
+                      this.state
+                        .project_extractor_default_extractor_library_select
+                    }
                     maxTagCount={40}
                   >
-                    {this.state.project_irt_default_irt_librarys_arr}
+                    {
+                      this.state
+                        .project_extractor_default_extractor_librarys_arr
+                    }
                   </Select>
                 </div>
               </Descriptions.Item>
@@ -997,7 +1008,7 @@ class Project_irt extends React.Component {
                     }}
                   >
                     &nbsp;&nbsp;
-                    <FormattedHTMLMessage id="propro.project_irt_default_sigma" />
+                    <FormattedHTMLMessage id="propro.project_extractor_default_sigma" />
                   </span>
                 </div>
               </Descriptions.Item>
@@ -1031,7 +1042,7 @@ class Project_irt extends React.Component {
                     }}
                   >
                     &nbsp;&nbsp;
-                    <FormattedHTMLMessage id="propro.project_irt_default_spacing" />
+                    <FormattedHTMLMessage id="propro.project_extractor_default_spacing" />
                   </span>
                 </div>
               </Descriptions.Item>
@@ -1067,7 +1078,7 @@ class Project_irt extends React.Component {
                     }}
                   >
                     &nbsp;&nbsp;
-                    <FormattedHTMLMessage id="propro.project_irt_default_mz" />
+                    <FormattedHTMLMessage id="propro.project_extractor_default_mz" />
                   </span>
                 </div>
               </Descriptions.Item>
@@ -1084,7 +1095,7 @@ class Project_irt extends React.Component {
                   }}
                   className={styles.font_second_color}
                 >
-                  {this.state.project_irt_exps_arr}
+                  {this.state.project_extractor_exps_arr}
                 </div>
               </Descriptions.Item>
 
@@ -1111,9 +1122,9 @@ class Project_irt extends React.Component {
                       letterSpacing: "1px"
                     }}
                     // 暂时还未实现
-                    onClick={this.project_irt_calculate}
+                    onClick={this.project_extractor_calculate}
                   >
-                    <FormattedHTMLMessage id="propro.project_irt_calculate" />
+                    <FormattedHTMLMessage id="propro.project_extractor_calculate" />
                   </button>
                 </div>
               </Descriptions.Item>
@@ -1136,4 +1147,4 @@ class Project_irt extends React.Component {
   }
 }
 
-export default Project_irt;
+export default Project_extractor;

@@ -57,6 +57,7 @@ let language_ch = {
   // notification
   "propro.notification_operation_warn_title": "操作警示",
   "propro.notification_warn_title": "警告",
+  "propro.notification_info_title": "提示",
 
   // basicLayout
   // 个人中心下面的弹窗
@@ -731,6 +732,10 @@ let language_ch = {
   "propro.project_irt_view_experiment": "查看实验",
   "propro.project_irt_experiment_detail": "实验详情",
   "propro.project_irt_calculate": "计算irt",
+  "propro.project_irt_calculate_experiment_is_null": "该项目对应的实验列表为空",
+  "propro.project_irt_prompt_jump_task_list": "即将跳转到任务列表",
+  "propro.project_irt_jump_immediately": "立即跳转",
+  "propro.project_irt_jump_cancel": "撤销跳转",
 
   "propro.end": "end"
 };
