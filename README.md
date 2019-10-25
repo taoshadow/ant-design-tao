@@ -2,7 +2,7 @@
 
 # [西湖大学PROPRO蛋白质组学分析平台](http://www.proteomics.pro/)
 
-## [PROPRO官网](http://www.proteomics.pro/)  [PROPRO分析平台](http://www.propro.club/login/login)
+## [PROPRO官网](http://www.proteomics.pro/)  [PROPRO分析平台](http://www.propro.club)
 
 
 
