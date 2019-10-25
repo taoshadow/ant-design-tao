@@ -369,6 +369,10 @@ npm run propro
 
 
 
+
+
+
+
 # 项目列表：更新
 
 **作者**：[`唐涛`](https://www.promiselee.cn/tao)
@@ -379,6 +383,19 @@ npm run propro
 
 ![tangtao](http://cdn.promiselee.cn/share_static/files/propro/propro-project-modify-20191023125508.png)
 
+
+
+
+
+# 项目列表：计算irt
+
+**作者**：[`唐涛`](https://www.promiselee.cn/tao)
+
+**创建**：`2019-10-25 10:30:46`
+
+**修改**：`2019-10-25 10:32:17`
+
+![tangtao](http://cdn.promiselee.cn/share_static/files/propro/propro-project-irt-20191025102705.png)
 
 
 
@@ -455,6 +472,8 @@ And import style manually:
 ```
 import 'antd/dist/antd.css'; // or 'antd/dist/antd.less'
 ```
+
+
 
 
 
