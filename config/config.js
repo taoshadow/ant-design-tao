@@ -217,6 +217,11 @@ export default {
           // 项目 计算irt * id
           path: "/project/irt/*",
           component: "propro/project/irt"
+        },
+        {
+          // 项目 extractor * id
+          path: "/project/extractor/*",
+          component: "propro/project/extractor"
         }
       ]
     }

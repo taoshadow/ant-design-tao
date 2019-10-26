@@ -22,6 +22,8 @@ import { Fragment } from "react";
 
 import {
   Badge,
+  Collapse,
+  Checkbox,
   Layout,
   Menu,
   Icon,
@@ -49,6 +51,8 @@ import {
 } from "antd";
 const { Option } = Select;
 const { TextArea } = Input;
+const { Panel } = Collapse;
+const CheckboxGroup = Checkbox.Group;
 
 import Highlighter from "react-highlight-words";
 import ReactJson from "react-json-view";
@@ -162,6 +166,7 @@ class Project_extractor extends React.Component {
       //   查询到的标准库数据
       project_extractor_data: [],
       project_extractor_id: null,
+      project_extractor_library_id: null,
       // 默认没有数据 状态为 -1 这个变量 暂时用不着 但是后续扩展会用到
       project_extractor_status: -1,
       // 自动跳转标记
@@ -175,10 +180,22 @@ class Project_extractor extends React.Component {
       // modal 配置
       modal_visible: false,
       drawer_visible: false,
-      project_extractor_default_extractor_library_select: "",
+      project_extractor_default_irt_librarys_arr: null,
+      project_extractor_default_irt_library_select: "",
+      project_data_note: "",
       project_data_sigma: 3.75,
       project_data_spacing: 0.01,
       project_data_mz: 0.05,
+      project_data_rt: 0.05,
+      project_data_shape: 0.5,
+      project_data_shape_weight: 0.6,
+      project_data_fdr: 0.01,
+      project_extractor_query_time: 0,
+      project_extractor_exps_arr: [],
+      project_extractor_default_librarys_arr: [],
+      project_extractor_default_library_select: "",
+      project_extractor_score_types_arr: [],
+      project_extractor_score_types_arr_select: [],
       drawer_data: null
     };
 
@@ -291,15 +308,166 @@ class Project_extractor extends React.Component {
   change_project_extractor_data = () => {
     console.log(this.props.project_extractor_data);
 
+    /*
+      exps: (7) [{…}, {…}, {…}, {…}, {…}, {…}, {…}]
+      iRtLibraries: (77) [{…}, ]
+      iRtLibraryId: "5c6d2ec7dfdfdd2f947c6f39"
+      libraries: (20) [{…}, {…}, {…}, ]
+      libraryId: "5c9c2407dfdfdd356072c113"
+      project: {}
+      scoreTypes: 
+    */
+
+    let {
+      project: project_data = {},
+      exps = [],
+      libraries = [],
+      iRtLibraries: irt_libraries = [],
+      scoreTypes: score_types = []
+    } = this.props.project_extractor_data;
+
+    let {
+      createDate: create_date = 0,
+      description = "",
+      doPublic: do_public = false,
+      iRtLibraryId: irt_library_id = "",
+      iRtLibraryName: irt_library_name = "",
+      id = "",
+      labels = [],
+      lastModifiedDate: last_modified_date = 0,
+      libraryId: library_id = "",
+      libraryName: library_name = "",
+      name = "",
+      ownerName: owner_name = "",
+      type = ""
+    } = project_data;
+
+    // 写入 obj 格式化
+    let obj = {};
+    (obj.create_date = tao.format_time(create_date)),
+      (obj.description = description),
+      (obj.do_public = do_public),
+      (obj.irt_library_id = irt_library_id),
+      (obj.irt_library_name = irt_library_name),
+      (obj.id = id),
+      (obj.labels = labels),
+      (obj.last_modified_date = tao.format_time(last_modified_date)),
+      (obj.library_id = library_id),
+      (obj.library_name = library_name),
+      (obj.name = name),
+      (obj.owner_name = owner_name),
+      (obj.type = type);
+
+    let { length: len0 } = irt_libraries;
+    let default_extractor_irt_librarys_arr = null;
+
+    if (0 < len0) {
+      //
+      default_extractor_irt_librarys_arr = new Array(len0);
+      for (let i = 0; i < len0; i++) {
+        let str = irt_libraries[i].name + " " + irt_libraries[i].id;
+        default_extractor_irt_librarys_arr[i] = (
+          <Option key={"default_extractor_irt_librarys_arr_" + i} value={str}>
+            <span style={{ fontWeight: "500" }}>
+              {i + 1} : {irt_libraries[i].name}&nbsp;
+            </span>
+            <span className={styles.font_green_color}>
+              {irt_libraries[i].id}
+            </span>
+          </Option>
+        );
+      }
+    }
+
+    // 遍历实验数据
+
+    let { length: len1 } = exps;
+    let [exps_arr] = [null];
+    if (0 < len1) {
+      exps_arr = new Array(len1);
+      for (let i = 0; i < len1; i++) {
+        exps_arr[i] = (
+          <div
+            key={"exps_arr_" + i}
+            style={{
+              padding: "5px 5px",
+              float: "left"
+            }}
+          >
+            <Tooltip
+              placement="top"
+              title={
+                <FormattedHTMLMessage id="propro.project_irt_view_experiment" />
+              }
+              onClick={() => {
+                this.project_extractor_view_experiment_by_index(i);
+              }}
+            >
+              <span
+                className={
+                  "badge " +
+                  styles.font_white_color +
+                  " " +
+                  styles.bg_green_color
+                }
+                style={{
+                  padding: "5px 10px",
+                  cursor: "pointer"
+                }}
+              >
+                {i + 1}&nbsp;:&nbsp;{exps[i].name}
+              </span>
+            </Tooltip>
+          </div>
+        );
+      }
+    }
+
+    // 遍历选择特征打分算法 array
+    let { length: len2 } = score_types;
+    let score_types_arr = null;
+    if (0 < len2) {
+      //
+      score_types_arr = score_types;
+    }
+
+    let { length: len3 } = libraries;
+
+    let default_librarys_arr = null;
+    if (0 < len3) {
+      //
+      default_librarys_arr = new Array(len3);
+      for (let i = 0; i < len3; i++) {
+        let str = libraries[i].name + " " + libraries[i].id;
+        default_librarys_arr[i] = (
+          <Option
+            key={"project_extractor_default_librarys_arr_" + i}
+            value={str}
+          >
+            <span style={{ fontWeight: "500" }}>
+              {i + 1} : {libraries[i].name}&nbsp;
+            </span>
+            <span className={styles.font_green_color}>{libraries[i].id}</span>
+          </Option>
+        );
+      }
+    }
+
     this.setState({
       // 标记 成功
       project_extractor_false_time: 5,
-      //   project_extractor_project_data: obj,
-      //   project_extractor_query_time: tao.current_format_time(),
-      //   project_extractor_exps_arr: exps_arr,
-      //   project_extractor_default_extractor_librarys_arr: default_extractor_librarys_arr,
-      //   project_extractor_default_extractor_library_select:
-      //     extractor_library_name + " " + extractor_library_id,
+      project_extractor_library_id: library_id,
+      project_extractor_id: id,
+      project_extractor_project_data: obj,
+      project_extractor_query_time: tao.current_format_time(),
+      project_extractor_exps_arr: exps_arr,
+      project_extractor_default_librarys_arr: default_librarys_arr,
+      project_extractor_default_library_select: library_name + " " + library_id,
+      project_extractor_score_types_arr: score_types_arr,
+      project_extractor_score_types_arr_select: score_types_arr,
+      project_extractor_default_irt_librarys_arr: default_extractor_irt_librarys_arr,
+      project_extractor_default_irt_library_select:
+        irt_library_name + " " + irt_library_id,
       //   // 标记数据为可用的状态
       project_extractor_status: 0
     });
@@ -330,10 +498,17 @@ class Project_extractor extends React.Component {
   /*************  handle  *********************/
   /*************  handle  *********************/
 
-  set_project_extractor_default_extractor_library_select = e => {
+  set_project_extractor_default_irt_library_select = e => {
     //
     this.setState({
-      project_extractor_default_extractor_library_select: e
+      project_extractor_default_irt_library_select: e
+    });
+  };
+
+  set_project_extractor_default_library_select = e => {
+    //
+    this.setState({
+      project_extractor_default_library_select: e
     });
   };
 
@@ -359,6 +534,50 @@ class Project_extractor extends React.Component {
 
     this.setState({
       project_data_mz: val
+    });
+  };
+
+  set_project_data_rt = e => {
+    //
+    let val = parseFloat(e);
+
+    this.setState({
+      project_data_rt: val
+    });
+  };
+
+  set_project_data_fdr = e => {
+    //
+    let val = parseFloat(e.target.value);
+
+    this.setState({
+      project_data_fdr: val
+    });
+  };
+
+  set_project_data_shape = e => {
+    //
+    let val = parseFloat(e);
+
+    this.setState({
+      project_data_shape: val
+    });
+  };
+
+  set_project_data_shape_weight = e => {
+    //
+    let val = parseFloat(e);
+
+    this.setState({
+      project_data_shape_weight: val
+    });
+  };
+
+  set_project_data_note = e => {
+    //
+    let val = e.target.value;
+    this.setState({
+      project_data_note: val
     });
   };
 
@@ -419,6 +638,118 @@ class Project_extractor extends React.Component {
     return -1;
   };
 
+  change_project_extractor_score_types_arr_select = list => {
+    // 重新设置选择的
+    this.setState({
+      project_extractor_score_types_arr_select: list
+    });
+  };
+
+  project_extractor_calculate = () => {
+    let {
+      project_extractor_id,
+      project_extractor_default_irt_library_select = "",
+      project_extractor_default_library_select = "",
+      project_data_note = "",
+      project_data_sigma = 3.75,
+      project_data_spacing = 0.01,
+      project_data_mz = 0.05,
+      project_data_rt = 0.05,
+      project_data_shape = 0.5,
+      project_data_shape_weight = 0.6,
+      project_data_fdr = 0.01,
+      project_extractor_score_types_arr_select = []
+    } = this.state;
+
+    let default_irt_library = "";
+    default_irt_library = project_extractor_default_irt_library_select.split(
+      " "
+    )[1];
+
+    let default_library = "";
+    default_library = project_extractor_default_library_select.split(" ")[1];
+    let obj = {};
+    obj.id = project_extractor_id;
+    obj.library_id = default_library;
+    obj.irt_library_id = default_irt_library;
+    obj.note = project_data_note;
+    obj.sigma = project_data_sigma;
+    obj.spacing = project_data_spacing;
+    obj.mz = project_data_mz;
+    obj.rt = project_data_rt;
+    obj.shape = project_data_shape;
+    obj.shape_weight = project_data_shape_weight;
+    obj.fdr = project_data_fdr;
+    obj.score_types = project_extractor_score_types_arr_select;
+
+    let { language } = this.props;
+
+    // 弹出提示
+    setTimeout(() => {
+      message.loading(
+        Languages[language][
+          "propro.project_extractor_operation_extractor_data"
+        ] +
+          " : " +
+          Languages[language]["propro.prompt_running"],
+        2
+      );
+    }, 80);
+
+    // 执行提取数据
+    setTimeout(() => {
+      this.props.project_extractor_calculate(obj);
+    }, 500);
+  };
+
+  handle_project_extractor_calculate = () => {
+    // 时间戳设置为 0
+    this.props.set_state_newvalue({
+      target: "project_extractor_calculate_time",
+      value: 0
+    });
+
+    let { language } = this.props;
+
+    // 检查状态
+    if (0 == this.props.project_extractor_calculate_status) {
+      console.log(this.props.project_extractor_calculate_data);
+      // 数据获取成功
+      // 弹出提示
+      setTimeout(() => {
+        message.success(
+          Languages[language][
+            "propro.project_extractor_operation_extractor_data"
+          ] +
+            " : " +
+            Languages[language]["propro.prompt_success"],
+          4
+        );
+      }, 80);
+      setTimeout(() => {
+        // 执行跳转到任务列表
+        this.props.history.push("/task/list");
+      }, 2000);
+    } else {
+      // 数据获取失败
+      // 1-弹出警告
+      setTimeout(() => {
+        message.error(
+          Languages[language][
+            "propro.project_extractor_operation_extractor_data"
+          ] +
+            " : " +
+            Languages[language]["propro.prompt_failed"],
+          4
+        );
+      }, 80);
+
+      return -1;
+    }
+
+    return 0;
+  };
+
   /**************************** render ****************************/
   /**************************** render ****************************/
   /**************************** render ****************************/
@@ -433,10 +764,6 @@ class Project_extractor extends React.Component {
 
     if (10000 < this.props.project_extractor_calculate_time) {
       this.handle_project_extractor_calculate();
-    }
-
-    if (10000 < this.props.project_extractor_scanning_update_time) {
-      this.handle_project_extractor_scanning_update();
     }
 
     if (0 != this.state.project_extractor_status) {
@@ -463,7 +790,6 @@ class Project_extractor extends React.Component {
       project_extractor_project_data: project_data = {}
     } = this.state;
 
-    return 111;
     return (
       <div>
         <div
@@ -599,7 +925,7 @@ class Project_extractor extends React.Component {
                 </div>
               </Descriptions.Item>
 
-              {/* 实验名称 */}
+              {/* 项目名称 */}
               <Descriptions.Item span={2} label="项目名称">
                 <div
                   style={{
@@ -627,13 +953,11 @@ class Project_extractor extends React.Component {
                 </div>
               </Descriptions.Item>
 
-              {/* 默认extractor校准库 */}
+              {/* 高级设置 */}
               <Descriptions.Item
                 span={4}
                 label={
-                  <span className={styles.font_second_color}>
-                    默认extractor校准库
-                  </span>
+                  <span className={styles.font_second_color}>高级设置</span>
                 }
               >
                 <div
@@ -644,148 +968,434 @@ class Project_extractor extends React.Component {
                   }}
                   className={styles.font_second_color}
                 >
-                  <Select
-                    style={{ width: 500 }}
-                    onChange={
-                      this
-                        .set_project_extractor_default_extractor_library_select
-                    }
-                    optionFilterProp="children"
-                    defaultValue={
-                      this.state
-                        .project_extractor_default_extractor_library_select
-                    }
-                    value={
-                      this.state
-                        .project_extractor_default_extractor_library_select
-                    }
-                    maxTagCount={40}
+                  <Collapse
+                    defaultActiveKey={"project_extractor_panel_0"}
+                    // onChange={callback}
+                    expandIconPosition={{ expandIconPosition: "left" }}
                   >
-                    {
-                      this.state
-                        .project_extractor_default_extractor_librarys_arr
-                    }
-                  </Select>
-                </div>
-              </Descriptions.Item>
+                    <Panel
+                      header="实验参数"
+                      key="project_extractor_panel_0"
+                      extra={<Icon type="setting" />}
+                    >
+                      <div>
+                        <Descriptions
+                          bordered
+                          size="small"
+                          column={4}
+                          style={{
+                            overflowX: "auto",
+                            overflowY: "auto"
+                          }}
+                        >
+                          {/* 默认 标准库 */}
+                          <Descriptions.Item
+                            span={4}
+                            label={
+                              <span className={styles.font_second_color}>
+                                默认标准库
+                              </span>
+                            }
+                          >
+                            <div
+                              style={{
+                                wordWrap: "break-word",
+                                wordBreak: "break-all",
+                                padding: "5px"
+                              }}
+                              className={styles.font_second_color}
+                            >
+                              <Select
+                                style={{ width: 500 }}
+                                onChange={
+                                  this
+                                    .set_project_extractor_default_library_select
+                                }
+                                optionFilterProp="children"
+                                defaultValue={
+                                  this.state
+                                    .project_extractor_default_library_select
+                                }
+                                value={
+                                  this.state
+                                    .project_extractor_default_library_select
+                                }
+                                maxTagCount={40}
+                              >
+                                {
+                                  this.state
+                                    .project_extractor_default_librarys_arr
+                                }
+                              </Select>
+                            </div>
+                          </Descriptions.Item>
 
-              {/* 设定 sigma */}
-              <Descriptions.Item
-                span={4}
-                label={
-                  <span className={styles.font_second_color}>设定 Sigma</span>
-                }
-              >
-                <div
-                  style={{
-                    wordWrap: "break-word",
-                    wordBreak: "break-all",
-                    padding: "5px"
-                  }}
-                  className={styles.font_second_color}
-                >
-                  <InputNumber
-                    value={this.state.project_data_sigma}
-                    onChange={this.set_project_data_sigma}
-                    style={{ width: 200 }}
-                    step={0.1}
-                    maxLength={20}
-                  />
-                  <span
-                    className={styles.font_gray_color}
-                    style={{
-                      fontSize: "12px"
-                    }}
-                  >
-                    &nbsp;&nbsp;
-                    <FormattedHTMLMessage id="propro.project_extractor_default_sigma" />
-                  </span>
-                </div>
-              </Descriptions.Item>
+                          {/* 默认 irt 校准库 */}
+                          <Descriptions.Item
+                            span={4}
+                            label={
+                              <span className={styles.font_second_color}>
+                                默认irt校准库
+                              </span>
+                            }
+                          >
+                            <div
+                              style={{
+                                wordWrap: "break-word",
+                                wordBreak: "break-all",
+                                padding: "5px"
+                              }}
+                              className={styles.font_second_color}
+                            >
+                              <Select
+                                style={{ width: 500 }}
+                                onChange={
+                                  this
+                                    .set_project_extractor_default_irt_library_select
+                                }
+                                optionFilterProp="children"
+                                defaultValue={
+                                  this.state
+                                    .project_extractor_default_irt_library_select
+                                }
+                                value={
+                                  this.state
+                                    .project_extractor_default_irt_library_select
+                                }
+                                maxTagCount={40}
+                              >
+                                {
+                                  this.state
+                                    .project_extractor_default_irt_librarys_arr
+                                }
+                              </Select>
+                            </div>
+                          </Descriptions.Item>
 
-              {/* 设定 Spacing */}
-              <Descriptions.Item
-                span={4}
-                label={
-                  <span className={styles.font_second_color}>设定 Spacing</span>
-                }
-              >
-                <div
-                  style={{
-                    wordWrap: "break-word",
-                    wordBreak: "break-all",
-                    padding: "5px"
-                  }}
-                  className={styles.font_second_color}
-                >
-                  <InputNumber
-                    value={this.state.project_data_spacing}
-                    onChange={this.set_project_data_spacing}
-                    style={{ width: 200 }}
-                    step={0.01}
-                    maxLength={20}
-                  />
-                  <span
-                    className={styles.font_gray_color}
-                    style={{
-                      fontSize: "12px"
-                    }}
-                  >
-                    &nbsp;&nbsp;
-                    <FormattedHTMLMessage id="propro.project_extractor_default_spacing" />
-                  </span>
-                </div>
-              </Descriptions.Item>
+                          {/* MZ数据提取窗口 */}
+                          <Descriptions.Item
+                            span={4}
+                            label={
+                              <span className={styles.font_second_color}>
+                                MZ数据提取窗口
+                              </span>
+                            }
+                          >
+                            <div
+                              style={{
+                                wordWrap: "break-word",
+                                wordBreak: "break-all",
+                                padding: "5px"
+                              }}
+                              className={styles.font_second_color}
+                            >
+                              <InputNumber
+                                value={this.state.project_data_mz}
+                                onChange={this.set_project_data_mz}
+                                style={{ width: 200 }}
+                                step={0.01}
+                                maxLength={20}
+                              />
+                              <span
+                                className={styles.font_gray_color}
+                                style={{
+                                  fontSize: "12px"
+                                }}
+                              >
+                                &nbsp;&nbsp;
+                                <FormattedHTMLMessage id="propro.project_extractor_default_mz" />
+                              </span>
+                            </div>
+                          </Descriptions.Item>
 
-              {/* MZ数据提取窗口 */}
-              <Descriptions.Item
-                span={4}
-                label={
-                  <span className={styles.font_second_color}>
-                    MZ数据提取窗口
-                  </span>
-                }
-              >
-                <div
-                  style={{
-                    wordWrap: "break-word",
-                    wordBreak: "break-all",
-                    padding: "5px"
-                  }}
-                  className={styles.font_second_color}
-                >
-                  <InputNumber
-                    value={this.state.project_data_mz}
-                    onChange={this.set_project_data_mz}
-                    style={{ width: 200 }}
-                    step={0.01}
-                    maxLength={20}
-                  />
-                  <span
-                    className={styles.font_gray_color}
-                    style={{
-                      fontSize: "12px"
-                    }}
-                  >
-                    &nbsp;&nbsp;
-                    <FormattedHTMLMessage id="propro.project_extractor_default_mz" />
-                  </span>
-                </div>
-              </Descriptions.Item>
+                          {/* RT数据提取窗口 */}
+                          <Descriptions.Item
+                            span={4}
+                            label={
+                              <span className={styles.font_second_color}>
+                                RT数据提取窗口
+                              </span>
+                            }
+                          >
+                            <div
+                              style={{
+                                wordWrap: "break-word",
+                                wordBreak: "break-all",
+                                padding: "5px"
+                              }}
+                              className={styles.font_second_color}
+                            >
+                              <InputNumber
+                                value={this.state.project_data_rt}
+                                onChange={this.set_project_data_rt}
+                                style={{ width: 200 }}
+                                step={0.01}
+                                maxLength={20}
+                              />
+                              <span
+                                className={styles.font_gray_color}
+                                style={{
+                                  fontSize: "12px"
+                                }}
+                              >
+                                &nbsp;&nbsp;
+                                <FormattedHTMLMessage id="propro.project_extractor_default_rt" />
+                              </span>
+                            </div>
+                          </Descriptions.Item>
 
-              {/* 实验数据 */}
-              <Descriptions.Item
-                span={4}
-                label={<span>实验数据</span>}
-                style={{}}
-              >
-                <div
-                  style={{
-                    padding: "5px"
-                  }}
-                  className={styles.font_second_color}
-                >
-                  {this.state.project_extractor_exps_arr}
+                          {/* FDR */}
+                          <Descriptions.Item
+                            span={4}
+                            label={
+                              <span className={styles.font_second_color}>
+                                FDR
+                              </span>
+                            }
+                          >
+                            <div
+                              style={{
+                                wordWrap: "break-word",
+                                wordBreak: "break-all",
+                                padding: "5px"
+                              }}
+                              className={styles.font_second_color}
+                            >
+                              <Input
+                                value={this.state.project_data_fdr}
+                                onChange={this.set_project_data_fdr}
+                                style={{ width: 200 }}
+                                maxLength={20}
+                              />
+                              <span
+                                className={styles.font_gray_color}
+                                style={{
+                                  fontSize: "12px"
+                                }}
+                              >
+                                &nbsp;&nbsp;
+                                <FormattedHTMLMessage id="propro.project_extractor_default_fdr" />
+                              </span>
+                            </div>
+                          </Descriptions.Item>
+
+                          {/* shape数据提取窗口 */}
+                          <Descriptions.Item
+                            span={4}
+                            label={
+                              <span className={styles.font_second_color}>
+                                shape数据提取窗口
+                              </span>
+                            }
+                          >
+                            <div
+                              style={{
+                                wordWrap: "break-word",
+                                wordBreak: "break-all",
+                                padding: "5px"
+                              }}
+                              className={styles.font_second_color}
+                            >
+                              <InputNumber
+                                value={this.state.project_data_shape}
+                                onChange={this.set_project_data_shape}
+                                style={{ width: 200 }}
+                                step={0.01}
+                                maxLength={20}
+                              />
+                              <span
+                                className={styles.font_gray_color}
+                                style={{
+                                  fontSize: "12px"
+                                }}
+                              >
+                                &nbsp;&nbsp;
+                                <FormattedHTMLMessage id="propro.project_extractor_default_shape" />
+                              </span>
+                            </div>
+                          </Descriptions.Item>
+
+                          {/* shape weight数据提取窗口 */}
+                          <Descriptions.Item
+                            span={4}
+                            label={
+                              <span className={styles.font_second_color}>
+                                shape weight数据提取窗口
+                              </span>
+                            }
+                          >
+                            <div
+                              style={{
+                                wordWrap: "break-word",
+                                wordBreak: "break-all",
+                                padding: "5px"
+                              }}
+                              className={styles.font_second_color}
+                            >
+                              <InputNumber
+                                value={this.state.project_data_shape_weight}
+                                onChange={this.set_project_data_shape_weight}
+                                style={{ width: 200 }}
+                                step={0.01}
+                                maxLength={20}
+                              />
+                              <span
+                                className={styles.font_gray_color}
+                                style={{
+                                  fontSize: "12px"
+                                }}
+                              >
+                                &nbsp;&nbsp;
+                                <FormattedHTMLMessage id="propro.project_extractor_default_shape_weight" />
+                              </span>
+                            </div>
+                          </Descriptions.Item>
+
+                          {/* 设定 sigma */}
+                          <Descriptions.Item
+                            span={4}
+                            label={
+                              <span className={styles.font_second_color}>
+                                设定 Sigma
+                              </span>
+                            }
+                          >
+                            <div
+                              style={{
+                                wordWrap: "break-word",
+                                wordBreak: "break-all",
+                                padding: "5px"
+                              }}
+                              className={styles.font_second_color}
+                            >
+                              <InputNumber
+                                value={this.state.project_data_sigma}
+                                onChange={this.set_project_data_sigma}
+                                style={{ width: 200 }}
+                                step={0.1}
+                                maxLength={20}
+                              />
+                              <span
+                                className={styles.font_gray_color}
+                                style={{
+                                  fontSize: "12px"
+                                }}
+                              >
+                                &nbsp;&nbsp;
+                                <FormattedHTMLMessage id="propro.project_extractor_default_sigma" />
+                              </span>
+                            </div>
+                          </Descriptions.Item>
+
+                          {/* 设定 Spacing */}
+                          <Descriptions.Item
+                            span={4}
+                            label={
+                              <span className={styles.font_second_color}>
+                                设定 Spacing
+                              </span>
+                            }
+                          >
+                            <div
+                              style={{
+                                wordWrap: "break-word",
+                                wordBreak: "break-all",
+                                padding: "5px"
+                              }}
+                              className={styles.font_second_color}
+                            >
+                              <InputNumber
+                                value={this.state.project_data_spacing}
+                                onChange={this.set_project_data_spacing}
+                                style={{ width: 200 }}
+                                step={0.01}
+                                maxLength={20}
+                              />
+                              <span
+                                className={styles.font_gray_color}
+                                style={{
+                                  fontSize: "12px"
+                                }}
+                              >
+                                &nbsp;&nbsp;
+                                <FormattedHTMLMessage id="propro.project_extractor_default_spacing" />
+                              </span>
+                            </div>
+                          </Descriptions.Item>
+
+                          {/* 选择特征打分算法 */}
+                          <Descriptions.Item
+                            span={4}
+                            label={
+                              <span className={styles.font_second_color}>
+                                特征打分
+                              </span>
+                            }
+                          >
+                            <CheckboxGroup
+                              options={
+                                this.state.project_extractor_score_types_arr
+                              }
+                              value={
+                                this.state
+                                  .project_extractor_score_types_arr_select
+                              }
+                              onChange={
+                                this
+                                  .change_project_extractor_score_types_arr_select
+                              }
+                            />
+                          </Descriptions.Item>
+
+                          {/* 填写备忘录 */}
+                          <Descriptions.Item
+                            span={4}
+                            label={
+                              <span className={styles.font_second_color}>
+                                备忘录
+                              </span>
+                            }
+                          >
+                            <div
+                              style={{
+                                wordWrap: "break-word",
+                                wordBreak: "break-all",
+                                padding: "5px"
+                              }}
+                              className={styles.font_second_color}
+                            >
+                              <TextArea
+                                autoSize={{ minRows: 3, maxRows: 6 }}
+                                maxLength={400}
+                                value={this.state.project_data_note}
+                                onChange={this.set_project_data_note}
+                              />
+                            </div>
+                          </Descriptions.Item>
+
+                          {/* 实验数据 */}
+                          <Descriptions.Item
+                            span={4}
+                            label={
+                              <span className={styles.font_green_color}>
+                                实验数据
+                              </span>
+                            }
+                            style={{}}
+                          >
+                            <div
+                              style={{
+                                padding: "5px"
+                              }}
+                              className={styles.font_second_color}
+                            >
+                              {this.state.project_extractor_exps_arr}
+                            </div>
+                          </Descriptions.Item>
+                        </Descriptions>
+                      </div>
+                    </Panel>
+                  </Collapse>
                 </div>
               </Descriptions.Item>
 
@@ -811,10 +1421,9 @@ class Project_extractor extends React.Component {
                       padding: "5px 10px",
                       letterSpacing: "1px"
                     }}
-                    // 暂时还未实现
                     onClick={this.project_extractor_calculate}
                   >
-                    <FormattedHTMLMessage id="propro.project_extractor_calculate" />
+                    <FormattedHTMLMessage id="propro.project_extractor_operation_extractor_data" />
                   </button>
                 </div>
               </Descriptions.Item>

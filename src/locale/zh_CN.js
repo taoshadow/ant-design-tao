@@ -739,6 +739,15 @@ let language_ch = {
 
   // project_extractor_title
   "propro.project_extractor_title": "提取数据",
+  "propro.project_extractor_default_sigma": "默认值: 3.75",
+  "propro.project_extractor_default_spacing": "默认值: 0.01",
+  "propro.project_extractor_default_mz": "默认值: 0.05",
+  "propro.project_extractor_default_rt": "默认值: 0.05",
+  "propro.project_extractor_default_fdr": "默认值: 0.01",
+  "propro.project_extractor_default_shape": "默认阈值：0.5",
+  "propro.project_extractor_default_shape_weight": "默认阈值：0.6",
+  "propro.project_extractor_experiment_detail": "实验详情",
+  "propro.project_extractor_operation_extractor_data": "提取实验数据",
 
   "propro.end": "end"
 };
