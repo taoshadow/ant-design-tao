@@ -737,6 +737,9 @@ let language_ch = {
   "propro.project_irt_jump_immediately": "立即跳转",
   "propro.project_irt_jump_cancel": "撤销跳转",
 
+  // project_extractor_title
+  "propro.project_extractor_title": "提取数据",
+
   "propro.end": "end"
 };
 

@@ -883,7 +883,7 @@ class Project_list extends React.Component {
                   <FormattedHTMLMessage id="propro.project_list_table_operation_process" />
                 }
               >
-                <Link to={"/experiment/edit/" + list.id}>
+                <Link to={"/project/extractor/" + list.id}>
                   <div
                     className={"badge " + styles.bg_orange_color}
                     style={{
