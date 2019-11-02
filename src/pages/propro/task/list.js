@@ -7,7 +7,7 @@
  * @Copyright           西湖大学 propro Tangtao
  * @GitHub              https://github.com/tangtaoshadow
  * @CreateTime          2019-9-9 15:52:58
- * @UpdateTime          2019-9-10 20:03:53
+ * @UpdateTime          2019-11-2 23:19:28
  * @Archive             任务 列表
  */
 
@@ -235,7 +235,6 @@ class Task_list extends React.Component {
 
     return 0;
   };
-
 
   delete_task_list_by_id = id => {
     // 弹出警告
@@ -660,7 +659,7 @@ class Task_list extends React.Component {
                 }}
               >
                 {/* 跳转到详情页面 */}
-                <Link to={"/task/list/detail/" + list.id}>{list.name}</Link>
+                <Link to={"/task/detail/" + list.id}>{list.name}</Link>
               </div>
             </Tooltip>
           );

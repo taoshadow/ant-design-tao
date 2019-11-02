@@ -18,6 +18,7 @@ import tao from "../utils/common";
 export function query_task_detail(data) {
   // 读取最新的 token
   let token = tao.get_token();
+  console.log("----", data);
   let { id = "" } = data;
   id += "";
 
@@ -29,8 +30,6 @@ export function query_task_detail(data) {
   let body_data = "";
   body_data += "taskId" + "=" + id + "&";
 
-  console.log(body_data);
-  return;
   return request("/propro_server/task/detail", {
     headers: {
       // 'content-type': 'application/json',

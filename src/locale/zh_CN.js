@@ -469,13 +469,13 @@ let language_ch = {
   "propro.protein_list_load_time": "查询时间",
 
   // task list
+  "propro.task_list_title": "任务列表",
   "propro.task_list_table_info": "任务信息",
   "propro.task_list_index": "No.",
   "propro.task_list_link_detail": "查看任务详情",
   "propro.task_list_load_time": "查询时间",
   "propro.task_list_name": "任务名称",
   "propro.task_list_id": "ID",
-  "propro.task_list_title": "任务列表",
   "propro.task_list_status": "任务状态",
   "propro.task_list_task_template": "任务模板",
   "propro.task_list_reset": "重置",
@@ -493,6 +493,9 @@ let language_ch = {
   "propro.task_list_search_by_templates_title": "任务状态",
   "propro.task_list_search_by_templates_title_prompt": "指定任务状态",
   "propro.task_list_search": "查询任务",
+
+  // 任务详情
+  "propro.task_detail_title": "任务详情",
 
   // 分析列表
   "propro.analysis_list_title": "分析概览",

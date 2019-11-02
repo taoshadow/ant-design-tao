@@ -144,6 +144,11 @@ export default {
           component: "propro/task/list"
         },
         {
+          // 任务 列表
+          path: "/task/detail/*",
+          component: "propro/task/detail"
+        },
+        {
           // 分析 列表
           path: "/analysis/list",
           component: "propro/analysis/list"
