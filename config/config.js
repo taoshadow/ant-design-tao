@@ -227,6 +227,11 @@ export default {
           // 项目 extractor * id
           path: "/project/extractor/*",
           component: "propro/project/extractor"
+        },
+        {
+          // 项目 portion_selector * id
+          path: "/project/portion_selector/*",
+          component: "propro/project/portion_selector"
         }
       ]
     }
