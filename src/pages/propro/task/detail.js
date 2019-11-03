@@ -277,6 +277,7 @@ class Task_detail extends React.Component {
       creator,
       createDate: create_date,
       logs,
+      //  任务名称
       name,
       startTime: start_time,
       status,
@@ -299,6 +300,12 @@ class Task_detail extends React.Component {
         <b className={styles.font_second_color}>taskId:&nbsp;</b>
         &nbsp;&nbsp;
         {id}
+        <br />
+        <div style={{ maxWidth: "800px" }}>
+          <b className={styles.font_second_color}>taskName:&nbsp;</b>
+          &nbsp;&nbsp;
+          <span className={styles.font_green_color}>{name}</span>
+        </div>
       </Timeline.Item>
     );
 

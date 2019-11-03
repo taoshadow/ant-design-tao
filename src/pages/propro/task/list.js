@@ -20,6 +20,7 @@ import { FormattedHTMLMessage } from "react-intl";
 import { Fragment } from "react";
 
 import {
+  BackTop,
   Layout,
   Menu,
   Icon,
@@ -73,6 +74,8 @@ import "../../../layout/Common.css";
 import delete_svg from "../style/static/task/delete.svg";
 import return_svg from "../style/static/dashboard/return.svg";
 import preloader_svg from "../style/static/dashboard/preloader.svg";
+import arrow_up_svg from "../style/static/analysis/arrow_up.svg";
+
 import { throws } from "assert";
 
 /****************  导入 styles end ***************************/
@@ -1155,6 +1158,17 @@ class Task_list extends React.Component {
             </Col>
           </Col>
         </Row>
+        {/* Author: Tangtao HDU https://www.promiselee.cn/tao */}
+        <BackTop visibilityHeight={600}>
+          <div>
+            <img
+              style={{
+                width: "35px"
+              }}
+              src={arrow_up_svg}
+            />
+          </div>
+        </BackTop>
       </div>
     );
   }

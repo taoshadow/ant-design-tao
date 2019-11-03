@@ -106,6 +106,7 @@ export function project_extractor_calculate(data = "") {
   let body_data = "";
   body_data += "id" + "=" + id + "&";
   body_data += "libraryId" + "=" + library_id + "&";
+  body_data += "iRtLibraryId" + "=" + irt_library_id + "&";
   body_data += "rtExtractWindow" + "=" + rt + "&";
   body_data += "mzExtractWindow" + "=" + mz + "&";
   body_data += "fdr" + "=" + fdr + "&";

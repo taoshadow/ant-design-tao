@@ -115,6 +115,7 @@ let language_ch = {
   "propro.console_exp_swath": "DIA/SWATH",
   "propro.console_exp_prm": "PRM",
   "propro.console_project": "项目管理",
+  "propro.console_task_list": "任务列表",
   "propro.console_overview": "分析概览",
   "propro.console_experiment_list": "实验列表",
 
@@ -745,7 +746,7 @@ let language_ch = {
   "propro.project_extractor_default_sigma": "默认值: 3.75",
   "propro.project_extractor_default_spacing": "默认值: 0.01",
   "propro.project_extractor_default_mz": "默认值: 0.05",
-  "propro.project_extractor_default_rt": "默认值: 0.05",
+  "propro.project_extractor_default_rt": "默认值: 600.0",
   "propro.project_extractor_default_fdr": "默认值: 0.01",
   "propro.project_extractor_default_shape": "默认阈值：0.5",
   "propro.project_extractor_default_shape_weight": "默认阈值：0.6",

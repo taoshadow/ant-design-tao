@@ -186,7 +186,7 @@ class Project_extractor extends React.Component {
       project_data_sigma: 3.75,
       project_data_spacing: 0.01,
       project_data_mz: 0.05,
-      project_data_rt: 0.05,
+      project_data_rt: 600,
       project_data_shape: 0.5,
       project_data_shape_weight: 0.6,
       project_data_fdr: 0.01,
@@ -227,7 +227,7 @@ class Project_extractor extends React.Component {
     let find_str = "/extractor/";
     let index = url.lastIndexOf(find_str);
     let id = url.substring(index + find_str.length);
-    if (3 < index) {
+    if (1 < index) {
       // 找到 project_name 发起查询
       obj.id = id;
     }
@@ -312,7 +312,7 @@ class Project_extractor extends React.Component {
       exps: (7) [{…}, {…}, {…}, {…}, {…}, {…}, {…}]
       iRtLibraries: (77) [{…}, ]
       iRtLibraryId: "5c6d2ec7dfdfdd2f947c6f39"
-      libraries: (20) [{…}, {…}, {…}, ]
+      librariedoextracts: (20) [{…}, {…}, {…}, ]
       libraryId: "5c9c2407dfdfdd356072c113"
       project: {}
       scoreTypes: 
@@ -321,7 +321,7 @@ class Project_extractor extends React.Component {
     let {
       project: project_data = {},
       exps = [],
-      libraries = [],
+      librariedoextracts = [],
       iRtLibraries: irt_libraries = [],
       scoreTypes: score_types = []
     } = this.props.project_extractor_data;
@@ -431,23 +431,25 @@ class Project_extractor extends React.Component {
       score_types_arr = score_types;
     }
 
-    let { length: len3 } = libraries;
+    let { length: len3 } = librariedoextracts;
 
     let default_librarys_arr = null;
     if (0 < len3) {
       //
       default_librarys_arr = new Array(len3);
       for (let i = 0; i < len3; i++) {
-        let str = libraries[i].name + " " + libraries[i].id;
+        let str = librariedoextracts[i].name + " " + librariedoextracts[i].id;
         default_librarys_arr[i] = (
           <Option
             key={"project_extractor_default_librarys_arr_" + i}
             value={str}
           >
             <span style={{ fontWeight: "500" }}>
-              {i + 1} : {libraries[i].name}&nbsp;
+              {i + 1} : {librariedoextracts[i].name}&nbsp;
             </span>
-            <span className={styles.font_green_color}>{libraries[i].id}</span>
+            <span className={styles.font_green_color}>
+              {librariedoextracts[i].id}
+            </span>
           </Option>
         );
       }
@@ -654,7 +656,7 @@ class Project_extractor extends React.Component {
       project_data_sigma = 3.75,
       project_data_spacing = 0.01,
       project_data_mz = 0.05,
-      project_data_rt = 0.05,
+      project_data_rt = 600,
       project_data_shape = 0.5,
       project_data_shape_weight = 0.6,
       project_data_fdr = 0.01,
@@ -696,6 +698,7 @@ class Project_extractor extends React.Component {
       );
     }, 80);
 
+    console.log(obj);
     // 执行提取数据
     setTimeout(() => {
       this.props.project_extractor_calculate(obj);
@@ -1129,7 +1132,7 @@ class Project_extractor extends React.Component {
                                 value={this.state.project_data_rt}
                                 onChange={this.set_project_data_rt}
                                 style={{ width: 200 }}
-                                step={0.01}
+                                step={1}
                                 maxLength={20}
                               />
                               <span

@@ -323,7 +323,9 @@ export default class BasicLayout extends React.Component {
                             }
                           >
                             <Menu.Item key="2019-8-9 00:51:05">
-                              任务列表
+                              <Link to="/task/list">
+                                <FormattedHTMLMessage id="propro.console_task_list" />
+                              </Link>
                             </Menu.Item>
                             <Menu.Item key="2019-8-9 00:51:07">
                               创建项目
@@ -358,7 +360,9 @@ export default class BasicLayout extends React.Component {
                           </SubMenu>
 
                           <Menu.Item key="2019-8-9 00:55:58">
-                            项目管理
+                            <Link to="/project/list/">
+                              <FormattedHTMLMessage id="propro.console_project" />
+                            </Link>
                           </Menu.Item>
                           <Menu.Item key="2019-10-8 23:34:06">
                             <Link to="/experiment/list/">
