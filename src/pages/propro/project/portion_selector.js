@@ -8,7 +8,7 @@
  * @GitHub              https://github.com/tangtaoshadow
  * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
  * @CreateTime          2019-11-3 18:32:11
- * @UpdateTime          2019-10-23 16:50:33
+ * @UpdateTime          2019-11-5 19:50:00
  * @Archive             项目数据列表
  */
 
@@ -171,6 +171,8 @@ class Project_portion_selector extends React.Component {
       //   前端格式化后的 project 数据
       project_portion_selector_project_data: null,
       project_portion_selector_exps_arr: null,
+      project_portion_selector_data_peptide_ref: "",
+      project_portion_selector_data_protein: "",
       // modal 配置
       modal_visible: false,
       drawer_visible: false,
@@ -285,12 +287,78 @@ class Project_portion_selector extends React.Component {
   };
 
   change_project_portion_selector_data = () => {
-    console.log(this.props.project_portion_selector_data);
+    console.log("==", this.props.project_portion_selector_data);
+
+    /*
+
+      iRtLibraryId: "5c6d2ec7dfdfdd2f947c6f39"
+      librariedoextracts: (20) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+      libraryId: "5c9c2407dfdfdd356072c113"
+      iRtLibraries: (77) [{…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}, {…}]
+      scoreTypes: (22) ["BseriesScore", "ElutionModelFitScore", "IntensityScore", "IsotopeCorrelationScore", "IsotopeOverlapScore", "LibraryCorr", "LibraryRsmd", "LogSnScore", "MassdevScore", "MassdevScoreWeighted", "NormRtScore", "XcorrCoelution", "XcorrCoelutionWeighted", "XcorrShape", "XcorrShapeWeighted", "LibraryDotprod", "LibraryManhattan", "LibrarySangle", "LibraryRootmeansquare", "ManhattScore", "YseriesScore", "IntensityTotalScore"]
+      exps: (7) [{…}, {…}, {…}, {…}, {…}, {…}, {…}]
+      project: {createDate: 1562567897630, doPublic: false, iRtLibraryId: "5c6d2ec7dfdfdd2f947c6f39", iRtLibraryName: "商业iRT", id: "5d22e4d9a1eaff5cabc0fa37", …}
+    */
+
+    let {
+      project: project_data = {},
+      exps = [],
+      librariedoextracts = [],
+      iRtLibraries: irt_libraries = [],
+      scoreTypes: score_types = []
+    } = this.props.project_portion_selector_data;
+
+    let {
+      createDate: create_date = 0,
+      description = "",
+      doPublic: do_public = false,
+      iRtLibraryId: irt_library_id = "",
+      iRtLibraryName: irt_library_name = "",
+      id = "",
+      labels = [],
+      lastModifiedDate: last_modified_date = 0,
+      libraryId: library_id = "",
+      libraryName: library_name = "",
+      name = "",
+      ownerName: owner_name = "",
+      type = ""
+    } = project_data;
+
+    // 写入 obj 格式化
+    let obj = {};
+    (obj.create_date = tao.format_time(create_date)),
+      (obj.description = description),
+      (obj.do_public = do_public),
+      (obj.irt_library_id = irt_library_id),
+      (obj.irt_library_name = irt_library_name),
+      (obj.id = id),
+      (obj.labels = labels),
+      (obj.last_modified_date = tao.format_time(last_modified_date)),
+      (obj.library_id = library_id),
+      (obj.library_name = library_name),
+      (obj.name = name),
+      (obj.owner_name = owner_name),
+      (obj.type = type);
+
+    // 遍历实验数据
+
+    let { length: len1 } = exps;
+    let [exps_arr] = [null];
+    if (0 < len1) {
+      exps_arr = new Array(len1);
+      for (let i = 0; i < len1; i++) {
+        exps_arr[i] = exps[i].name;
+      }
+    }
+
+    console.log(exps_arr);
 
     this.setState({
       // 标记 成功
       project_portion_selector_false_time: 5,
-      //   // 标记数据为可用的状态
+      project_portion_selector_data: obj,
+
+      // 标记数据为可用的状态
       project_portion_selector_status: 0
     });
 
@@ -316,12 +384,21 @@ class Project_portion_selector extends React.Component {
     });
   };
 
+  set_project_portion_selector_data_peptide_ref = e => {
+    this.setState({
+      project_portion_selector_data_peptide_ref: e.target.value
+    });
+  };
+
+  set_project_portion_selector_data_protein = e => {
+    this.setState({
+      project_portion_selector_data_protein: e.target.value
+    });
+  };
+
   /*************  handle  *********************/
   /*************  handle  *********************/
   /*************  handle  *********************/
-
-
-
 
   /**************************** render ****************************/
   /**************************** render ****************************/
@@ -334,7 +411,6 @@ class Project_portion_selector extends React.Component {
       // 资源有更新
       this.handle_project_portion_selector();
     }
-
 
     if (0 != this.state.project_portion_selector_status) {
       return (
@@ -357,9 +433,9 @@ class Project_portion_selector extends React.Component {
     let {
       drawer_data,
       drawer_visible,
+      project_portion_selector_data: project_data
     } = this.state;
 
-    return 111;
     return (
       <div>
         <div
@@ -523,7 +599,64 @@ class Project_portion_selector extends React.Component {
                 </div>
               </Descriptions.Item>
 
-            
+              {/* 输入PeptideRef */}
+              <Descriptions.Item span={4} label={<span>输入PeptideRef</span>}>
+                <div
+                  style={{
+                    wordWrap: "break-word",
+                    wordBreak: "break-all",
+                    padding: "5px"
+                  }}
+                  className={styles.font_second_color}
+                >
+                  <TextArea
+                    autoSize={{ minRows: 1, maxRows: 8 }}
+                    maxLength={1000}
+                    value={this.state.project_portion_selector_data_peptide_ref}
+                    onChange={
+                      this.set_project_portion_selector_data_peptide_ref
+                    }
+                  />
+                  <br />
+                  <span
+                    className={styles.font_gray_color}
+                    style={{
+                      fontSize: "12px"
+                    }}
+                  >
+                    多个peptide使用;分隔
+                  </span>
+                </div>
+              </Descriptions.Item>
+
+              {/* 输入protein */}
+              <Descriptions.Item span={4} label={<span>输入protein</span>}>
+                <div
+                  style={{
+                    wordWrap: "break-word",
+                    wordBreak: "break-all",
+                    padding: "5px"
+                  }}
+                  className={styles.font_second_color}
+                >
+                  <TextArea
+                    autoSize={{ minRows: 1, maxRows: 8 }}
+                    maxLength={1000}
+                    value={this.state.project_portion_selector_data_protein}
+                    onChange={this.set_project_portion_selector_data_protein}
+                  />
+                  <br />
+                  <span
+                    className={styles.font_gray_color}
+                    style={{
+                      fontSize: "12px"
+                    }}
+                  >
+                    多个protein使用;分隔
+                  </span>
+                </div>
+              </Descriptions.Item>
+
               {/* 操作 */}
               <Descriptions.Item span={4} label={<span>操作</span>}>
                 <div
@@ -548,7 +681,8 @@ class Project_portion_selector extends React.Component {
                     }}
                     onClick={this.project_portion_selector_calculate}
                   >
-                    <FormattedHTMLMessage id="propro.project_portion_selector_operation_portion_selector_data" />
+                    11
+                    {/* <FormattedHTMLMessage id="propro." /> */}
                   </button>
                 </div>
               </Descriptions.Item>

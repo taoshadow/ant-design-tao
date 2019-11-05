@@ -753,6 +753,9 @@ let language_ch = {
   "propro.project_extractor_experiment_detail": "实验详情",
   "propro.project_extractor_operation_extractor_data": "提取实验数据",
 
+  // project_portion_selector
+  "propro.project_portion_selector_title": "实验选取面板",
+
   "propro.end": "end"
 };
 
