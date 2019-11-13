@@ -1,3 +1,9 @@
+/*
+ * @Author: TangTao https://www.promiselee.cn/tao
+ * @Date: 2019-11-13 14:37:48
+ * @Last Modified by: TangTao tangtao2099@outlook.com
+ * @Last Modified time: 2019-11-13 14:53:39
+ */
 // src/pages/propro/library/standard_library_create.js
 // 公共标准库列表id 详情
 

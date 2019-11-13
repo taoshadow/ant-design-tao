@@ -8,7 +8,7 @@
  * @CreateTime          2019-10-18 10:25:07
  * @Archive             项目数据列表
  * @Last Modified by: TangTao tangtao2099@outlook.com
- * @Last Modified time: 2019-11-13 14:00:17
+ * @Last Modified time: 2019-11-13 14:54:42
  */
 
 // src/pages/propro/project/filemanager.js
@@ -49,8 +49,11 @@ import {
   Table,
   Divider,
   Tag,
+  Upload,
   BackTop
 } from "antd";
+
+const { Dragger } = Upload;
 
 import Highlighter from "react-highlight-words";
 
@@ -170,7 +173,10 @@ class Project_filemanager extends React.Component {
       drawer_visible: false,
       drawer_data: null,
       delete_project_filemanager_id: null,
-      analyse_overview_do_map: null
+      analyse_overview_do_map: null,
+      // aird json 文件上传的文件缓存列表
+      aird_or_json_file_list: []
+
       //   language: this.props.language
     };
 
@@ -346,7 +352,35 @@ class Project_filemanager extends React.Component {
       );
     }
 
-    let { drawer_data, drawer_visible } = this.state;
+    let { drawer_data, drawer_visible, aird_or_json_file_list } = this.state;
+
+    const aird_or_json_file_list_props = {
+      onRemove: file => {
+        // 删除
+        console.log("删除 file");
+        this.setState(state => {
+          // 找到即将删除的文件的索引号
+          const index = state.aird_or_json_file_list.indexOf(file);
+
+          const new_file_list = state.aird_or_json_file_list;
+          // 删除掉指定的文件
+          new_file_list.splice(index, 1);
+          // 传回新的文件列表
+          return {
+            aird_or_json_file_list: new_file_list
+          };
+        });
+      },
+      beforeUpload: file => {
+        console.log("before Upload file");
+        // 添加新的文件
+        this.setState(state => ({
+          aird_or_json_file_list: [...state.aird_or_json_file_list, file]
+        }));
+        return false;
+      },
+      aird_or_json_file_list
+    };
 
     return (
       <div>
@@ -423,7 +457,14 @@ class Project_filemanager extends React.Component {
             overflow: "auto"
           }}
         >
-          1111111
+          <Upload.Dragger {...aird_or_json_file_list_props}>
+            <p className="ant-upload-drag-icon">
+              <Icon type="inbox" />
+            </p>
+            <p className="ant-upload-text">
+              <FormattedHTMLMessage id="propro.standard_library_create_upload_file_description" />
+            </p>
+          </Upload.Dragger>
         </div>
         {/* Author: Tangtao HDU https://www.promiselee.cn/tao */}
         <BackTop visibilityHeight={600}>
