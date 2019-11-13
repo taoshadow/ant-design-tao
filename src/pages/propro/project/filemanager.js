@@ -1,15 +1,21 @@
-// src/pages/propro/project/filemanager.js
-// filemanager 项目 列表
-
-/***
- * @Author              TangTao https://www.promiselee.cn/tao
+/*
+ * @Author: TangTao https://www.promiselee.cn/tao
+ * @Date: 2019-11-13 13:59:51
  * @Email               tangtao2099@outlook.com
  * @Copyright           西湖大学 propro Tangtao
  * @GitHub              https://github.com/tangtaoshadow
  * @Zhihu               https://www.zhihu.com/people/tang-tao-24-36/activities
  * @CreateTime          2019-10-18 10:25:07
- * @UpdateTime          2019-10-16 15:56:30
  * @Archive             项目数据列表
+ * @Last Modified by: TangTao tangtao2099@outlook.com
+ * @Last Modified time: 2019-11-13 14:00:17
+ */
+
+// src/pages/propro/project/filemanager.js
+// filemanager 项目 列表
+
+/***
+
  */
 
 /****************  导入组件 ***************************/
@@ -145,10 +151,7 @@ const project_dispatch_to_props = dispatch => {
 
 /***********  project View 初始化 end  ***************/
 
-@connect(
-  project_state_to_props,
-  project_dispatch_to_props
-)
+@connect(project_state_to_props, project_dispatch_to_props)
 class Project_filemanager extends React.Component {
   constructor(props) {
     super(props);
