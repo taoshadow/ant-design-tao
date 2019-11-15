@@ -1,3 +1,9 @@
+/*
+ * @Author: TangTao https://www.promiselee.cn/tao
+ * @Date: 2019-11-16 00:10:34
+ * @Last Modified by: TangTao tangtao2099@outlook.com
+ * @Last Modified time: 2019-11-16 00:18:40
+ */
 // /src/service/project_filemanager.js
 
 /***
@@ -13,6 +19,7 @@
 
 import request from "../utils/request";
 import tao from "../utils/common";
+import reqwest from "reqwest";
 
 // 更新 token
 export function get_project_filemanager(data = "") {
@@ -44,32 +51,58 @@ export function get_project_filemanager(data = "") {
     });
 }
 
-// 更新 token
-export function send_json_file(data = "") {
+// 上传 json 文件
+export async function send_json_file(data = "") {
     // 读取最新的 token
     let token = tao.get_token();
-    let { project_name = "" } = data;
+
+    let {
+        json_file = null,
+        filename,
+        // 项目名称 服务器根据这个来解析是谁
+        project_name,
+        // 当前的索引 服务器原样返回 共前端判断到第几个了
+        file_index
+    } = data;
 
     project_name += "";
-    if (-1 == token || "" == project_name || 1 > project_name.length) {
+    if (
+        -1 == token ||
+        "" == project_name ||
+        1 > project_name.length ||
+        null == json_file
+    ) {
         // 不存在 token
         return "error";
     }
 
-    let body_data = "";
+    let body_data = new FormData();
+    try {
+        // 这里的命名采用 Java 命名方式
+        body_data.append("projectName", project_name);
+        body_data.append("fileIndex", file_index);
+        body_data.append("fileName", filename);
+        body_data.append("jsonFile", json_file);
+    } catch (e) {
+        return "error";
+    }
 
-    body_data += "projectName" + "=" + project_name + "&";
-
-    // 请求 实验数据 列表
-    return request("/propro_server/project/filemanager", {
+    return await reqwest({
+        url: "/propro_server/project/uploadJsonFile",
+        method: "post",
+        processData: false,
+        data: body_data,
+        // 声明以 json 数据进行交互 解析
+        type: "json",
         headers: {
-            // 'content-type': 'application/json',
-            // "X-Requested-With": "XMLHttpRequest",
-            token: token,
-            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+            token: token
         },
-        method: "POST",
-        //   发送登录数据 注意 数据未加密
-        body: body_data
+        success: res => {
+            //  返回 json
+            return res;
+        },
+        error: () => {
+            return "error";
+        }
     });
 }

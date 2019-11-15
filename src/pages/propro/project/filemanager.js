@@ -8,7 +8,7 @@
  * @CreateTime          2019-10-18 10:25:07
  * @Archive             项目数据列表
  * @Last Modified by: TangTao tangtao2099@outlook.com
- * @Last Modified time: 2019-11-16 00:03:14
+ * @Last Modified time: 2019-11-16 00:14:19
  */
 
 // src/pages/propro/project/filemanager.js
@@ -547,23 +547,26 @@ class Project_filemanager extends React.Component {
     };
 
     /***
+     * @updatetime 2019-11-16 00:14:13
+     * @author tangtao https://www.promiselee.cn/tao tangtao2099@outlook.com
      * @archive 通过定时器定时不断地轮询 直至所有文件上传完成
+     * @statement 要想调用此函数 满足：(1)文件状态值为 -1 (2)文件索引号还在文件列表范围内
      */
     send_json_file = file_list => {
         //
-        console.log("send_json_file", file_list);
         let {
             project_filemanager_send_json_upload_index: file_index,
             project_filemanager_send_json_upload_status: file_status
         } = this.state;
+        // 说明队列中还有数据
+        if (-1 == file_status) {
+        } else {
+            // 不需要 可能系统正忙
+            return -1;
+        }
+        // 开始提取文件列表
         let { length: len = -1 } = file_list;
         if (file_index <= len - 1) {
-            // 说明队列中还有数据
-            if (-1 == file_status) {
-            } else {
-                // 不需要 可能系统正忙
-                return -1;
-            }
             let { project_filemanager_project_name: project_name } = this.state;
             let obj = {
                 json_file: file_list[file_index],
