@@ -8,7 +8,7 @@
  * @CreateTime          2019-10-18 10:25:07
  * @Archive             项目数据列表
  * @Last Modified by: TangTao tangtao2099@outlook.com
- * @Last Modified time: 2019-11-15 19:47:43
+ * @Last Modified time: 2019-11-15 23:46:54
  */
 
 // src/pages/propro/project/filemanager.js
@@ -441,7 +441,31 @@ class Project_filemanager extends React.Component {
                 if (0 < len) {
                     // 检测到传入了 json 文件
                     // 调用发送json数据函数
-                    this.send_json_file(file_list);
+                    // 只要一调用此函数 就尝试清空之前的定时器
+                    let { project_filemanager_send_json_clock } = this.state;
+                    try {
+                        window.clearInterval(
+                            project_filemanager_send_json_clock
+                        );
+                        this.setState({
+                            // 因为json 不分片 所以才去 100 调用一次
+                            project_filemanager_send_json_clock: window.setInterval(
+                                () => {
+                                    //
+                                    this.send_json_file(file_list);
+                                },
+                                // 500ms 调用一次 也就是最快 500ms 上传一个文件
+                                // 因为这样做可以减轻服务器的压力 和 浏览器的压力
+                                500
+                            ),
+                            // 传入开始的索引
+                            project_filemanager_send_json_upload_index: 0,
+                            // 传入该索引的状态 0 已成功上传 -1 准备上传 1 已经正在上传
+                            project_filemanager_send_json_upload_status: -1
+                        });
+                    } catch (e) {
+                        tao.my_console("warn", "tangtao: ", e);
+                    }
                 } else {
                     return;
                 }
@@ -516,21 +540,25 @@ class Project_filemanager extends React.Component {
         return false;
     };
 
+    /***
+     * @archive 通过定时器定时不断地轮询 直至所有文件上传完成
+     */
     send_json_file = file_list => {
         //
         console.log("send_json_file", file_list);
-        // 只要一调用此函数 就尝试清空之前的定时器
-        let { project_filemanager_send_json_clock } = this.state;
-        try {
-            window.clearInterval(project_filemanager_send_json_clock);
-            this.setState({
-                // 因为json 不分片 所以才去 100 调用一次
-                project_filemanager_send_json_clock: window.setInterval(() => {
-                    //
-                }, 100)
-            });
-        } catch (e) {}
-        // 开始开启 定时器通过定时器不断轮询 保证每次上传一个
+        let {
+            project_filemanager_send_json_upload_index: file_index,
+            project_filemanager_send_json_upload_status: file_status
+        } = this.state;
+        let { length: len = -1 } = file_list;
+        if (file_index < len - 1) {
+            // 说明还未到最后一个
+        } else if ((file_index = len - 1)) {
+            // 说明已经到最后一个
+        } else {
+            // 超出了 或者值为 -1 默认设置为上传完成
+            tao.consolelog("json 文件上传完成");
+        }
     };
 
     send_aird_file = file_list => {
