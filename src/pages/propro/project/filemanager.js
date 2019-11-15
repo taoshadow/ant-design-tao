@@ -8,7 +8,7 @@
  * @CreateTime          2019-10-18 10:25:07
  * @Archive             项目数据列表
  * @Last Modified by: TangTao tangtao2099@outlook.com
- * @Last Modified time: 2019-11-15 23:46:54
+ * @Last Modified time: 2019-11-16 00:03:14
  */
 
 // src/pages/propro/project/filemanager.js
@@ -141,7 +141,13 @@ const project_dispatch_to_props = dispatch => {
             };
             dispatch(action);
         },
-
+        send_json_file: (data = null) => {
+            const action = {
+                type: "project_filemanager/send_json_file",
+                payload: data
+            };
+            dispatch(action);
+        },
         set_state_newvalue: data => {
             const action = {
                 type: "project_filemanager/set_state_newvalue",
@@ -551,10 +557,30 @@ class Project_filemanager extends React.Component {
             project_filemanager_send_json_upload_status: file_status
         } = this.state;
         let { length: len = -1 } = file_list;
-        if (file_index < len - 1) {
-            // 说明还未到最后一个
-        } else if ((file_index = len - 1)) {
-            // 说明已经到最后一个
+        if (file_index <= len - 1) {
+            // 说明队列中还有数据
+            if (-1 == file_status) {
+            } else {
+                // 不需要 可能系统正忙
+                return -1;
+            }
+            let { project_filemanager_project_name: project_name } = this.state;
+            let obj = {
+                json_file: file_list[file_index],
+                filename: file_list[file_index].name,
+                // 项目名称 服务器根据这个来解析是谁
+                project_name,
+                // 当前的索引 服务器原样返回 共前端判断到第几个了
+                file_index
+            };
+            // 标记 status 来锁住当前进程 不让他继续上传文件
+            this.setState({
+                project_filemanager_send_json_upload_status: 1
+            });
+            console.log("即将上传", file_index, file_list[file_index].name);
+            setTimeout(() => {
+                this.props.send_json_file(obj);
+            }, 100);
         } else {
             // 超出了 或者值为 -1 默认设置为上传完成
             tao.consolelog("json 文件上传完成");
@@ -591,26 +617,6 @@ class Project_filemanager extends React.Component {
         console.log(blob_file, "s", s);
     };
 
-    // 文件切片方法
-    slice_file = (blob, start_byte, end_byte) => {
-        //
-        if (blob.slice) {
-            return blob.slice(start_byte, end_byte);
-        }
-        // 兼容firefox
-        if (blob.mozSlice) {
-            return blob.mozSlice(start_byte, end_byte);
-        }
-        // 兼容webkit
-        if (blob.webkitSlice) {
-            return blob.webkitSlice(start_byte, end_byte);
-        }
-        tao.my_console(
-            "error",
-            "tangtao：你的浏览器不支持分片操作,请更新或者更换浏览器"
-        );
-        return null;
-    };
     /**************************** render ****************************/
     /**************************** render ****************************/
     /**************************** render ****************************/

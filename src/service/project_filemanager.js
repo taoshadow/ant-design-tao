@@ -16,30 +16,60 @@ import tao from "../utils/common";
 
 // 更新 token
 export function get_project_filemanager(data = "") {
-  // 读取最新的 token
-  let token = tao.get_token();
-  let { project_name = "" } = data;
+    // 读取最新的 token
+    let token = tao.get_token();
+    let { project_name = "" } = data;
 
-  project_name += "";
-  if (-1 == token || "" == project_name || 1 > project_name.length) {
-    // 不存在 token
-    return "error";
-  }
+    project_name += "";
+    if (-1 == token || "" == project_name || 1 > project_name.length) {
+        // 不存在 token
+        return "error";
+    }
 
-  let body_data = "";
+    let body_data = "";
 
-  body_data += "projectName" + "=" + project_name + "&";
+    body_data += "projectName" + "=" + project_name + "&";
 
-  // 请求 实验数据 列表
-  return request("/propro_server/project/filemanager", {
-    headers: {
-      // 'content-type': 'application/json',
-      // "X-Requested-With": "XMLHttpRequest",
-      token: token,
-      "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-    },
-    method: "POST",
-    //   发送登录数据 注意 数据未加密
-    body: body_data
-  });
+    // 请求 实验数据 列表
+    return request("/propro_server/project/filemanager", {
+        headers: {
+            // 'content-type': 'application/json',
+            // "X-Requested-With": "XMLHttpRequest",
+            token: token,
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+        },
+        method: "POST",
+        //   发送登录数据 注意 数据未加密
+        body: body_data
+    });
+}
+
+// 更新 token
+export function send_json_file(data = "") {
+    // 读取最新的 token
+    let token = tao.get_token();
+    let { project_name = "" } = data;
+
+    project_name += "";
+    if (-1 == token || "" == project_name || 1 > project_name.length) {
+        // 不存在 token
+        return "error";
+    }
+
+    let body_data = "";
+
+    body_data += "projectName" + "=" + project_name + "&";
+
+    // 请求 实验数据 列表
+    return request("/propro_server/project/filemanager", {
+        headers: {
+            // 'content-type': 'application/json',
+            // "X-Requested-With": "XMLHttpRequest",
+            token: token,
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+        },
+        method: "POST",
+        //   发送登录数据 注意 数据未加密
+        body: body_data
+    });
 }
