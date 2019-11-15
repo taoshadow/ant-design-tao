@@ -1,3 +1,9 @@
+/*
+ * @Author: TangTao https://www.promiselee.cn/tao
+ * @Date: 2019-11-13 15:43:54
+ * @Last Modified by:   TangTao tangtao2099@outlook.com
+ * @Last Modified time: 2019-11-13 15:43:54
+ */
 // src/pages/propro/project/modify.js
 // modify 项目 列表
 
@@ -149,10 +155,7 @@ const project_dispatch_to_props = dispatch => {
 
 /***********  project View 初始化 end  ***************/
 
-@connect(
-  project_state_to_props,
-  project_dispatch_to_props
-)
+@connect(project_state_to_props, project_dispatch_to_props)
 class Project_modify extends React.Component {
   constructor(props) {
     super(props);

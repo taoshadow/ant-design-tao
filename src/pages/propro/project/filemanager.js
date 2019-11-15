@@ -8,7 +8,7 @@
  * @CreateTime          2019-10-18 10:25:07
  * @Archive             项目数据列表
  * @Last Modified by: TangTao tangtao2099@outlook.com
- * @Last Modified time: 2019-11-13 14:54:42
+ * @Last Modified time: 2019-11-13 16:34:01
  */
 
 // src/pages/propro/project/filemanager.js
@@ -322,6 +322,47 @@ class Project_filemanager extends React.Component {
     return 0;
   };
 
+  // 调用 aird json文件上传接口
+  upload_aird_or_json_file = () => {
+    console.log("upload_aird_or_json_file");
+    let { aird_or_json_file_list: file_list } = this.state;
+    let reject_obj = {};
+    let data_obj = {};
+    // 首先获取文件
+    let before_upload = new Promise((resolve, reject) => {
+      // 1 首先判断 file_list
+      let { length } = file_list;
+      (data_obj.file_list = file_list), (data_obj.file_list_length = length);
+
+      if (0 < length) {
+        // success
+        resolve();
+      } else {
+        reject_obj = {
+          error: 1,
+          info: "tangtao : You did not add the uploaded file"
+        };
+        reject(reject_obj);
+      }
+    });
+    before_upload
+      .then(() => {
+        // 判断文件类型 但是这里很简单 只负责后缀名
+        for (let i = 0; i < data_obj.file_list_length; i++) {
+          console.log(data_obj.file_list[i]);
+        }
+      })
+      .catch(e => {
+        // 捕获错误
+        /*
+        error: 错误码
+        info : 错误提示信息 供调试参考
+        */
+        console.log(e);
+      });
+    console.log("end");
+  };
+
   /**************************** render ****************************/
   /**************************** render ****************************/
   /**************************** render ****************************/
@@ -372,14 +413,14 @@ class Project_filemanager extends React.Component {
         });
       },
       beforeUpload: file => {
-        console.log("before Upload file");
+        console.log("before Upload file", this.state.aird_or_json_file_list);
         // 添加新的文件
         this.setState(state => ({
           aird_or_json_file_list: [...state.aird_or_json_file_list, file]
         }));
+        console.log("file is", this.state.aird_or_json_file_list);
         return false;
-      },
-      aird_or_json_file_list
+      }
     };
 
     return (
@@ -457,6 +498,7 @@ class Project_filemanager extends React.Component {
             overflow: "auto"
           }}
         >
+          {/* 文件上传入口 aird && json */}
           <Upload.Dragger {...aird_or_json_file_list_props}>
             <p className="ant-upload-drag-icon">
               <Icon type="inbox" />
@@ -465,6 +507,23 @@ class Project_filemanager extends React.Component {
               <FormattedHTMLMessage id="propro.standard_library_create_upload_file_description" />
             </p>
           </Upload.Dragger>
+          <button
+            type="button"
+            className="btn btn-outline-primary"
+            style={{
+              fontWeight: 400,
+              fontSize: "12px",
+              margin: "35px 5px",
+              height: "30px",
+              lineHeight: "20px",
+              padding: "5px 10px",
+              letterSpacing: "1px"
+            }}
+            // 暂时还未实现
+            onClick={this.upload_aird_or_json_file}
+          >
+            上传
+          </button>
         </div>
         {/* Author: Tangtao HDU https://www.promiselee.cn/tao */}
         <BackTop visibilityHeight={600}>
